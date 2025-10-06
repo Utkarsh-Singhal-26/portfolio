@@ -37,15 +37,27 @@ export const DATA = {
       "Hey! I'm a full-stack developer who loves building efficient, scalable, and intuitive applications. I thrive on solving complex problems, optimizing performance, and creating seamless user experiences.",
     EXPERTISE:
       "My expertise lies in Next.js, TypeScript, Node.js, and Cloud technologies, and I enjoy working across the stack to bring ideas to life.",
-    BLOG: "I would love publishing blogs and sharing insights on web development, best practices, and new technologies.",
   },
 
   EXPERIENCE: {
+    Suraasa: {
+      WEBSITE: "https://www.suraasa.com/",
+      POSITION: "Backend Developer Intern",
+      LOCATION: "Hybrid - Delhi, India",
+      DURATION: "Oct, 2025 - Present",
+      DESCRIPTION: [
+        "Undergoing comprehensive training in backend development, including Django framework, API design, and deployment best practices.",
+        "Collaborating with senior developers to understand the architecture and development workflow of large-scale web applications.",
+        "Will transition to working on live production projects post-training, contributing to scalable and high-performance backend solutions.",
+        "Focused on enhancing code quality, security, and performance through best practices and modern tools.",
+      ],
+      TECH_STACK: ["Python", "Django", "Git & Github", "AWS"],
+    },
     "Aardo Solutions": {
       WEBSITE: "https://www.aardosolutions.com/",
       POSITION: "Software Developer",
       LOCATION: "Remote",
-      DURATION: "Nov, 2024 - Present",
+      DURATION: "Nov, 2024 - Sep, 2025",
       DESCRIPTION: [
         "Developed and maintained scalable web applications to enhance user engagement and operational efficiency.",
         "Hosted and managed servers on AWS EC2, configured domains, and implemented SSL certificates for secure access.",
