@@ -40,19 +40,6 @@ export const DATA = {
   },
 
   EXPERIENCE: {
-    Suraasa: {
-      WEBSITE: "https://www.suraasa.com/",
-      POSITION: "Backend Developer Intern",
-      LOCATION: "Hybrid - Delhi, India",
-      DURATION: "Oct, 2025 - Present",
-      DESCRIPTION: [
-        "Undergoing comprehensive training in backend development, including Django framework, API design, and deployment best practices.",
-        "Collaborating with senior developers to understand the architecture and development workflow of large-scale web applications.",
-        "Will transition to working on live production projects post-training, contributing to scalable and high-performance backend solutions.",
-        "Focused on enhancing code quality, security, and performance through best practices and modern tools.",
-      ],
-      TECH_STACK: ["Python", "Django", "Git & Github", "AWS"],
-    },
     "Aardo Solutions": {
       WEBSITE: "https://www.aardosolutions.com/",
       POSITION: "Software Developer",
