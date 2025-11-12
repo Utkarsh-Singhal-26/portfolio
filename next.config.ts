@@ -7,8 +7,8 @@ const nextConfig: NextConfig = {
         source: "/(.*)",
         headers: [
           {
-            key: "Content-Security-Policy",
-            value: "frame-ancestors https://www.devrank.app",
+            key: "X-Frame-Options",
+            value: "DENY",
           },
           {
             key: "X-Content-Type-Options",
