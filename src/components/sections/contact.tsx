@@ -1,4 +1,5 @@
 import { FileText, Github, Linkedin, Mail } from "lucide-react";
+
 import { MovingElement } from "../navbar";
 
 export function Contact({ data }: { data: Record<string, string> }) {

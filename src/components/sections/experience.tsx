@@ -1,5 +1,6 @@
-import { extractDomain } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
+
+import { extractDomain } from "@/lib/utils";
 
 interface IExperienceData {
   WEBSITE: string;

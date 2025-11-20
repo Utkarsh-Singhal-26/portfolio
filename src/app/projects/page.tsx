@@ -1,13 +1,14 @@
 "use client";
 
+import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
+import React from "react";
+
 import { DATA, IProjectData } from "@/app/data";
 import { Contact, Footer, Navbar } from "@/components/sections";
 import GridPattern from "@/components/ui/grid-pattern";
 import TargetCursor from "@/components/ui/target-cursor";
 import useMobileDetection from "@/hooks/use-mobile";
-import { ArrowUpRight } from "lucide-react";
-import Image from "next/image";
-import React from "react";
 
 export default function Page() {
   const projectsData: Record<string, IProjectData> = DATA.PROJECTS;
