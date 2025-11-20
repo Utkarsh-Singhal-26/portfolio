@@ -1,6 +1,6 @@
 "use client";
 
-import { DATA, IProjectData } from "@/app/data";
+import { DATA, IBlogData } from "@/app/data";
 import { Contact, Footer, Navbar } from "@/components/sections";
 import GridPattern from "@/components/ui/grid-pattern";
 import TargetCursor from "@/components/ui/target-cursor";
@@ -10,7 +10,7 @@ import Image from "next/image";
 import React from "react";
 
 export default function Page() {
-  const projectsData: Record<string, IProjectData> = DATA.PROJECTS;
+  const blogsData: Record<string, IBlogData> = DATA.BLOGS;
   const checkMobile = useMobileDetection();
 
   return (
@@ -26,20 +26,20 @@ export default function Page() {
       />
 
       <section className="py-16">
-        <h1 className="font-medium text-primary/90 text-base">my projects.</h1>
+        <h1 className="font-medium text-primary/90 text-base">
+          technical blogs.
+        </h1>
         <div className="max-w-4xl text-muted-foreground text-sm text-justify leading-relaxed">
           <p className="mt-2 mb-4">
-            Passionate about building high-performance and scalable web
-            applications. I thrive on solving complex problems, optimizing
-            performance, and creating intuitive user experiences. My expertise
-            lies in Next.js, TypeScript, and Cloud technologies, with a strong
-            focus on delivering quality solutions.
+            I write about web development, TypeScript, and best practices I
+            discover while building apps. Here are some of my technical posts —
+            feel free to read more on the original links.
           </p>
         </div>
       </section>
 
       <div className="space-y-12 mb-12">
-        {Object.entries(projectsData).map(([key, value], index) => {
+        {Object.entries(blogsData).map(([key, value], index) => {
           const isEven = index % 2 === 0;
 
           return (
@@ -54,6 +54,9 @@ export default function Page() {
                       height={400}
                       className="w-full h-80 object-cover"
                     />
+                    <span className="top-4 lg:right-4 max-lg:left-4 absolute bg-secondary px-3 py-1.5 rounded text-xs">
+                      {value.DATE}
+                    </span>
                   </div>
                 </div>
 
@@ -61,49 +64,30 @@ export default function Page() {
                   className={`space-y-6 border-muted-foreground hover:border-primary border-l size-full transition-all duration-300 pl-4 ${isEven ? "lg:order-2" : "lg:order-1"}`}
                 >
                   <div>
-                    <h2 className="mb-1 font-medium text-2xl">{key}</h2>
+                    <p className="mb-1 text-primary/90 text-lg">{key}</p>
 
                     <p className="flex items-center gap-1 text-sm">
-                      {value.LIVE_PREVIEW && (
-                        <a
-                          className="flex items-center gap-1"
-                          href={value.LIVE_PREVIEW}
-                        >
-                          live preview <ArrowUpRight size={18} />
-                        </a>
-                      )}
-                      {value.GITHUB && (
-                        <a
-                          className="flex items-center gap-1"
-                          href={value.GITHUB}
-                        >
-                          github <ArrowUpRight size={18} />
-                        </a>
-                      )}
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1"
+                        href={value.LINK}
+                      >
+                        Read more <ArrowUpRight size={18} />
+                      </a>
+                      <span className="px-1 py-px text-xs">
+                        {value.TIME} min read
+                      </span>
                     </p>
                   </div>
-                  <ul className="space-y-1 mt-1 pl-3 text-muted-foreground text-sm text-justify list-disc">
-                    {value.DESCRIPTION.map((desc, index) => (
-                      <li key={index}>
-                        <span>{desc}</span>
-                      </li>
-                    ))}
-                  </ul>
 
-                  <ul className="flex flex-wrap items-center gap-2 mt-2 pl-3">
-                    {value.TECH_STACK.map((tech, index) => (
-                      <li
-                        key={index}
-                        className="bg-muted px-2 py-1 rounded text-xs"
-                      >
-                        {tech}
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="mt-1 text-muted-foreground text-sm text-justify line-clamp-3">
+                    {value.DESCRIPTION}
+                  </p>
                 </div>
               </div>
 
-              {index < Object.entries(projectsData).length - 1 && (
+              {index < Object.entries(blogsData).length - 1 && (
                 <div className="border-muted-foreground/20 border-t" />
               )}
             </React.Fragment>

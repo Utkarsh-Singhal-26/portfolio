@@ -29,7 +29,7 @@ const GridPattern = ({
             d={`M ${width} 0 L 0 0 0 ${height}`}
             fill="none"
             stroke="currentColor"
-            strokeWidth="0.5"
+            strokeWidth="0.3"
           />
         </pattern>
       </defs>

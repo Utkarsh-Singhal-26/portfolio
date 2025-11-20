@@ -3,13 +3,11 @@
 import { DATA } from "@/app/data";
 import {
   AboutMe,
-  Blogs,
   Contact,
   Experience,
   Footer,
   Header,
   Navbar,
-  Projects,
   Skills,
 } from "@/components/sections";
 import GridPattern from "@/components/ui/grid-pattern";
@@ -24,8 +22,8 @@ export default function Page() {
       <Navbar />
 
       <GridPattern
-        width={30}
-        height={30}
+        width={32}
+        height={32}
         x={-1}
         y={-1}
         className="[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]"
@@ -35,8 +33,6 @@ export default function Page() {
         <Header data={DATA.HEADER} />
         <AboutMe data={DATA.ABOUT_ME} />
         <Experience data={DATA.EXPERIENCE} />
-        <Projects data={DATA.PROJECTS} />
-        <Blogs data={DATA.BLOGS} />
         <Skills data={DATA.SKILLS} />
         <Contact data={DATA.HEADER} />
         <Footer />

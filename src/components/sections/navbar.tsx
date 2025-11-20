@@ -39,9 +39,11 @@ export function Navbar() {
 
       <nav className="flex items-center gap-2">
         <ul className="flex items-center gap-2 sm:gap-0">
-          {["experience", "projects", "blogs"].map((link, index) => (
+          {["#experience", "projects", "blogs"].map((link, index) => (
             <li key={index}>
-              <AnimatedText href={`/#${link}`}>{link}</AnimatedText>
+              <AnimatedText href={`/${link}`}>
+                {link.split("#")[1] || link}
+              </AnimatedText>
             </li>
           ))}
         </ul>
