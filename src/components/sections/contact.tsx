@@ -8,8 +8,8 @@ export function Contact({ data }: { data: Record<string, string> }) {
   };
 
   return (
-    <section className="py-10">
-      <div className="space-y-6 text-center">
+    <section className="p-6 w-full">
+      <div className="space-y-4 text-center">
         <div className="space-y-4">
           <h2 className="font-bold text-3xl">Let&apos;s work together.</h2>
           <p className="mx-auto max-w-2xl text-muted-foreground text-base">
@@ -58,7 +58,7 @@ export function Contact({ data }: { data: Record<string, string> }) {
           </div>
         </div>
 
-        <div className="pt-4 cursor-target">
+        <div className="cursor-target">
           <p className="text-gray-400 text-sm">
             Currently available for freelance work and full-time opportunities
           </p>

@@ -64,7 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable}`} suppressHydrationWarning>
       <body
-        className={`${outfit.className} w-screen min-h-screen m-0 p-0 overflow-x-hidden`}
+        className={`${outfit.className} w-screen min-h-screen m-0 p-0 overflow-x-hidden dark:bg-[#070707]`}
       >
         <ThemeProvider
           attribute="class"
@@ -72,7 +72,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="bg-white dark:bg-black mx-auto pt-6 sm:pt-12 w-full md:w-3/4 lg:w-3/5 text-foreground">
+            {children}
+          </div>
         </ThemeProvider>
 
         <Analytics />

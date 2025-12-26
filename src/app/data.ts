@@ -35,7 +35,7 @@ export interface IBlogData {
 export const DATA = {
   HEADER: {
     NAME: "Utkarsh Singhal",
-    AGE: "20",
+    AGE: "21",
     PRONOUN: "he/him",
     HEADLINE:
       "Passionate about building high-performance and scalable web applications.",
@@ -44,9 +44,6 @@ export const DATA = {
     EMAIL: "mailto:singhalutkarsh26@gmail.com",
     GITHUB: "https://github.com/Utkarsh-Singhal-26",
     LINKEDIN: "https://www.linkedin.com/in/singhalutkarsh26",
-  },
-
-  ABOUT_ME: {
     INTRO:
       "Hey! I'm a full-stack developer who loves building efficient, scalable, and intuitive applications. I thrive on solving complex problems, optimizing performance, and creating seamless user experiences.",
     EXPERTISE:
@@ -265,13 +262,15 @@ export const DATA = {
   },
 
   SKILLS: {
-    Languages: ["JavaScript", "TypeScript", "HTML", "CSS", "Node.js"],
+    Languages: ["JavaScript", "TypeScript", "HTML", "CSS", "Node.js", "Python"],
     Frameworks: [
-      "React.js",
+      "React",
       "Next.js",
+      "Django",
       "Vue.js",
       "Astro",
       "Express.js",
+      "AdonisJS",
       "React Native",
       "Expo",
       "Electron",
@@ -286,6 +285,7 @@ export const DATA = {
       "Material UI",
     ],
     "Database & Backend": [
+      "PostgreSQL",
       "MongoDB",
       "Redis",
       "Contentful",
@@ -309,6 +309,5 @@ export const DATA = {
       "Prettier",
       "Sentry",
     ],
-    "Package Managers & Build Tools": ["NPM", "PNPM", "Yarn", "Bun", "Vite"],
   },
 };

@@ -8,7 +8,7 @@ export function Header({ data }: { data: Record<string, string> }) {
   };
 
   return (
-    <section className="pt-12">
+    <div className="p-6 w-full">
       <div className="space-y-2">
         <p className="font-normal text-muted-foreground text-base">
           hi there👋, I&apos;m
@@ -57,6 +57,14 @@ export function Header({ data }: { data: Record<string, string> }) {
           </div>
         </div>
       </div>
-    </section>
+
+      <h2 className="mt-6 font-medium text-primary/90 text-base">about me.</h2>
+      <p className="flex flex-col gap-2 mt-4 font-normal text-muted-foreground text-base text-justify">
+        <span>
+          {data.INTRO}{" "}
+          <span className="hidden sm:inline">{data.EXPERTISE}</span>
+        </span>
+      </p>
+    </div>
   );
 }
