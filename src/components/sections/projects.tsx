@@ -71,7 +71,7 @@ export function Projects({ data }: { data: Record<string, IProjectData> }) {
       <div className="flex justify-center mt-8">
         <Link
           href={"/projects"}
-          className="inline-flex justify-center items-center bg-background hover:bg-accent disabled:opacity-50 shadow-sm px-4 py-2 border border-input rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring h-9 font-medium text-muted-foreground text-sm whitespace-nowrap transition-colors hover:text-accent-foreground cursor-target disabled:pointer-events-none"
+          className="inline-flex justify-center items-center bg-background hover:bg-accent disabled:opacity-50 shadow-xs px-4 py-2 border border-input rounded-md focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring h-9 font-medium text-muted-foreground text-sm whitespace-nowrap transition-colors hover:text-accent-foreground cursor-target disabled:pointer-events-none"
         >
           View all projects
         </Link>

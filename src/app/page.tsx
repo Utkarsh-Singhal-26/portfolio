@@ -19,7 +19,7 @@ export default function Page() {
     <>
       <Navbar />
 
-      <main className="flex flex-col items-center w-full">
+      <main className="flex flex-col items-center gap-12 p-8 w-full">
         <Header data={DATA.HEADER} />
         <Experience data={DATA.EXPERIENCE} />
         <Skills data={DATA.SKILLS} />

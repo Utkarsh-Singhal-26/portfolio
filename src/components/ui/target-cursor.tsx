@@ -301,7 +301,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
   return (
     <div
       ref={cursorRef}
-      className="top-0 left-0 z-[9999] fixed w-0 h-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none mix-blend-difference transform"
+      className="top-0 left-0 z-9999 fixed w-0 h-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none mix-blend-difference transform"
       style={{ willChange: "transform" }}
     >
       <div

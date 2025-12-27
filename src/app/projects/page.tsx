@@ -107,7 +107,7 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="px-6">
+      <div className="space-y-4 p-6">
         <Contact data={DATA.HEADER} />
         <Footer />
       </div>

@@ -8,7 +8,7 @@ export function Header({ data }: { data: Record<string, string> }) {
   };
 
   return (
-    <div className="p-6 w-full">
+    <div className="w-full">
       <div className="space-y-2">
         <p className="font-normal text-muted-foreground text-base">
           hi there👋, I&apos;m
@@ -28,7 +28,7 @@ export function Header({ data }: { data: Record<string, string> }) {
 
         <div className="flex items-center gap-2 text-sm">
           <MovingElement
-            className="inline-flex justify-center items-center bg-primary betterhover:hover:bg-primary/90 disabled:opacity-50 shadow px-4 py-2 rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring h-9 font-medium text-primary-foreground text-sm whitespace-nowrap transition-colors disabled:pointer-events-none"
+            className="inline-flex justify-center items-center bg-primary betterhover:hover:bg-primary/90 disabled:opacity-50 shadow-sm px-4 py-2 rounded-md focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring h-9 font-medium text-primary-foreground text-sm whitespace-nowrap transition-colors disabled:pointer-events-none"
             change={() => handleChange(data.RESUME)}
             toChange={false}
             ariaLabel="Resume"

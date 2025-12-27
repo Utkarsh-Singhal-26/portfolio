@@ -9,7 +9,7 @@ export function Footer() {
   }
 
   return (
-    <div className="flex max-md:flex-col justify-between items-center max-md:gap-2 p-6 border-gray-800 border-t w-full">
+    <div className="flex max-md:flex-col justify-between items-center max-md:gap-2 pt-4 border-gray-800 border-t w-full">
       <p className="text-muted-foreground text-base text-center">
         &copy; {new Date().getFullYear()} Utkarsh Singhal. All rights reserved.
       </p>
