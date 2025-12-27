@@ -8,7 +8,6 @@ import { DATA, IBlogData } from "@/app/data";
 import { Contact, Footer, Navbar } from "@/components/sections";
 import TargetCursor from "@/components/ui/target-cursor";
 import useMobileDetection from "@/hooks/use-mobile";
-import { StripedPlaceholder } from "@/components/ui/striped-placeholder";
 
 export default function Page() {
   const blogsData: Record<string, IBlogData> = DATA.BLOGS;
@@ -17,8 +16,6 @@ export default function Page() {
   return (
     <>
       <Navbar />
-
-      <StripedPlaceholder height={60} />
 
       <div className="px-6 pt-6">
         <section className="pb-10">
@@ -91,8 +88,6 @@ export default function Page() {
           })}
         </div>
       </div>
-
-      <StripedPlaceholder height={60} />
 
       <div className="px-6">
         <Contact data={DATA.HEADER} />
