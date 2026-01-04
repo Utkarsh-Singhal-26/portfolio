@@ -51,6 +51,28 @@ export const DATA = {
   },
 
   EXPERIENCE: {
+    Suraasa: {
+      WEBSITE: "https://www.suraasa.com/",
+      POSITION: "SDE - 1 Backend",
+      LOCATION: "Hybrid",
+      DURATION: "Oct, 2025 - Present",
+      DESCRIPTION: [
+        "Developed and maintained backend services and APIs to support product features and integrations.",
+        "Worked on reliability, security, and performance improvements across services, including caching and monitoring.",
+        "Collaborated with frontend, platform, and DevOps teams to design APIs, event-driven workflows, and developer-facing documentation.",
+      ],
+      TECH_STACK: [
+        "TypeScript",
+        "Node.js",
+        "Python",
+        "Django",
+        "AdonisJS",
+        "PostgreSQL",
+        "MongoDB",
+        "Redis",
+        "Git & GitHub",
+      ],
+    },
     "Aardo Solutions": {
       WEBSITE: "https://www.aardosolutions.com/",
       POSITION: "Software Developer",
