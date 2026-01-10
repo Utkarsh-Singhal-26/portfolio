@@ -1,31 +1,12 @@
 "use client";
 
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
-import { AnimatedText, MovingElement } from "../navbar";
+import { AnimatedText, MovingElement, ThemeToggle } from "../navbar";
 
 export function Navbar() {
   const router = useRouter();
-  const { setTheme, resolvedTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const toggleTheme = () => {
-    const nextTheme =
-      resolvedTheme === "dark"
-        ? "light"
-        : resolvedTheme === "light"
-          ? "dark"
-          : "system";
-    setTheme(nextTheme);
-  };
 
   return (
     <header className="flex justify-between items-end mb-4 px-6">
@@ -49,17 +30,7 @@ export function Navbar() {
           ))}
         </ul>
 
-        {isMounted && (
-          <MovingElement
-            className="p-[10px] rounded-full"
-            change={toggleTheme}
-            ariaLabel={`Switch to ${
-              resolvedTheme === "dark" ? "light" : "dark"
-            } mode`}
-          >
-            {resolvedTheme === "dark" ? <Moon /> : <Sun />}
-          </MovingElement>
-        )}
+        <ThemeToggle />
       </nav>
     </header>
   );
