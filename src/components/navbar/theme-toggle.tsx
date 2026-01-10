@@ -54,7 +54,7 @@ export const ThemeToggle = ({
         document.documentElement.classList.toggle("dark", newTheme);
         localStorage.setItem("theme", newTheme ? "dark" : "light");
 
-        window.getComputedStyle(document.body).opacity;
+        void window.getComputedStyle(document.body).opacity;
       });
     }).ready;
 
