@@ -32,6 +32,8 @@ export interface IBlogData {
   IMAGE?: StaticImageData;
 }
 
+export const GITHUB_USERNAME = "Utkarsh-Singhal-26";
+
 export const DATA = {
   HEADER: {
     NAME: "Utkarsh Singhal",

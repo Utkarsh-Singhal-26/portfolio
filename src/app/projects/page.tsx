@@ -1,17 +1,13 @@
-"use client";
-
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
 import { DATA, IProjectData } from "@/app/data";
 import { Contact, Footer, Navbar } from "@/components/sections";
-import TargetCursor from "@/components/ui/target-cursor";
-import useMobileDetection from "@/hooks/use-mobile";
+import { CursorManager } from "@/components/ui/cursor-manager";
 
 export default function Page() {
   const projectsData: Record<string, IProjectData> = DATA.PROJECTS;
-  const checkMobile = useMobileDetection();
 
   return (
     <>
@@ -112,7 +108,7 @@ export default function Page() {
         <Footer />
       </div>
 
-      {!checkMobile && <TargetCursor spinDuration={2} hideDefaultCursor />}
+      <CursorManager />
     </>
   );
 }

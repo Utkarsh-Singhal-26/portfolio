@@ -1,3 +1,5 @@
+"use client";
+
 import {
   motion,
   MotionValue,
@@ -6,7 +8,7 @@ import {
 } from "framer-motion";
 import type React from "react";
 
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 interface MovingElementProps {
   children: React.ReactNode;

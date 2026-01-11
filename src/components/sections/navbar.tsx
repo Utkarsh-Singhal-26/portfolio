@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { AnimatedText, MovingElement, ThemeToggle } from "../navbar";
+import { AnimatedText, MovingElement, ThemeToggle } from "@/components/navbar";
 
 export function Navbar() {
   const router = useRouter();

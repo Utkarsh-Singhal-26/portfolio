@@ -89,6 +89,7 @@ export const ThemeToggle = ({
       ref={buttonRef}
       onClick={toggleTheme}
       className={`${className} cursor-pointer`}
+      aria-label="Toggle theme"
       {...props}
     >
       {isDark ? <Sun className="size-5" /> : <Moon className="size-5" />}

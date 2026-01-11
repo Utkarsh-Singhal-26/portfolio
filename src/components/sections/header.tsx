@@ -1,6 +1,8 @@
+"use client";
+
 import { Github, Linkedin, Mail } from "lucide-react";
 
-import { MovingElement } from "../navbar";
+import { MovingElement } from "@/components/navbar";
 
 export function Header({ data }: { data: Record<string, string> }) {
   const handleChange = (url: string) => {

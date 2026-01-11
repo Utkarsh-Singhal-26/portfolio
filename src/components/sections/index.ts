@@ -2,6 +2,7 @@ export * from "./blogs";
 export * from "./contact";
 export * from "./experience";
 export * from "./footer";
+export * from "./github-contribution";
 export * from "./header";
 export * from "./navbar";
 export * from "./projects";

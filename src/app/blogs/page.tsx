@@ -1,17 +1,13 @@
-"use client";
-
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
 import { DATA, IBlogData } from "@/app/data";
 import { Contact, Footer, Navbar } from "@/components/sections";
-import TargetCursor from "@/components/ui/target-cursor";
-import useMobileDetection from "@/hooks/use-mobile";
+import { CursorManager } from "@/components/ui/cursor-manager";
 
 export default function Page() {
   const blogsData: Record<string, IBlogData> = DATA.BLOGS;
-  const checkMobile = useMobileDetection();
 
   return (
     <>
@@ -94,7 +90,7 @@ export default function Page() {
         <Footer />
       </div>
 
-      {!checkMobile && <TargetCursor spinDuration={2} hideDefaultCursor />}
+      <CursorManager />
     </>
   );
 }
