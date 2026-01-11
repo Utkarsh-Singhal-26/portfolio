@@ -1,67 +1,50 @@
-# Portfolio
+# [utkarsh-singhal.is-a.dev](https://utkarsh-singhal.is-a.dev) &middot; ![GitHub Repo Views](https://gitviews.com/repo/Utkarsh-Singhal-26/portfolio.svg?style=flat&label-color=%23555&color=%23f59e0b)
 
-[🔗 Live Preview](https://utkarsh-singhal.is-a.dev/)
+A modern, responsive portfolio showcasing my work, skills, and projects as a developer.
 
-Welcome to my personal portfolio repository! This project showcases my work, skills, and experience through a modern, responsive, and dynamic web application built with Next.js and Tailwind CSS.
+→ Check out the live site: [utkarsh-singhal.is-a.dev](https://utkarsh-singhal.is-a.dev)
 
-## 🚀 Tech Stack
+<img width="1279" height="1133" alt="image" src="https://github.com/user-attachments/assets/db5ab79b-6850-4cb9-b73e-81b73d48d318" />
 
-- **Framework**: Next.js
-- **Language**: TypeScript
-- **UI Components**: ShadCN
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **Code Formatting**: Prettier
-- **Deployment**: Vercel
-- **Linting**: ESLint
+## Overview
 
-## 🌟 Features
+### Stack
 
-- **Dynamic Project Pages**: Uses Next.js dynamic routing for individual project pages.
-- **Responsive Design**: Optimized for all screen sizes using Tailwind CSS.
-- **Smooth Animations**: Framer Motion provides fluid animations for a better user experience.
-- **Modular Components**: Organized UI components with shadcn for better maintainability.
-- **SEO Optimized**: Implements best practices for SEO and performance.
+- Next.js
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Framer Motion & GSAP
 
-## 📦 Installation & Setup
+### Featured
 
-1. Clone the repository:
+- Clean & modern design
+- Light/Dark themes
+- Responsive design
+- SEO optimized
+- Fast performance
+- Smooth animations
+- Dynamic routing
+- Deployed on Vercel
 
-    ```sh
-    git clone https://github.com/Utkarsh-Singhal-26/portfolio.git
-    cd portfolio
-    ```
+### Projects
 
-2. Install dependencies:
+- Dynamic project pages with Next.js routing
+- Interactive UI components
+- Smooth transitions with Framer Motion & GSP
+- Responsive layouts for all screen sizes
+- Modular component architecture
 
-    ```sh
-    yarn
-    ```
+## License
 
-3. Run the development server:
+Licensed under the [MIT license](./LICENSE).
 
-    ```sh
-    yarn dev
-    ```
+You're free to use my code! Just make sure to <ins>remove all my personal information</ins> before publishing your website. It's awesome to see my code being useful to someone!
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+## Sponsors
 
-## 📌 Deployment
+> Found this project useful? [Sponsor me](https://github.com/sponsors/Utkarsh-Singhal-26) to help with support and maintenance.
 
-This portfolio can be easily deployed using **Vercel**.
+## Star History
 
-To deploy on Vercel:
-
-1. Install Vercel CLI:
-    ```sh
-    npm install -g vercel
-    ```
-2. Run:
-    ```sh
-    vercel
-    ```
-3. Follow the CLI instructions to deploy!
-
----
-
-Feel free to reach out if you have any questions or suggestions. 🚀
+[![Stargazers over time](https://starchart.cc/Utkarsh-Singhal-26/portfolio.svg?background=%23000000&axis=%23ffffff&line=%232f81f7)](https://starchart.cc/Utkarsh-Singhal-26/portfolio)
