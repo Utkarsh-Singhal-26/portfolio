@@ -27,22 +27,22 @@ Welcome to my personal portfolio repository! This project showcases my work, ski
 
 1. Clone the repository:
 
-   ```sh
-   git clone https://github.com/Utkarsh-Singhal-26/portfolio.git
-   cd portfolio
-   ```
+    ```sh
+    git clone https://github.com/Utkarsh-Singhal-26/portfolio.git
+    cd portfolio
+    ```
 
 2. Install dependencies:
 
-   ```sh
-   yarn
-   ```
+    ```sh
+    yarn
+    ```
 
 3. Run the development server:
 
-   ```sh
-   yarn dev
-   ```
+    ```sh
+    yarn dev
+    ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
@@ -53,13 +53,13 @@ This portfolio can be easily deployed using **Vercel**.
 To deploy on Vercel:
 
 1. Install Vercel CLI:
-   ```sh
-   npm install -g vercel
-   ```
+    ```sh
+    npm install -g vercel
+    ```
 2. Run:
-   ```sh
-   vercel
-   ```
+    ```sh
+    vercel
+    ```
 3. Follow the CLI instructions to deploy!
 
 ---
