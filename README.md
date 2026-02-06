@@ -31,7 +31,7 @@ A modern, responsive portfolio showcasing my work, skills, and projects as a dev
 
 - Dynamic project pages with Next.js routing
 - Interactive UI components
-- Smooth transitions with Framer Motion & GSP
+- Smooth transitions with Framer Motion & GSAP
 - Responsive layouts for all screen sizes
 - Modular component architecture
 
