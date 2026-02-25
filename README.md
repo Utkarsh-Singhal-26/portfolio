@@ -47,4 +47,4 @@ You're free to use my code! Just make sure to <ins>remove all my personal inform
 
 ## Star History
 
-[![Stargazers over time](https://starchart.cc/Utkarsh-Singhal-26/portfolio.svg?background=%23000000&axis=%23ffffff&line=%232f81f7)](https://starchart.cc/Utkarsh-Singhal-26/portfolio)
+[![RepoStars](https://repostars.dev/api/embed?repo=Utkarsh-Singhal-26%2Fportfolio&theme=dark)](https://repostars.dev/?repos=Utkarsh-Singhal-26%2Fportfolio&theme=dark)
