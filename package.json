@@ -1,6 +1,7 @@
 {
     "name": "portfolio",
     "version": "2.0.0",
+    "private": true,
     "description": "A modern, responsive personal portfolio built with Next.js, Tailwind CSS, and TypeScript to showcase projects, skills, and experience.",
     "homepage": "https://utkarsh-singhal.is-a.dev/",
     "author": {
@@ -17,7 +18,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Utkarsh-Singhal-26/portfolio.git"
+        "url": "https://github.com/Utkarsh-Singhal-26/portfolio.git"
     },
     "scripts": {
         "dev": "next dev",
@@ -28,7 +29,7 @@
         "format:write": "prettier --write \"**/*.{ts,tsx}\" --cache",
         "format:check": "prettier --check \"**/*.{ts,tsx}\" --cache",
         "type:check": "tsc --noEmit --pretty",
-        "prepare": "husky"
+        "prepare": "husky || true"
     },
     "dependencies": {
         "@base-ui/react": "^1.0.0",
@@ -71,8 +72,7 @@
         ]
     },
     "engines": {
-        "node": "22.x",
-        "pnpm": ">=9"
+        "node": ">=22"
     },
-    "packageManager": "pnpm@10.23.0"
+    "packageManager": "yarn@1.22.22"
 }
