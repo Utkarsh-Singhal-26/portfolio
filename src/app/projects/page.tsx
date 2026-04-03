@@ -50,6 +50,7 @@ export default function Page() {
                                                 alt={key}
                                                 width={600}
                                                 height={400}
+                                                sizes="(max-width: 1024px) 100vw, 50vw"
                                                 className="w-full h-80 object-cover"
                                             />
                                         </div>
@@ -70,8 +71,10 @@ export default function Page() {
                                                         href={
                                                             value.LIVE_PREVIEW
                                                         }
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
                                                     >
-                                                        live preview{" "}
+                                                        Live preview: {key}{" "}
                                                         <ArrowUpRight
                                                             size={18}
                                                         />
@@ -81,8 +84,10 @@ export default function Page() {
                                                     <a
                                                         className="flex items-center gap-1"
                                                         href={value.GITHUB}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
                                                     >
-                                                        github{" "}
+                                                        Source code: {key}{" "}
                                                         <ArrowUpRight
                                                             size={18}
                                                         />

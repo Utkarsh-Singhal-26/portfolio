@@ -56,12 +56,6 @@
     }
 }
 
-@layer utilities {
-    body {
-        font-family: Arial, Helvetica, sans-serif;
-    }
-}
-
 @layer base {
     :root {
         --elastic-out: linear(
@@ -190,9 +184,13 @@
 }
 
 a,
-span,
-li {
-    transition: all 1s var(--elastic-out);
+.cursor-target,
+button {
+    transition:
+        color 0.35s var(--elastic-out),
+        background-color 0.35s var(--elastic-out),
+        border-color 0.35s var(--elastic-out),
+        transform 0.35s var(--elastic-out);
 }
 
 /* View Transition API */

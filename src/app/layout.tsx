@@ -11,15 +11,26 @@ const outfit = Outfit({
     variable: "--font-outfit",
 });
 
+const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || "https://utkarsh-singhal.is-a.dev";
+
 export const metadata: Metadata = {
+    metadataBase: new URL(baseUrl),
     title: "Utkarsh Singhal | Software Developer",
     description:
         "Software developer specializing in Next.js, TypeScript and Node.js.",
+    alternates: {
+        canonical: "/",
+    },
+    robots: {
+        index: true,
+        follow: true,
+    },
     openGraph: {
         title: "Utkarsh Singhal | Software Developer",
         description:
             "Software developer specializing in Next.js, TypeScript, and Node.js. Experienced in building scalable, high-performance applications.",
-        url: "https://utkarsh-singhal.is-a.dev/",
+        url: baseUrl,
         type: "website",
         images: [
             {

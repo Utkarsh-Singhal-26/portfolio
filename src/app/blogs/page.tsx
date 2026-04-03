@@ -48,6 +48,7 @@ export default function Page() {
                                                 alt={key}
                                                 width={600}
                                                 height={400}
+                                                sizes="(max-width: 1024px) 100vw, 50vw"
                                                 className="w-full h-80 object-cover"
                                             />
                                             <span className="top-4 lg:right-4 max-lg:left-4 absolute bg-secondary px-3 py-1.5 rounded text-xs">

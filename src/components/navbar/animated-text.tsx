@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Link from "next/link";
 import type React from "react";
 
 const DURATION = 0.25;
@@ -14,58 +15,62 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
     href,
 }) => {
     return (
-        <motion.a
-            initial="initial"
-            whileHover="hovered"
+        <Link
             href={href}
-            className="relative block w-fit leading-[1.2rem] rounded-lg p-0 text-base text-primary/90 whitespace-nowrap sm:px-2 sm:py-1"
+            className="block relative p-0 sm:px-2 sm:py-1 rounded-lg w-fit text-primary/90 text-base leading-[1.2rem] whitespace-nowrap"
         >
-            <motion.div
-                className="absolute bottom-0 left-0 right-0 h-px bg-accent"
-                variants={{
-                    initial: { width: "0%" },
-                    hovered: { width: "100%" },
-                }}
-                transition={{ duration: DURATION, ease: "easeInOut" }}
-            />
+            <motion.span
+                initial="initial"
+                whileHover="hovered"
+                className="block"
+            >
+                <motion.span
+                    className="right-0 bottom-0 left-0 absolute bg-accent h-px"
+                    variants={{
+                        initial: { width: "0%" },
+                        hovered: { width: "100%" },
+                    }}
+                    transition={{ duration: DURATION, ease: "easeInOut" }}
+                />
 
-            <span className="relative inline-block cursor-pointer">
-                {children.split("").map((l, i) => (
-                    <span
-                        key={i}
-                        className="relative inline-block overflow-hidden"
-                    >
-                        <motion.span
-                            variants={{
-                                initial: { y: 0 },
-                                hovered: { y: "-100%" },
-                            }}
-                            transition={{
-                                duration: DURATION,
-                                ease: "easeInOut",
-                                delay: i * STAGGER,
-                            }}
-                            className="block"
+                <span className="inline-block relative cursor-pointer">
+                    {children.split("").map((l, i) => (
+                        <span
+                            key={i}
+                            className="inline-block relative overflow-hidden"
                         >
-                            {l}
-                        </motion.span>
-                        <motion.span
-                            variants={{
-                                initial: { y: "100%" },
-                                hovered: { y: "0%" },
-                            }}
-                            transition={{
-                                duration: DURATION,
-                                ease: "easeInOut",
-                                delay: i * STAGGER,
-                            }}
-                            className="block absolute left-0 top-0"
-                        >
-                            {l}
-                        </motion.span>
-                    </span>
-                ))}
-            </span>
-        </motion.a>
+                            <motion.span
+                                variants={{
+                                    initial: { y: 0 },
+                                    hovered: { y: "-100%" },
+                                }}
+                                transition={{
+                                    duration: DURATION,
+                                    ease: "easeInOut",
+                                    delay: i * STAGGER,
+                                }}
+                                className="block"
+                            >
+                                {l}
+                            </motion.span>
+                            <motion.span
+                                variants={{
+                                    initial: { y: "100%" },
+                                    hovered: { y: "0%" },
+                                }}
+                                transition={{
+                                    duration: DURATION,
+                                    ease: "easeInOut",
+                                    delay: i * STAGGER,
+                                }}
+                                className="block top-0 left-0 absolute"
+                            >
+                                {l}
+                            </motion.span>
+                        </span>
+                    ))}
+                </span>
+            </motion.span>
+        </Link>
     );
 };

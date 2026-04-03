@@ -6,7 +6,7 @@ import { MovingElement } from "@/components/navbar";
 
 export function Contact({ data }: { data: Record<string, string> }) {
     const handleChange = (url: string) => {
-        window.open(url, "_blank");
+        window.open(url, "_blank", "noopener,noreferrer");
     };
 
     return (
