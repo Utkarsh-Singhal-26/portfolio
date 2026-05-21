@@ -6,4 +6,4 @@ export * from "./github-contribution";
 export * from "./header";
 export * from "./navbar";
 export * from "./projects";
-export * from "./skills";
+export * from "./stack";

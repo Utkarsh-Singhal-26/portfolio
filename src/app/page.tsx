@@ -6,7 +6,7 @@ import {
     GitHubContributions,
     Header,
     Navbar,
-    Skills,
+    Stack,
 } from "@/components/sections";
 import { CursorManager } from "@/components/ui/cursor-manager";
 
@@ -19,7 +19,7 @@ export default function Page() {
                 <Header data={DATA.HEADER} />
                 <Experience data={DATA.EXPERIENCE} />
                 <GitHubContributions />
-                <Skills data={DATA.SKILLS} />
+                <Stack />
                 <Contact data={DATA.HEADER} />
                 <Footer />
             </main>
