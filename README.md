@@ -1,4 +1,4 @@
-# [utkarsh-singhal.is-a.dev](https://utkarsh-singhal.is-a.dev) &middot; ![GitHub Repo Views](https://gitviews.com/repo/Utkarsh-Singhal-26/portfolio.svg?style=flat&label-color=%23555&color=%23f59e0b)
+# [utkarsh-singhal.is-a.dev](https://utkarsh-singhal.is-a.dev) &middot; ![Portfolio Repo Views](https://github-views-counter.singhalutkarsh26.workers.dev/repo/portfolio?label-color=555&color=f59e0b)
 
 A modern, responsive portfolio showcasing my work, skills, and projects as a developer.
 
