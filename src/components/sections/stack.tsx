@@ -212,51 +212,50 @@ export function Stack(): ReactNode {
             </ul>
 
             <div className="relative h-80 overflow-hidden border border-line motion-reduce:hidden sm:h-92">
-                    <button
-                        type="button"
-                        onClick={() => setResetKey((k) => k + 1)}
-                        aria-label="Reset stack"
-                        className="cursor-target absolute top-3 right-3 z-20 inline-flex h-9 w-9 items-center justify-center border border-line bg-background text-foreground/70 transition-colors hover:text-foreground"
-                    >
-                        <ArrowCounterClockwise
-                            size={16}
-                            weight="light"
-                            aria-hidden="true"
-                        />
-                    </button>
-
-                    <div
-                        ref={measureRef}
+                <button
+                    type="button"
+                    onClick={() => setResetKey((k) => k + 1)}
+                    aria-label="Reset stack"
+                    className="cursor-target absolute top-3 right-3 z-20 inline-flex h-9 w-9 items-center justify-center border border-line bg-background text-foreground/70 transition-colors hover:text-foreground"
+                >
+                    <ArrowCounterClockwise
+                        size={16}
+                        weight="light"
                         aria-hidden="true"
-                        className="invisible pointer-events-none absolute top-0 left-0 flex flex-wrap gap-2"
-                    >
-                        {CHIPS.map((chip) => (
-                            <ChipPill key={`m-${chip.label}`} chip={chip} />
-                        ))}
-                    </div>
+                    />
+                </button>
 
-                    <div
-                        ref={containerRef}
-                        className="absolute inset-0 cursor-grab select-none"
-                        style={{ touchAction: "none" }}
-                    >
-                        {CHIPS.map((chip, i) => (
-                            <div
-                                key={`${resetKey}-${chip.label}`}
-                                ref={(el) => {
-                                    chipRefs.current[i] = el;
-                                }}
-                                data-stack-chip
-                                className="absolute top-0 left-0 pointer-events-none will-change-transform"
-                                style={{
-                                    transform:
-                                        "translate3d(-9999px, -9999px, 0)",
-                                }}
-                            >
-                                <ChipPill chip={chip} />
-                            </div>
-                        ))}
-                    </div>
+                <div
+                    ref={measureRef}
+                    aria-hidden="true"
+                    className="invisible pointer-events-none absolute top-0 left-0 flex flex-wrap gap-2"
+                >
+                    {CHIPS.map((chip) => (
+                        <ChipPill key={`m-${chip.label}`} chip={chip} />
+                    ))}
+                </div>
+
+                <div
+                    ref={containerRef}
+                    className="absolute inset-0 cursor-grab select-none"
+                    style={{ touchAction: "none" }}
+                >
+                    {CHIPS.map((chip, i) => (
+                        <div
+                            key={`${resetKey}-${chip.label}`}
+                            ref={(el) => {
+                                chipRefs.current[i] = el;
+                            }}
+                            data-stack-chip
+                            className="absolute top-0 left-0 pointer-events-none will-change-transform"
+                            style={{
+                                transform: "translate3d(-9999px, -9999px, 0)",
+                            }}
+                        >
+                            <ChipPill chip={chip} />
+                        </div>
+                    ))}
+                </div>
             </div>
         </section>
     );

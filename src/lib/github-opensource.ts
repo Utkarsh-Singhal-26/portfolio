@@ -172,7 +172,9 @@ async function fromGraphQL(): Promise<OpenSourceRepo[] | null> {
         });
     }
 
-    return [...counts.values()].sort((a, b) => b.prCount - a.prCount).slice(0, 8);
+    return [...counts.values()]
+        .sort((a, b) => b.prCount - a.prCount)
+        .slice(0, 8);
 }
 
 async function fromRest(): Promise<OpenSourceRepo[]> {

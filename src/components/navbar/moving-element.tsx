@@ -1,6 +1,11 @@
 "use client";
 
-import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import {
+    motion,
+    useMotionValue,
+    useReducedMotion,
+    useSpring,
+} from "framer-motion";
 import Link from "next/link";
 import type { PointerEvent, ReactNode } from "react";
 

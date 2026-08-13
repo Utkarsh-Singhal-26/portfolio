@@ -38,7 +38,8 @@ function RepoTile({
             rel="noopener noreferrer"
             className={cn(
                 "cursor-target group relative flex h-full flex-col border-b border-line p-5 transition-colors duration-300 hover:bg-foreground/[0.03] md:p-6",
-                featured && "sm:col-span-2 md:flex-row md:items-start md:justify-between md:gap-10 md:p-8",
+                featured &&
+                    "sm:col-span-2 md:flex-row md:items-start md:justify-between md:gap-10 md:p-8",
                 wide &&
                     "sm:col-span-2 sm:flex-row sm:items-start sm:justify-between sm:gap-8",
                 !featured && !wide && "sm:even:border-r"
@@ -71,8 +72,10 @@ function RepoTile({
             <span
                 className={cn(
                     "mt-auto flex items-end justify-between gap-4 pt-5",
-                    featured && "md:mt-0 md:shrink-0 md:flex-col md:items-end md:pt-0",
-                    wide && "sm:mt-0 sm:shrink-0 sm:flex-col sm:items-end sm:pt-0"
+                    featured &&
+                        "md:mt-0 md:shrink-0 md:flex-col md:items-end md:pt-0",
+                    wide &&
+                        "sm:mt-0 sm:shrink-0 sm:flex-col sm:items-end sm:pt-0"
                 )}
             >
                 <span className="flex items-baseline gap-2">
