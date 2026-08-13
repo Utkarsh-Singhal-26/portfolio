@@ -196,7 +196,10 @@ export function Stack(): ReactNode {
     }, [resetKey, reduceMotion]);
 
     return (
-        <section className="cell flex w-full flex-col gap-6">
+        <section
+            id="stack"
+            className="cell flex w-full scroll-mt-24 flex-col gap-6"
+        >
             <Reveal>
                 <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
                     Stack

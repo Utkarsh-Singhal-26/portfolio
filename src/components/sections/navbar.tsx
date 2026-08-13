@@ -3,8 +3,9 @@
 import { AnimatedText, MovingElement, ThemeToggle } from "@/components/navbar";
 
 const LINKS = [
+    { href: "/#work", label: "work" },
     { href: "/#experience", label: "experience" },
-    { href: "/#open-source", label: "open source" },
+    { href: "/#open-source", label: "source" },
 ] as const;
 
 export function Navbar() {

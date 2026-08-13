@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     metadataBase: new URL(baseUrl),
     title: "Utkarsh Singhal | Software Developer",
     description:
-        "Software developer specializing in Next.js, TypeScript and Node.js.",
+        "SDE-1 backend at Suraasa. TypeScript, Django, and Node. Contributor to Vue Bits and React Bits.",
     alternates: {
         canonical: "/",
     },
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: "Utkarsh Singhal | Software Developer",
         description:
-            "Software developer specializing in Next.js, TypeScript, and Node.js. Experienced in building scalable, high-performance applications.",
+            "SDE-1 backend at Suraasa. TypeScript, Django, and Node. Contributor to Vue Bits and React Bits.",
         url: baseUrl,
         type: "website",
         images: [
@@ -103,7 +103,7 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <div className="w-full overflow-x-clip">
-                        <div className="relative mx-auto w-full max-w-[1120px] border-x border-line">
+                        <div className="relative mx-auto w-full max-w-280 border-x border-line">
                             <FrameMarks />
                             {children}
                         </div>

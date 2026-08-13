@@ -1,3 +1,12 @@
+import type { StaticImageData } from "next/image";
+
+import {
+    AirwatchImage,
+    ContribCirclesImage,
+    ReactBitsImage,
+    VueBitsImage,
+} from "@/assets/projects";
+
 export type ExperienceRole = {
     title: string;
     type: string;
@@ -16,6 +25,24 @@ export type ExperienceCompany = {
     roles: ExperienceRole[];
 };
 
+export type Project = {
+    name: string;
+    href: string;
+    github?: string;
+    contribution?: boolean;
+    contain?: boolean;
+    summary: string;
+    stack: string[];
+    image: StaticImageData;
+};
+
+export type Writing = {
+    title: string;
+    date: string;
+    minutes: number;
+    href: string;
+};
+
 export const GITHUB_USERNAME = "Utkarsh-Singhal-26";
 
 export const DATA = {
@@ -23,15 +50,15 @@ export const DATA = {
         NAME: "Utkarsh Singhal",
         AGE: "21",
         PRONOUN: "he/him",
-        HEADLINE:
-            "Passionate about building high-performance and scalable web applications.",
+        HEADLINE: "I like shipping things people can actually use.",
         RESUME: "https://drive.google.com/file/d/1piWpArbdbjt4PKF4gZlR0nkD09au_8fE/view",
         EMAIL: "mailto:singhalutkarsh26@gmail.com",
         GITHUB: "https://github.com/Utkarsh-Singhal-26",
         LINKEDIN: "https://www.linkedin.com/in/singhalutkarsh26",
-        INTRO: "Hey! I'm a full-stack developer who loves building efficient, scalable, and intuitive applications. I thrive on solving complex problems, optimizing performance, and creating seamless user experiences.",
+        INTRO: "I get restless if I am not building something I can share.",
+        FOCUS: "Nights go to open source and small tools.",
         EXPERTISE:
-            "My expertise lies in Next.js, TypeScript, Node.js, and Cloud technologies, and I enjoy working across the stack to bring ideas to life.",
+            "I like reading other people's code as much as I like writing my own.",
     },
 
     EXPERIENCE: [
@@ -47,9 +74,8 @@ export const DATA = {
                     start: "2026-01",
                     open: true,
                     description: [
-                        "Developed and maintained backend services and APIs to support product features and integrations.",
-                        "Worked on reliability, security, and performance improvements across services, including caching and monitoring.",
-                        "Collaborated with frontend, platform, and DevOps teams to design APIs, event-driven workflows, and developer-facing documentation.",
+                        "I write and maintain product APIs in TypeScript, Django, and AdonisJS.",
+                        "Caching, monitoring, and event-driven jobs run against Postgres, MongoDB, and Redis.",
                     ],
                     stack: [
                         "TypeScript",
@@ -68,8 +94,7 @@ export const DATA = {
                     start: "2025-10",
                     end: "2025-12",
                     description: [
-                        "Joined the backend team as an intern and shipped API and service work on live product features.",
-                        "Worked in TypeScript, Django, and AdonisJS before converting to full-time on the same team.",
+                        "I joined as an intern and shipped API work on live features, then converted to full-time on the same team.",
                     ],
                     stack: [
                         "TypeScript",
@@ -93,9 +118,8 @@ export const DATA = {
                     start: "2024-11",
                     end: "2025-09",
                     description: [
-                        "Developed and maintained scalable web applications to enhance user engagement and operational efficiency.",
-                        "Hosted and managed servers on AWS EC2, configured domains, and implemented SSL certificates for secure access.",
-                        "Collaborated with cross-functional teams to design and implement scalable solutions.",
+                        "I built and ran web apps on AWS EC2, including domains and TLS.",
+                        "The stack was TypeScript, React, Next.js, Node, and MongoDB.",
                     ],
                     stack: [
                         "TypeScript",
@@ -120,9 +144,7 @@ export const DATA = {
                     start: "2023-11",
                     end: "2025-06",
                     description: [
-                        "Assisted in the development of full-stack applications to support academic initiatives.",
-                        "Implemented cloud-based solutions using Google Cloud Platform services.",
-                        "Participated in code reviews and contributed to the optimization of existing codebases.",
+                        "I worked on campus web apps in React, Firebase, and GCP.",
                     ],
                     stack: [
                         "React.js",
@@ -145,9 +167,8 @@ export const DATA = {
                     start: "2024-08",
                     end: "2024-10",
                     description: [
-                        "Researched API testing platforms to evaluate features, security, and integration capabilities.",
-                        "Worked with AWS Lambda, Kinesis, S3, API Gateway, and EC2 for infrastructure and security work.",
-                        "Built a to-do Chrome extension using the Chrome Storage API.",
+                        "I researched API testing platforms and worked with AWS Lambda, Kinesis, S3, and API Gateway.",
+                        "I also built a to-do Chrome extension with the Chrome Storage API.",
                     ],
                     stack: [
                         "TypeScript",
@@ -160,6 +181,74 @@ export const DATA = {
             ],
         },
     ] satisfies ExperienceCompany[],
+
+    PROJECTS: [
+        {
+            name: "Vue Bits",
+            href: "https://vue-bits.dev/",
+            github: "https://github.com/DavidHDev/vue-bits",
+            contribution: true,
+            summary:
+                "I send animated Vue components into this library. Seeing them on the site is the part I like.",
+            stack: ["Vue.js", "TypeScript", "Tailwind CSS"],
+            image: VueBitsImage,
+        },
+        {
+            name: "React Bits",
+            href: "https://reactbits.dev",
+            github: "https://github.com/DavidHDev/react-bits",
+            contribution: true,
+            summary:
+                "I send TypeScript and Tailwind variants into this library. Same components, more ways to use them.",
+            stack: ["React", "TypeScript", "Tailwind CSS"],
+            image: ReactBitsImage,
+        },
+        {
+            name: "Contributors Circles",
+            href: "https://contrib-circles.vercel.app/",
+            contain: true,
+            summary:
+                "I wanted a nicer way to show who ships a repo, so I made circle-pack badges you embed with one markdown line.",
+            stack: ["Next.js", "TypeScript", "Vercel"],
+            image: ContribCirclesImage,
+        },
+        {
+            name: "AirWatch",
+            href: "https://airwatch-pwa-app.vercel.app/",
+            github: "https://github.com/Utkarsh-Singhal-26/airwatch-pwa-app",
+            summary:
+                "I built this because I wanted live air quality on my phone, with maps, charts, and alerts.",
+            stack: ["Next.js", "TypeScript", "Firebase", "PWA"],
+            image: AirwatchImage,
+        },
+    ] satisfies Project[],
+
+    WRITING: [
+        {
+            title: "ORMs & ODMs: Choosing the Right Tool for Your Database Needs",
+            date: "2025-03-24",
+            minutes: 4,
+            href: "https://www.linkedin.com/pulse/orms-odms-choosing-right-tool-your-database-needs-utkarsh-singhal-dnshc/",
+        },
+        {
+            title: "TypeScript and React: Harnessing the Full Power of Types",
+            date: "2025-03-11",
+            minutes: 6,
+            href: "https://www.linkedin.com/pulse/typescript-react-harnessing-full-power-types-utkarsh-singhal-6bxuc/",
+        },
+        {
+            title: "Understanding Utility Types in TypeScript: Supercharging Your Codebase",
+            date: "2025-03-10",
+            minutes: 7,
+            href: "https://www.linkedin.com/pulse/understanding-utility-types-typescript-supercharging-your-singhal-zdxwc/",
+        },
+        {
+            title: "Mastering TypeScript Generics: Building Flexible and Scalable Code",
+            date: "2025-03-08",
+            minutes: 7,
+            href: "https://www.linkedin.com/pulse/mastering-typescript-generics-building-flexible-scalable-singhal-f77bc/",
+        },
+    ] satisfies Writing[],
 };
 
 export type Chip = {

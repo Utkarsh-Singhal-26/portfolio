@@ -10,14 +10,24 @@ import { CtaLink } from "@/components/ui/cta-link";
 const PLACES = [
     { href: "/", label: "Home", hint: "The whole site lives here" },
     {
+        href: "/#work",
+        label: "Work",
+        hint: "Contributions and things I shipped",
+    },
+    {
         href: "/#experience",
         label: "Experience",
-        hint: "Roles, dates, and stack",
+        hint: "Roles and dates",
     },
     {
         href: "/#open-source",
         label: "Open source",
-        hint: "Merged PRs on other repos",
+        hint: "Merged pull requests",
+    },
+    {
+        href: "/#writing",
+        label: "Writing",
+        hint: "Notes on TypeScript",
     },
     {
         href: DATA.HEADER.RESUME,
@@ -43,7 +53,7 @@ export default function NotFound() {
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 overflow-hidden"
                 >
-                    <span className="absolute -right-6 bottom-10 select-none font-semibold text-[min(48vw,22rem)] leading-none text-foreground/[0.045] sm:-right-4">
+                    <span className="absolute -right-6 bottom-10 select-none font-semibold text-[min(48vw,22rem)] leading-none text-foreground/4.5 sm:-right-4">
                         404
                     </span>
                 </div>
@@ -54,11 +64,11 @@ export default function NotFound() {
                             404
                         </p>
                         <h1 className="mt-3 max-w-[12ch] text-4xl font-semibold tracking-tight md:text-6xl md:leading-[1.05]">
-                            This page is not here
+                            This page does not exist
                         </h1>
                         <p className="mt-4 max-w-[40ch] text-base leading-relaxed text-muted-foreground">
-                            Nothing lives at this URL. Home has experience, open
-                            source, and how to reach me.
+                            This URL does not exist. Home has work, experience,
+                            and email.
                         </p>
                         <div className="mt-8">
                             <CtaLink href="/">Home</CtaLink>

@@ -6,3 +6,5 @@ export * from "./navbar";
 export * from "./open-source";
 export * from "./site-shell";
 export * from "./stack";
+export * from "./work";
+export * from "./writing";

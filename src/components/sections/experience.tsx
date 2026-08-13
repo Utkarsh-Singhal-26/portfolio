@@ -54,8 +54,8 @@ export function Experience({ data }: { data: ExperienceCompany[] }) {
                             From intern to backend engineer
                         </p>
                         <p className="mt-4 max-w-[36ch] text-base leading-relaxed text-muted-foreground">
-                            Full-time at Suraasa since January 2026. I interned
-                            on the same team the autumn before.
+                            Full-time since January 2026. I interned on the same
+                            team first.
                         </p>
                     </Reveal>
 
@@ -88,9 +88,11 @@ export function Experience({ data }: { data: ExperienceCompany[] }) {
                                     )}
                                 </span>
                             </p>
-                            <p className="mt-5 max-w-[46ch] text-sm leading-relaxed text-muted-foreground">
-                                {current.role.description[0]}
-                            </p>
+                            <div className="mt-5 max-w-[46ch] space-y-2 text-sm leading-relaxed text-muted-foreground">
+                                {current.role.description.map((line) => (
+                                    <p key={line}>{line}</p>
+                                ))}
+                            </div>
                             <ul className="mt-5 flex flex-wrap gap-1.5">
                                 {current.role.stack.slice(0, 6).map((tech) => (
                                     <li
@@ -146,7 +148,7 @@ export function Experience({ data }: { data: ExperienceCompany[] }) {
                                             </span>
                                         </span>
                                         <span className="mt-2 block max-w-[48ch] text-sm leading-relaxed text-muted-foreground">
-                                            {entry.role.description[0]}
+                                            {entry.role.description.join(" ")}
                                         </span>
                                     </span>
                                     <ArrowHit />

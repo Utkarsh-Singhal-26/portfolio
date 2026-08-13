@@ -30,7 +30,7 @@ export function Header({
                         {data.NAME}
                     </h1>
                     <p className="mt-3 max-w-[36ch] text-base leading-relaxed text-muted-foreground md:text-lg">
-                        I build backend services and web apps in TypeScript.
+                        {data.HEADLINE}
                     </p>
                     <div className="mt-5 flex items-center gap-4">
                         <CtaLink href={data.RESUME} external>
@@ -74,11 +74,10 @@ export function Header({
                 <span className="cross cross-tl" />
                 <span className="cross cross-tr" />
                 <Reveal delay={0.08}>
-                    <p className="max-w-[65ch] text-base text-justify leading-relaxed text-muted-foreground">
+                    <p className="max-w-[62ch] text-base leading-relaxed text-muted-foreground">
                         {data.INTRO}{" "}
-                        <span className="hidden sm:inline">
-                            {data.EXPERTISE}
-                        </span>
+                        <span className="text-foreground">{data.FOCUS}</span>{" "}
+                        {data.EXPERTISE}
                     </p>
                 </Reveal>
             </div>
