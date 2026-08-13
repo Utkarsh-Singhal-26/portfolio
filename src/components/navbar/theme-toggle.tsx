@@ -1,6 +1,7 @@
 "use client";
 
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "@phosphor-icons/react";
+import { useTheme } from "next-themes";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
@@ -13,30 +14,34 @@ export const ThemeToggle = ({
     duration = 600,
     ...props
 }: ThemeToggleProps) => {
-    const [isDark, setIsDark] = useState(false);
+    const { resolvedTheme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
-        const updateTheme = () => {
-            setIsDark(document.documentElement.classList.contains("dark"));
-        };
-        updateTheme();
-        const observer = new MutationObserver(updateTheme);
-        observer.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ["class"],
-        });
-        return () => observer.disconnect();
+        setMounted(true);
     }, []);
+
+    const isDark = resolvedTheme === "dark";
 
     const toggleTheme = useCallback(async () => {
         if (!buttonRef.current) return;
 
-        if (!document.startViewTransition) {
-            const newTheme = !isDark;
-            setIsDark(newTheme);
-            document.documentElement.classList.toggle("dark", newTheme);
-            localStorage.setItem("theme", newTheme ? "dark" : "light");
+        const next = isDark ? "light" : "dark";
+        const apply = () => {
+            document.documentElement.classList.remove("light", "dark");
+            document.documentElement.classList.add(next);
+            document.documentElement.style.colorScheme = next;
+            flushSync(() => {
+                setTheme(next);
+            });
+        };
+
+        if (
+            !document.startViewTransition ||
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ) {
+            apply();
             return;
         }
 
@@ -46,17 +51,7 @@ export const ThemeToggle = ({
         );
         document.head.appendChild(css);
 
-        await document.startViewTransition(() => {
-            flushSync(() => {
-                const newTheme = !isDark;
-                setIsDark(newTheme);
-
-                document.documentElement.classList.toggle("dark", newTheme);
-                localStorage.setItem("theme", newTheme ? "dark" : "light");
-
-                void window.getComputedStyle(document.body).opacity;
-            });
-        }).ready;
+        await document.startViewTransition(apply).ready;
 
         document.head.removeChild(css);
 
@@ -78,21 +73,26 @@ export const ThemeToggle = ({
             },
             {
                 duration,
-                easing: "ease-in-out",
+                easing: "cubic-bezier(0.32, 0.72, 0, 1)",
                 pseudoElement: "::view-transition-new(root)",
             }
         );
-    }, [isDark, duration]);
+    }, [isDark, setTheme, duration]);
 
     return (
         <button
             ref={buttonRef}
+            type="button"
             onClick={toggleTheme}
-            className={`${className} cursor-pointer`}
+            className={`${className} cursor-target`}
             aria-label="Toggle theme"
             {...props}
         >
-            {isDark ? <Sun className="size-5" /> : <Moon className="size-5" />}
+            {mounted && isDark ? (
+                <Sun size={20} weight="light" />
+            ) : (
+                <Moon size={20} weight="light" />
+            )}
         </button>
     );
 };

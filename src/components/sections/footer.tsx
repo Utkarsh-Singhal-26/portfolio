@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp } from "lucide-react";
+import { ArrowUp } from "@phosphor-icons/react";
 
 export function Footer() {
     function scrollToTop() {
@@ -11,18 +11,20 @@ export function Footer() {
     }
 
     return (
-        <div className="flex max-md:flex-col justify-between items-center max-md:gap-2 pt-4 border-gray-800 border-t w-full">
-            <p className="text-muted-foreground text-base text-center">
-                &copy; {new Date().getFullYear()} Utkarsh Singhal. All rights
-                reserved.
+        <footer className="cell relative flex w-full flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <span className="cross cross-bl" />
+            <span className="cross cross-br" />
+            <p className="font-mono text-[12px] text-muted-foreground tabular-nums">
+                {new Date().getFullYear()} Utkarsh Singhal
             </p>
             <button
-                className="flex items-center gap-2 w-fit text-muted-foreground text-base cursor-pointer"
+                type="button"
+                className="cursor-target inline-flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground"
                 onClick={scrollToTop}
             >
-                Elevate to the top
-                <ArrowUp size={20} />
+                Back to top
+                <ArrowUp size={14} weight="light" />
             </button>
-        </div>
+        </footer>
     );
 }

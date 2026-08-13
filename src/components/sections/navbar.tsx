@@ -1,36 +1,34 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-
 import { AnimatedText, MovingElement, ThemeToggle } from "@/components/navbar";
 
-export function Navbar() {
-    const router = useRouter();
+const LINKS = [
+    { href: "/#experience", label: "experience" },
+    { href: "/#open-source", label: "open source" },
+] as const;
 
+export function Navbar() {
     return (
-        <header className="flex justify-between items-end mb-4 px-6">
+        <header className="rule-b sticky top-0 z-40 flex h-14 items-center justify-between bg-background/80 px-5 backdrop-blur-xl sm:px-6">
             <MovingElement
-                change={() => router.push("/")}
+                href="/"
                 ariaLabel="Navigate to home"
+                className="px-1 font-semibold text-[17px] tracking-tight"
             >
-                <Link href={"/"} className="font-bold text-xl tracking-tighter">
-                    utkarsh.
-                </Link>
+                utkarsh.
             </MovingElement>
 
-            <nav className="flex items-center gap-2">
-                <ul className="flex items-center gap-2 sm:gap-0">
-                    {["#experience", "projects", "blogs"].map((link, index) => (
-                        <li key={index}>
-                            <AnimatedText href={`/${link}`}>
-                                {link.split("#")[1] || link}
+            <nav className="flex items-center gap-1 sm:gap-2">
+                <ul className="flex items-center">
+                    {LINKS.map((link) => (
+                        <li key={link.href}>
+                            <AnimatedText href={link.href}>
+                                {link.label}
                             </AnimatedText>
                         </li>
                     ))}
                 </ul>
-
-                <ThemeToggle />
+                <ThemeToggle className="ml-1 rounded-full p-2 hover:bg-foreground/5" />
             </nav>
         </header>
     );

@@ -1,30 +1,26 @@
 import { DATA } from "@/app/data";
 import {
-    Contact,
     Experience,
-    Footer,
-    GitHubContributions,
     Header,
-    Navbar,
+    OpenSource,
+    SiteShell,
     Stack,
 } from "@/components/sections";
-import { CursorManager } from "@/components/ui/cursor-manager";
+import { Stripe } from "@/components/ui/blueprint";
+import { getGitHubContributions } from "@/lib/github-contribution";
 
 export default function Page() {
+    const contributions = getGitHubContributions();
+
     return (
-        <>
-            <Navbar />
-
-            <main className="flex flex-col items-center gap-12 p-8 w-full">
-                <Header data={DATA.HEADER} />
-                <Experience data={DATA.EXPERIENCE} />
-                <GitHubContributions />
-                <Stack />
-                <Contact data={DATA.HEADER} />
-                <Footer />
-            </main>
-
-            <CursorManager />
-        </>
+        <SiteShell>
+            <Header data={DATA.HEADER} contributions={contributions} />
+            <Stripe />
+            <Experience data={DATA.EXPERIENCE} />
+            <Stripe />
+            <OpenSource />
+            <Stripe />
+            <Stack />
+        </SiteShell>
     );
 }

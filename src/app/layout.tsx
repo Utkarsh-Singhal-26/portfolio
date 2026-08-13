@@ -2,13 +2,22 @@ import "@/app/globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Geist_Mono, Outfit } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+
+import { FrameMarks } from "@/components/ui/blueprint";
+import { TargetCursor } from "@/components/ui/target-cursor";
 
 const outfit = Outfit({
     subsets: ["latin"],
     display: "swap",
     variable: "--font-outfit",
+});
+
+const geistMono = Geist_Mono({
+    subsets: ["latin"],
+    display: "swap",
+    variable: "--font-geist-mono",
 });
 
 const baseUrl =
@@ -75,21 +84,31 @@ export default function RootLayout({
     return (
         <html
             lang="en"
-            className={`${outfit.variable}`}
+            className={`${outfit.variable} ${geistMono.variable}`}
+            data-scroll-behavior="smooth"
             suppressHydrationWarning
         >
             <body
-                className={`${outfit.className} w-screen min-h-screen m-0 p-0 overflow-x-hidden dark:bg-[#0b0a09]`}
+                className={`${outfit.className} min-h-dvh w-full overflow-x-clip bg-background text-foreground antialiased`}
             >
+                <a href="#content" className="skip-link">
+                    Skip to content
+                </a>
+                <div className="grain" aria-hidden="true" />
+
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <div className="bg-white dark:bg-black mx-auto pt-6 sm:pt-12 w-full md:w-3/4 lg:w-3/5 text-foreground">
-                        {children}
+                    <div className="w-full overflow-x-clip">
+                        <div className="relative mx-auto w-full max-w-[1120px] border-x border-line">
+                            <FrameMarks />
+                            {children}
+                        </div>
                     </div>
+                    <TargetCursor />
                 </ThemeProvider>
 
                 <Analytics />

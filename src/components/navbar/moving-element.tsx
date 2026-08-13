@@ -1,84 +1,72 @@
 "use client";
 
-import type { MotionValue } from "framer-motion";
-import { motion, useMotionValue, useTransform } from "framer-motion";
-import type React from "react";
+import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import Link from "next/link";
+import type { PointerEvent, ReactNode } from "react";
 
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-interface MovingElementProps {
-    children: React.ReactNode;
-    className?: string;
-    change?: () => void;
-    toChange?: boolean;
-    ariaLabel: string;
-}
+const SPRING = { stiffness: 180, damping: 22, mass: 0.35 };
 
-export const MovingElement: React.FC<MovingElementProps> = ({
+export function MovingElement({
     children,
-    className = "",
-    change,
-    toChange = true,
+    className,
+    href,
     ariaLabel,
-}) => {
+}: {
+    children: ReactNode;
+    className?: string;
+    href: string;
+    ariaLabel: string;
+}) {
+    const reduce = useReducedMotion();
     const x = useMotionValue(0);
     const y = useMotionValue(0);
-    const textX = useTransform(x, (latest) => latest * 2);
-    const textY = useTransform(y, (latest) => latest * 2);
+    const springX = useSpring(x, SPRING);
+    const springY = useSpring(y, SPRING);
+    const external = href.startsWith("http");
 
-    const mapRange = (
-        inputLower: number,
-        inputUpper: number,
-        outputLower: number,
-        outputUpper: number
-    ) => {
-        const INPUT_RANGE = inputUpper - inputLower;
-        const OUTPUT_RANGE = outputUpper - outputLower;
-
-        return (value: number) =>
-            outputLower +
-            (((value - inputLower) / INPUT_RANGE) * OUTPUT_RANGE || 0);
+    const pull = (event: PointerEvent<HTMLElement>) => {
+        const b = event.currentTarget.getBoundingClientRect();
+        x.set(((event.clientX - b.left) / b.width - 0.5) * 6);
+        y.set(((event.clientY - b.top) / b.height - 0.5) * 6);
     };
 
-    const setTransform = (
-        item: HTMLElement & EventTarget,
-        event: React.PointerEvent,
-        x: MotionValue,
-        y: MotionValue
-    ) => {
-        const bounds = item.getBoundingClientRect();
-        const relativeX = event.clientX - bounds.left;
-        const relativeY = event.clientY - bounds.top;
-        const xRange = mapRange(0, bounds.width, -1, 1)(relativeX);
-        const yRange = mapRange(0, bounds.height, -1, 1)(relativeY);
+    const classNames = cn(
+        "inline-flex h-9 items-center justify-center rounded-full px-2",
+        className
+    );
 
-        x.set(xRange * 5);
-        y.set(yRange * 5);
-    };
+    const link = external ? (
+        <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={ariaLabel}
+            className={classNames}
+        >
+            {children}
+        </a>
+    ) : (
+        <Link href={href} aria-label={ariaLabel} className={classNames}>
+            {children}
+        </Link>
+    );
+
+    if (reduce) return <div className="cursor-target">{link}</div>;
 
     return (
-        <motion.div
-            onPointerMove={(event) => {
-                const item = event.currentTarget;
-                setTransform(item, event, x, y);
-            }}
-            onPointerLeave={() => {
-                x.set(0);
-                y.set(0);
-            }}
-            style={{ x, y }}
-            className="cursor-target"
-        >
-            <Button
-                variant={toChange ? "ghost" : undefined}
-                onClick={change}
-                className={className}
-                aria-label={ariaLabel}
+        <div className="cursor-target">
+            <motion.div
+                onPointerMove={pull}
+                onPointerLeave={() => {
+                    x.set(0);
+                    y.set(0);
+                }}
+                style={{ x: springX, y: springY }}
             >
-                <motion.span style={{ x: textX, y: textY }}>
-                    {children}
-                </motion.span>
-            </Button>
-        </motion.div>
+                {link}
+            </motion.div>
+        </div>
     );
-};
+}

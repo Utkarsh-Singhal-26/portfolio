@@ -1,7 +1,6 @@
 "use client";
 
 import { format } from "date-fns";
-import { LoaderIcon } from "lucide-react";
 import { use } from "react";
 
 import { GITHUB_USERNAME } from "@/app/data";
@@ -31,7 +30,7 @@ export function GitHubContributionGraph({
     return (
         <TooltipProvider>
             <ContributionGraph
-                className="mx-auto py-2 cursor-target"
+                className="mx-auto cursor-target py-2"
                 data={data}
                 blockSize={14}
                 blockMargin={5}
@@ -54,7 +53,7 @@ export function GitHubContributionGraph({
                             <TooltipContent className="font-sans">
                                 <p>
                                     {activity.count} contribution
-                                    {activity.count > 1 ? "s" : null} on{" "}
+                                    {activity.count === 1 ? "" : "s"} on{" "}
                                     {format(
                                         new Date(activity.date),
                                         "dd.MM.yyyy"
@@ -67,15 +66,15 @@ export function GitHubContributionGraph({
 
                 <ContributionGraphFooter className="px-2">
                     <ContributionGraphTotalCount>
-                        {({ totalCount, year }) => (
-                            <div className="text-muted-foreground">
+                        {({ totalCount }) => (
+                            <div className="font-mono text-[13px] text-muted-foreground tabular-nums">
                                 {totalCount.toLocaleString("en")} contributions
-                                in {year} on{" "}
+                                in the last year on{" "}
                                 <a
                                     className="font-medium underline underline-offset-4"
                                     href={`https://github.com/${GITHUB_USERNAME}`}
                                     target="_blank"
-                                    rel="noopener"
+                                    rel="noopener noreferrer"
                                 >
                                     GitHub
                                 </a>
@@ -93,8 +92,9 @@ export function GitHubContributionGraph({
 
 export function GitHubContributionFallback() {
     return (
-        <div className="flex h-40.5 w-full items-center justify-center">
-            <LoaderIcon className="animate-spin text-muted-foreground" />
-        </div>
+        <div
+            className="h-40 w-full animate-pulse border border-line bg-foreground/5"
+            aria-hidden="true"
+        />
     );
 }

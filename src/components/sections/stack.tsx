@@ -1,10 +1,12 @@
 "use client";
 
-import { RotateCcw } from "lucide-react";
+import { ArrowCounterClockwise } from "@phosphor-icons/react";
+import { useReducedMotion } from "framer-motion";
 import Matter from "matter-js";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { CHIPS, type Chip } from "@/app/data";
+import { Reveal } from "@/components/ui/reveal";
 
 const CHIP_RADIUS = 14;
 const ICON_RADIUS = 10;
@@ -22,8 +24,11 @@ export function Stack(): ReactNode {
     const measureRef = useRef<HTMLDivElement | null>(null);
     const chipRefs = useRef<Array<HTMLDivElement | null>>([]);
     const [resetKey, setResetKey] = useState(0);
+    const reduceMotion = useReducedMotion();
 
     useEffect(() => {
+        if (reduceMotion) return;
+
         const container = containerRef.current;
         const measure = measureRef.current;
         if (!container || !measure) return;
@@ -188,63 +193,72 @@ export function Stack(): ReactNode {
             cancelled = true;
             cleanup?.();
         };
-    }, [resetKey]);
+    }, [resetKey, reduceMotion]);
 
     return (
-        <div className="flex flex-col gap-3 w-full">
-            <div className="flex items-center gap-3">
-                <h2 className="font-medium text-primary/90 text-base">
-                    technical stack.
+        <section className="cell flex w-full flex-col gap-6">
+            <Reveal>
+                <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
+                    Stack
                 </h2>
-            </div>
+            </Reveal>
 
-            <div className="relative bg-foreground/2 dark:bg-foreground/5 border border-foreground/5 rounded-4xl h-80 sm:h-92 overflow-hidden">
-                <button
-                    type="button"
-                    onClick={() => setResetKey((k) => k + 1)}
-                    aria-label="Reset stack"
-                    className="inline-flex top-3 right-3 z-20 absolute justify-center items-center bg-background border border-foreground/8 rounded-xl focus-ring w-9 h-9 text-foreground/70 hover:text-foreground transition-colors"
-                >
-                    <RotateCcw
-                        className="w-4 h-4"
-                        strokeWidth={2.25}
+            <ul className="hidden flex-wrap gap-2 motion-reduce:flex">
+                {CHIPS.map((chip) => (
+                    <li key={chip.label}>
+                        <ChipPill chip={chip} />
+                    </li>
+                ))}
+            </ul>
+
+            <div className="relative h-80 overflow-hidden border border-line motion-reduce:hidden sm:h-92">
+                    <button
+                        type="button"
+                        onClick={() => setResetKey((k) => k + 1)}
+                        aria-label="Reset stack"
+                        className="cursor-target absolute top-3 right-3 z-20 inline-flex h-9 w-9 items-center justify-center border border-line bg-background text-foreground/70 transition-colors hover:text-foreground"
+                    >
+                        <ArrowCounterClockwise
+                            size={16}
+                            weight="light"
+                            aria-hidden="true"
+                        />
+                    </button>
+
+                    <div
+                        ref={measureRef}
                         aria-hidden="true"
-                    />
-                </button>
+                        className="invisible pointer-events-none absolute top-0 left-0 flex flex-wrap gap-2"
+                    >
+                        {CHIPS.map((chip) => (
+                            <ChipPill key={`m-${chip.label}`} chip={chip} />
+                        ))}
+                    </div>
 
-                <div
-                    ref={measureRef}
-                    aria-hidden="true"
-                    className="invisible top-0 left-0 absolute flex flex-wrap gap-2 pointer-events-none"
-                >
-                    {CHIPS.map((chip) => (
-                        <ChipPill key={`m-${chip.label}`} chip={chip} />
-                    ))}
-                </div>
-
-                <div
-                    ref={containerRef}
-                    className="absolute inset-0 cursor-grab select-none"
-                    style={{ touchAction: "none" }}
-                >
-                    {CHIPS.map((chip, i) => (
-                        <div
-                            key={`${resetKey}-${chip.label}`}
-                            ref={(el) => {
-                                chipRefs.current[i] = el;
-                            }}
-                            data-stack-chip
-                            className="top-0 left-0 absolute pointer-events-none will-change-transform"
-                            style={{
-                                transform: "translate3d(-9999px, -9999px, 0)",
-                            }}
-                        >
-                            <ChipPill chip={chip} />
-                        </div>
-                    ))}
-                </div>
+                    <div
+                        ref={containerRef}
+                        className="absolute inset-0 cursor-grab select-none"
+                        style={{ touchAction: "none" }}
+                    >
+                        {CHIPS.map((chip, i) => (
+                            <div
+                                key={`${resetKey}-${chip.label}`}
+                                ref={(el) => {
+                                    chipRefs.current[i] = el;
+                                }}
+                                data-stack-chip
+                                className="absolute top-0 left-0 pointer-events-none will-change-transform"
+                                style={{
+                                    transform:
+                                        "translate3d(-9999px, -9999px, 0)",
+                                }}
+                            >
+                                <ChipPill chip={chip} />
+                            </div>
+                        ))}
+                    </div>
             </div>
-        </div>
+        </section>
     );
 }
 

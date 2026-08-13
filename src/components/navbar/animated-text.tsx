@@ -1,76 +1,87 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
-import type React from "react";
 
-const DURATION = 0.25;
-const STAGGER = 0.025;
+const DURATION = 0.28;
+const STAGGER = 0.018;
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-interface AnimatedTextProps {
-    children: string;
-    href: string;
-}
-
-export const AnimatedText: React.FC<AnimatedTextProps> = ({
+export function AnimatedText({
     children,
     href,
-}) => {
+}: {
+    children: string;
+    href: string;
+}) {
+    const reduce = useReducedMotion();
+
     return (
         <Link
             href={href}
-            className="block relative p-0 sm:px-2 sm:py-1 rounded-lg w-fit text-primary/90 text-base leading-[1.2rem] whitespace-nowrap"
+            aria-label={children}
+            className="cursor-target relative block w-fit rounded-full px-2 py-1 text-[13px] leading-5 tracking-tight text-foreground/70 sm:px-3 sm:text-sm"
         >
-            <motion.span
-                initial="initial"
-                whileHover="hovered"
-                className="block"
-            >
+            {reduce ? (
+                <span>{children}</span>
+            ) : (
                 <motion.span
-                    className="right-0 bottom-0 left-0 absolute bg-accent h-px"
-                    variants={{
-                        initial: { width: "0%" },
-                        hovered: { width: "100%" },
-                    }}
-                    transition={{ duration: DURATION, ease: "easeInOut" }}
-                />
+                    initial="initial"
+                    whileHover="hovered"
+                    className="block"
+                    aria-hidden="true"
+                >
+                    <motion.span
+                        className="absolute right-2 bottom-0.5 left-2 h-px bg-brand"
+                        variants={{
+                            initial: { scaleX: 0 },
+                            hovered: { scaleX: 1 },
+                        }}
+                        style={{ originX: 0 }}
+                        transition={{ duration: DURATION, ease: EASE }}
+                    />
 
-                <span className="inline-block relative cursor-pointer">
-                    {children.split("").map((l, i) => (
-                        <span
-                            key={i}
-                            className="inline-block relative overflow-hidden"
-                        >
-                            <motion.span
-                                variants={{
-                                    initial: { y: 0 },
-                                    hovered: { y: "-100%" },
-                                }}
-                                transition={{
-                                    duration: DURATION,
-                                    ease: "easeInOut",
-                                    delay: i * STAGGER,
-                                }}
-                                className="block"
+                    <span className="relative inline-block">
+                        {children.split("").map((l, i) => (
+                            <span
+                                key={`${href}-${i}`}
+                                className={
+                                    l === " "
+                                        ? "relative inline-block w-[0.28em] overflow-hidden"
+                                        : "relative inline-block overflow-hidden"
+                                }
                             >
-                                {l}
-                            </motion.span>
-                            <motion.span
-                                variants={{
-                                    initial: { y: "100%" },
-                                    hovered: { y: "0%" },
-                                }}
-                                transition={{
-                                    duration: DURATION,
-                                    ease: "easeInOut",
-                                    delay: i * STAGGER,
-                                }}
-                                className="block top-0 left-0 absolute"
-                            >
-                                {l}
-                            </motion.span>
-                        </span>
-                    ))}
-                </span>
-            </motion.span>
+                                <motion.span
+                                    variants={{
+                                        initial: { y: 0 },
+                                        hovered: { y: "-100%" },
+                                    }}
+                                    transition={{
+                                        duration: DURATION,
+                                        ease: EASE,
+                                        delay: i * STAGGER,
+                                    }}
+                                    className="block"
+                                >
+                                    {l === " " ? "\u00A0" : l}
+                                </motion.span>
+                                <motion.span
+                                    variants={{
+                                        initial: { y: "100%" },
+                                        hovered: { y: "0%" },
+                                    }}
+                                    transition={{
+                                        duration: DURATION,
+                                        ease: EASE,
+                                        delay: i * STAGGER,
+                                    }}
+                                    className="absolute top-0 left-0 block"
+                                >
+                                    {l === " " ? "\u00A0" : l}
+                                </motion.span>
+                            </span>
+                        ))}
+                    </span>
+                </motion.span>
+            )}
         </Link>
     );
-};
+}

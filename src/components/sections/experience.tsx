@@ -1,79 +1,161 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { format, parse } from "date-fns";
 
-import { extractDomain } from "@/lib/utils";
+import type { ExperienceCompany, ExperienceRole } from "@/app/data";
+import { Reveal } from "@/components/ui/reveal";
 
-interface IExperienceData {
-    WEBSITE: string;
-    POSITION: string;
-    LOCATION: string;
-    DURATION: string;
-    DESCRIPTION: string[];
-    TECH_STACK: string[];
+function monthLabel(value: string) {
+    return format(parse(value, "yyyy-MM", new Date()), "MMM yyyy");
 }
 
-export function Experience({
-    data,
-}: {
-    data: Record<string, IExperienceData>;
-}) {
+function rangeLabel(start: string, end?: string) {
+    return `${monthLabel(start)} - ${end ? monthLabel(end) : "Present"}`;
+}
+
+type RoleEntry = {
+    company: ExperienceCompany;
+    role: ExperienceRole;
+};
+
+function flatten(data: ExperienceCompany[]): RoleEntry[] {
+    return data.flatMap((company) =>
+        company.roles.map((role) => ({ company, role }))
+    );
+}
+
+function ArrowHit() {
     return (
-        <div id="experience" className="w-full">
-            <h2 className="font-medium text-primary/90 text-base">
-                experience.
-            </h2>
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-line text-foreground transition-colors duration-300 ease-premium group-hover:border-foreground/35 group-hover:bg-foreground/5">
+            <ArrowUpRight size={14} weight="light" />
+        </span>
+    );
+}
 
-            <ul className="flex flex-col gap-12 mt-4 font-normal text-primary/90 text-base">
-                {Object.entries(data).map(([key, value]) => (
-                    <li key={key} className="cursor-target">
-                        <div className="pl-4 border-muted-foreground hover:border-primary border-l size-full transition-all duration-300">
-                            <div className="flex sm:flex-row flex-col justify-between items-start">
-                                <div>
-                                    <p className="text-primary/90 text-lg">
-                                        {value.POSITION}{" "}
-                                        <span className="inline-block bg-secondary max-sm:mb-2 ml-2 px-2 py-1 rounded text-xs">
-                                            {value.LOCATION}
-                                        </span>
-                                    </p>
-                                    <p className="flex items-center text-sm">
-                                        at,{" "}
-                                        <a
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-1 ml-1"
-                                            href={value.WEBSITE}
-                                        >
-                                            {extractDomain(value.WEBSITE)}{" "}
-                                            <ArrowUpRight size={18} />
-                                        </a>
-                                    </p>
-                                </div>
-                                <p className="text-muted-foreground text-sm">
-                                    {value.DURATION}
-                                </p>
-                            </div>
+export function Experience({ data }: { data: ExperienceCompany[] }) {
+    const entries = flatten(data);
+    const current =
+        entries.find((entry) => entry.role.open) ??
+        entries.find((entry) => entry.company.current) ??
+        entries[0];
+    const earlier = entries.filter((entry) => entry !== current);
 
-                            <ul className="space-y-1 mt-1 pl-3 text-muted-foreground text-sm text-justify list-disc">
-                                {value.DESCRIPTION.map((desc, index) => (
-                                    <li key={index}>
-                                        <span>{desc}</span>
-                                    </li>
-                                ))}
-                            </ul>
+    return (
+        <section id="experience" className="cell w-full scroll-mt-24">
+            <Reveal>
+                <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
+                    Experience
+                </h2>
+            </Reveal>
 
-                            <ul className="flex flex-wrap items-center gap-2 mt-2 pl-3">
-                                {value.TECH_STACK.map((tech, index) => (
+            <div className="mt-8 grid items-start lg:mt-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+                <div className="lg:sticky lg:top-14 lg:pr-10">
+                    <Reveal>
+                        <p className="max-w-[12ch] text-3xl font-semibold tracking-tight md:text-5xl md:leading-[1.08]">
+                            From intern to backend engineer
+                        </p>
+                        <p className="mt-4 max-w-[36ch] text-base leading-relaxed text-muted-foreground">
+                            Full-time at Suraasa since January 2026. I interned
+                            on the same team the autumn before.
+                        </p>
+                    </Reveal>
+
+                    <Reveal delay={0.06}>
+                        <a
+                            href={current.company.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="cursor-target group mt-8 block border border-line p-6 md:p-7"
+                        >
+                            <p className="font-mono text-[11px] text-brand">
+                                now
+                            </p>
+                            <p className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl md:leading-tight">
+                                {current.role.title}
+                            </p>
+                            <p className="mt-2 text-sm text-muted-foreground">
+                                {current.company.name}
+                                <span className="mx-2 text-foreground/25">
+                                    /
+                                </span>
+                                {current.role.type}
+                                <span className="mx-2 text-foreground/25">
+                                    /
+                                </span>
+                                <span className="font-mono text-[12px] tabular-nums">
+                                    {rangeLabel(
+                                        current.role.start,
+                                        current.role.end
+                                    )}
+                                </span>
+                            </p>
+                            <p className="mt-5 max-w-[46ch] text-sm leading-relaxed text-muted-foreground">
+                                {current.role.description[0]}
+                            </p>
+                            <ul className="mt-5 flex flex-wrap gap-1.5">
+                                {current.role.stack.slice(0, 6).map((tech) => (
                                     <li
-                                        key={index}
-                                        className="bg-muted px-2 py-1 rounded text-xs"
+                                        key={tech}
+                                        className="rounded-md bg-foreground/5 px-2 py-1 font-mono text-[11px] text-foreground/70"
                                     >
                                         {tech}
                                     </li>
                                 ))}
                             </ul>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </div>
+                            <span className="mt-6 inline-flex items-center gap-2 text-sm text-foreground">
+                                {current.company.name}
+                                <ArrowUpRight size={14} weight="light" />
+                            </span>
+                        </a>
+                    </Reveal>
+                </div>
+
+                <ol className="mt-10 lg:mt-0 lg:border-l lg:border-line lg:pl-10">
+                    {earlier.map((entry, index) => (
+                        <li
+                            key={`${entry.company.name}-${entry.role.title}`}
+                            className="border-t border-line first:border-t-0"
+                        >
+                            <Reveal delay={index * 0.05}>
+                                <a
+                                    href={entry.company.website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="cursor-target group grid grid-cols-[2rem_minmax(0,1fr)_auto] items-start gap-4 py-6 sm:gap-5"
+                                >
+                                    <span className="pt-1 font-mono text-[12px] text-muted-foreground tabular-nums">
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
+                                    <span className="min-w-0">
+                                        <span className="block text-lg font-medium tracking-tight text-foreground md:text-xl">
+                                            {entry.role.title}
+                                        </span>
+                                        <span className="mt-1 block text-sm text-muted-foreground">
+                                            {entry.company.name}
+                                            <span className="mx-2 text-foreground/25">
+                                                /
+                                            </span>
+                                            {entry.role.type}
+                                            <span className="mx-2 text-foreground/25">
+                                                /
+                                            </span>
+                                            <span className="font-mono text-[12px] tabular-nums">
+                                                {rangeLabel(
+                                                    entry.role.start,
+                                                    entry.role.end
+                                                )}
+                                            </span>
+                                        </span>
+                                        <span className="mt-2 block max-w-[48ch] text-sm leading-relaxed text-muted-foreground">
+                                            {entry.role.description[0]}
+                                        </span>
+                                    </span>
+                                    <ArrowHit />
+                                </a>
+                            </Reveal>
+                        </li>
+                    ))}
+                </ol>
+            </div>
+        </section>
     );
 }
