@@ -23,7 +23,6 @@ const PLACES = [
         href: DATA.HEADER.RESUME,
         label: "Resume",
         hint: "PDF",
-        external: true,
     },
     {
         href: DATA.HEADER.EMAIL,
@@ -68,45 +67,50 @@ export default function NotFound() {
 
                     <nav aria-label="Places that exist">
                         <ul className="border border-line">
-                            {PLACES.map((place) => (
-                                <li
-                                    key={place.href}
-                                    className="border-b border-line last:border-b-0"
-                                >
-                                    {place.external ? (
-                                        <a
-                                            href={place.href}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="cursor-target group flex items-baseline justify-between gap-4 px-5 py-4"
-                                        >
-                                            <span className="text-sm font-medium tracking-tight text-foreground">
-                                                {place.label}
-                                            </span>
-                                            <span className="inline-flex items-center gap-1 font-mono text-[11px] text-muted-foreground">
-                                                {place.hint}
-                                                <ArrowUpRight
-                                                    size={12}
-                                                    weight="light"
-                                                    className="transition-transform duration-300 ease-premium group-hover:translate-x-px group-hover:-translate-y-px"
-                                                />
-                                            </span>
-                                        </a>
-                                    ) : (
-                                        <Link
-                                            href={place.href}
-                                            className="cursor-target group flex items-baseline justify-between gap-4 px-5 py-4"
-                                        >
-                                            <span className="text-sm font-medium tracking-tight text-foreground">
-                                                {place.label}
-                                            </span>
-                                            <span className="font-mono text-[11px] text-muted-foreground">
-                                                {place.hint}
-                                            </span>
-                                        </Link>
-                                    )}
-                                </li>
-                            ))}
+                            {PLACES.map((place) => {
+                                const external =
+                                    place.href.startsWith("http") ||
+                                    place.href.startsWith("mailto:");
+                                return (
+                                    <li
+                                        key={place.href}
+                                        className="border-b border-line last:border-b-0"
+                                    >
+                                        {external ? (
+                                            <a
+                                                href={place.href}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="cursor-target group flex items-baseline justify-between gap-4 px-5 py-4"
+                                            >
+                                                <span className="text-sm font-medium tracking-tight text-foreground">
+                                                    {place.label}
+                                                </span>
+                                                <span className="inline-flex items-center gap-1 font-mono text-[11px] text-muted-foreground">
+                                                    {place.hint}
+                                                    <ArrowUpRight
+                                                        size={12}
+                                                        weight="light"
+                                                        className="transition-transform duration-300 ease-premium group-hover:translate-x-px group-hover:-translate-y-px"
+                                                    />
+                                                </span>
+                                            </a>
+                                        ) : (
+                                            <Link
+                                                href={place.href}
+                                                className="cursor-target group flex items-baseline justify-between gap-4 px-5 py-4"
+                                            >
+                                                <span className="text-sm font-medium tracking-tight text-foreground">
+                                                    {place.label}
+                                                </span>
+                                                <span className="font-mono text-[11px] text-muted-foreground">
+                                                    {place.hint}
+                                                </span>
+                                            </Link>
+                                        )}
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </nav>
                 </div>
