@@ -250,7 +250,7 @@ export function Stack(): ReactNode {
                                 chipRefs.current[i] = el;
                             }}
                             data-stack-chip
-                            className="absolute top-0 left-0 pointer-events-none will-change-transform"
+                            className="absolute top-0 left-0 will-change-transform"
                             style={{
                                 transform: "translate3d(-9999px, -9999px, 0)",
                             }}
@@ -267,7 +267,7 @@ export function Stack(): ReactNode {
 function ChipPill({ chip }: { chip: Chip }): ReactNode {
     return (
         <div
-            className="inline-flex items-center gap-2 p-1 pr-2 dark:ring-1 dark:ring-white/15 font-medium text-[15px] sm:text-[16px] tracking-tight"
+            className="cursor-target inline-flex items-center gap-2 p-1 pr-2 dark:ring-1 dark:ring-white/15 font-medium text-[15px] sm:text-[16px] tracking-tight"
             style={{
                 backgroundColor: chip.bg,
                 color: chip.fg,

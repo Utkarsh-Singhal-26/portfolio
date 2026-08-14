@@ -2,7 +2,7 @@
 
 import { Moon, Sun } from "@phosphor-icons/react";
 import { useTheme } from "next-themes";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useSyncExternalStore } from "react";
 import { flushSync } from "react-dom";
 
 interface ThemeToggleProps extends React.ComponentPropsWithoutRef<"button"> {
@@ -15,12 +15,12 @@ export const ThemeToggle = ({
     ...props
 }: ThemeToggleProps) => {
     const { resolvedTheme, setTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
+    const mounted = useSyncExternalStore(
+        () => () => {},
+        () => true,
+        () => false
+    );
     const buttonRef = useRef<HTMLButtonElement>(null);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
 
     const isDark = resolvedTheme === "dark";
 
