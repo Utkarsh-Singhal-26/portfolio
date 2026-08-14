@@ -23,7 +23,7 @@ export function Header({
     return (
         <header className="w-full">
             <div className="cell">
-                <Reveal>
+                <Reveal eager>
                     <p className="font-mono tabular-nums text-[13px] text-muted-foreground">
                         {data.AGE}, {data.PRONOUN}
                     </p>

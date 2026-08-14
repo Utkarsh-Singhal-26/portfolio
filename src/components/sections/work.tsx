@@ -88,7 +88,8 @@ function ProjectTile({ project, index }: { project: Project; index: number }) {
                                 ? "object-contain"
                                 : "object-cover object-top transition-transform duration-500 ease-premium group-hover:scale-[1.02]"
                         )}
-                        sizes="(min-width: 1120px) 559px, 100vw"
+                        sizes="(min-width: 1120px) 559px, (min-width: 640px) 50vw, 100vw"
+                        priority={index < 2}
                     />
                     {project.contribution ? <RoleMark /> : null}
                 </a>

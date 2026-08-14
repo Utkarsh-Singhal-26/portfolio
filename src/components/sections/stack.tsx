@@ -36,7 +36,7 @@ export function Stack(): ReactNode {
         let cancelled = false;
         let cleanup: (() => void) | undefined;
 
-        void (async () => {
+        const startPhysics = async (): Promise<void> => {
             if (cancelled) return;
 
             const {
@@ -187,10 +187,23 @@ export function Stack(): ReactNode {
                 World.clear(world, false);
                 Engine.clear(engine);
             };
-        })();
+        };
+
+        // Defer matter-js loading until section enters the viewport
+        const io = new IntersectionObserver(
+            (entries) => {
+                if (entries[0]?.isIntersecting) {
+                    io.disconnect();
+                    void startPhysics();
+                }
+            },
+            { threshold: 0.1 }
+        );
+        io.observe(container);
 
         return () => {
             cancelled = true;
+            io.disconnect();
             cleanup?.();
         };
     }, [resetKey, reduceMotion]);

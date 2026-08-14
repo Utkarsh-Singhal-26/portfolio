@@ -270,7 +270,7 @@ export const CHIPS: Chip[] = [
         darkBg: true,
     },
     { label: "TypeScript", slug: "typescript", bg: "#3178C6", fg: "#ffffff" },
-    { label: "HTML", slug: "html5", bg: "#E34F26", fg: "#ffffff" },
+    { label: "HTML", slug: "html5", bg: "#B5391A", fg: "#ffffff" },
     {
         label: "CSS",
         slug: "css3",
@@ -278,7 +278,7 @@ export const CHIPS: Chip[] = [
         fg: "#ffffff",
         iconUrl: "https://svgl.app/library/css.svg",
     },
-    { label: "Node.js", slug: "nodedotjs", bg: "#5FA04E", fg: "#ffffff" },
+    { label: "Node.js", slug: "nodedotjs", bg: "#3E7B2E", fg: "#ffffff" },
     { label: "Python", slug: "python", bg: "#3776AB", fg: "#ffffff" },
 
     // Frameworks
@@ -299,7 +299,7 @@ export const CHIPS: Chip[] = [
         darkBg: true,
     },
     { label: "Svelte", slug: "svelte", bg: "#FF3E00", fg: "#ffffff" },
-    { label: "Astro", slug: "astro", bg: "#FF5D01", fg: "#ffffff" },
+    { label: "Astro", slug: "astro", bg: "#C44800", fg: "#ffffff" },
     { label: "Express.js", slug: "express", bg: "#000000", fg: "#ffffff" },
     { label: "AdonisJS", slug: "adonisjs", bg: "#5A45FF", fg: "#ffffff" },
     {
