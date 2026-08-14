@@ -8,7 +8,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
     return (
         <>
             <Navbar />
-            <main id="content" className="flex w-full flex-col">
+            <main id="content" className="flex flex-col w-full">
                 {children}
                 <Stripe />
                 <Contact data={DATA.HEADER} />

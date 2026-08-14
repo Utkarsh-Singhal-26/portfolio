@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { Suspense } from "react";
 
 import { Reveal } from "@/components/ui/reveal";
@@ -37,7 +37,7 @@ function RepoTile({
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
-                "cursor-target group relative flex h-full flex-col border-b border-line p-5 transition-colors duration-300 hover:bg-foreground/[0.03] md:p-6",
+                "group relative flex flex-col hover:bg-foreground/3 p-5 md:p-6 border-line border-b h-full transition-colors duration-300 cursor-target",
                 featured &&
                     "sm:col-span-2 md:flex-row md:items-start md:justify-between md:gap-10 md:p-8",
                 wide &&
@@ -51,7 +51,7 @@ function RepoTile({
                 </span>
                 <span
                     className={cn(
-                        "mt-1 block font-medium tracking-tight",
+                        "block mt-1 font-medium tracking-tight",
                         featured ? "text-2xl md:text-3xl" : "text-lg"
                     )}
                 >
@@ -60,7 +60,7 @@ function RepoTile({
                 {repo.description ? (
                     <span
                         className={cn(
-                            "mt-2 block text-sm leading-relaxed text-muted-foreground",
+                            "block mt-2 text-muted-foreground text-sm leading-relaxed",
                             featured ? "max-w-[46ch]" : "max-w-[42ch]"
                         )}
                     >
@@ -71,7 +71,7 @@ function RepoTile({
 
             <span
                 className={cn(
-                    "mt-auto flex items-end justify-between gap-4 pt-5",
+                    "flex justify-between items-end gap-4 mt-auto pt-5",
                     featured &&
                         "md:mt-0 md:shrink-0 md:flex-col md:items-end md:pt-0",
                     wide &&
@@ -98,10 +98,10 @@ function RepoTile({
                     {featured && repo.stars > 0 ? (
                         <span>{formatStars(repo.stars)} stars</span>
                     ) : null}
-                    <ArrowUpRight
+                    <ArrowUpRightIcon
                         size={16}
                         weight="light"
-                        className="transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 duration-300 ease-premium"
                     />
                 </span>
             </span>
@@ -112,7 +112,7 @@ function RepoTile({
 function OpenSourceList({ repos }: { repos: OpenSourceRepo[] }) {
     if (repos.length === 0) {
         return (
-            <p className="mt-6 text-sm text-muted-foreground">
+            <p className="mt-6 text-muted-foreground text-sm">
                 Open source activity could not be loaded right now.
             </p>
         );
@@ -121,7 +121,7 @@ function OpenSourceList({ repos }: { repos: OpenSourceRepo[] }) {
     const [featured, ...rest] = repos;
 
     return (
-        <div className="mt-8 grid grid-cols-1 border-t border-line sm:grid-cols-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 mt-8 border-line border-t">
             {featured && <RepoTile repo={featured} featured />}
             {rest.map((repo, i) => (
                 <RepoTile
@@ -141,16 +141,16 @@ async function OpenSourceData() {
 
 export function OpenSource() {
     return (
-        <section id="open-source" className="cell w-full scroll-mt-24">
+        <section id="open-source" className="w-full scroll-mt-24 cell">
             <Reveal>
-                <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-                    Open source
+                <h2 className="font-semibold text-2xl md:text-3xl tracking-tight">
+                    open source.
                 </h2>
             </Reveal>
             <Suspense
                 fallback={
                     <div
-                        className="mt-8 h-48 animate-pulse border border-line bg-foreground/5"
+                        className="bg-foreground/5 mt-8 border border-line h-48 animate-pulse"
                         aria-hidden="true"
                     />
                 }

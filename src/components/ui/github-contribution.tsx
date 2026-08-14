@@ -30,14 +30,14 @@ export function GitHubContributionGraph({
     return (
         <TooltipProvider>
             <ContributionGraph
-                className="mx-auto cursor-target py-2"
+                className="mx-auto py-2 cursor-target"
                 data={data}
                 blockSize={14}
                 blockMargin={5}
                 blockRadius={0}
             >
                 <ContributionGraphCalendar
-                    className="no-scrollbar px-2"
+                    className="px-2 no-scrollbar"
                     title="GitHub Contributions"
                 >
                     {({ activity, dayIndex, weekIndex }) => (
@@ -67,7 +67,7 @@ export function GitHubContributionGraph({
                 <ContributionGraphFooter className="px-2">
                     <ContributionGraphTotalCount>
                         {({ totalCount }) => (
-                            <div className="font-mono text-[13px] text-muted-foreground tabular-nums">
+                            <div className="font-mono tabular-nums text-[13px] text-muted-foreground">
                                 {totalCount.toLocaleString("en")} contributions
                                 in the last year on{" "}
                                 <a
@@ -93,7 +93,8 @@ export function GitHubContributionGraph({
 export function GitHubContributionFallback() {
     return (
         <div
-            className="h-40 w-full animate-pulse border border-line bg-foreground/5"
+            className="bg-foreground/5 border border-line w-full animate-pulse"
+            style={{ height: "220px" }}
             aria-hidden="true"
         />
     );

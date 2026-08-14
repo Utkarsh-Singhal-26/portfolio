@@ -311,7 +311,7 @@ export const ContributionGraph = ({
         >
             <div
                 className={cn(
-                    "flex w-max max-w-full flex-col gap-2",
+                    "flex flex-col gap-2 w-max max-w-full",
                     className
                 )}
                 style={{ fontSize, ...style }}
@@ -442,7 +442,7 @@ export const ContributionGraphFooter = ({
 }: ContributionGraphFooterProps) => (
     <div
         className={cn(
-            "flex flex-wrap gap-1 whitespace-nowrap sm:gap-x-4",
+            "flex flex-wrap gap-1 sm:gap-x-4 whitespace-nowrap",
             className
         )}
         {...props}
@@ -494,7 +494,7 @@ export const ContributionGraphLegend = ({
 
     return (
         <div
-            className={cn("ml-auto flex items-center gap-0.75", className)}
+            className={cn("flex items-center gap-0.75 ml-auto", className)}
             {...props}
         >
             <span className="mr-1 text-muted-foreground">

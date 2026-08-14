@@ -103,7 +103,7 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <div className="w-full overflow-x-clip">
-                        <div className="relative mx-auto w-full max-w-280 border-x border-line">
+                        <div className="relative mx-auto border-line border-x w-full max-w-280">
                             <FrameMarks />
                             {children}
                         </div>
@@ -111,8 +111,8 @@ export default function RootLayout({
                     <TargetCursor />
                 </ThemeProvider>
 
-                <Analytics />
-                <SpeedInsights />
+                {process.env.VERCEL_ENV && <Analytics />}
+                {process.env.VERCEL_ENV && <SpeedInsights />}
             </body>
         </html>
     );

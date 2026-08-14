@@ -148,14 +148,14 @@ export function TargetCursor() {
     return (
         <div
             ref={cursorRef}
-            className="pointer-events-none fixed top-0 left-0 z-9999 h-0 w-0 mix-blend-difference"
+            className="top-0 left-0 z-9999 fixed w-0 h-0 pointer-events-none mix-blend-difference"
             style={{ willChange: "transform" }}
         >
-            <div className="absolute top-1/2 left-1/2 h-1 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white" />
-            <div className="target-cursor-corner absolute top-1/2 left-1/2 h-2.5 w-2.5 -translate-x-[150%] -translate-y-[150%] border-[3px] border-white border-r-0 border-b-0" />
-            <div className="target-cursor-corner absolute top-1/2 left-1/2 h-2.5 w-2.5 translate-x-1/2 -translate-y-[150%] border-[3px] border-white border-b-0 border-l-0" />
-            <div className="target-cursor-corner absolute top-1/2 left-1/2 h-2.5 w-2.5 translate-x-1/2 translate-y-1/2 border-[3px] border-white border-t-0 border-l-0" />
-            <div className="target-cursor-corner absolute top-1/2 left-1/2 h-2.5 w-2.5 -translate-x-[150%] translate-y-1/2 border-[3px] border-white border-t-0 border-r-0" />
+            <div className="top-1/2 left-1/2 absolute bg-white rounded-full w-1 h-1 -translate-x-1/2 -translate-y-1/2" />
+            <div className="top-1/2 left-1/2 absolute border-[3px] border-white border-r-0 border-b-0 w-2.5 h-2.5 translate-x-[-150%] translate-y-[-150%] target-cursor-corner" />
+            <div className="top-1/2 left-1/2 absolute border-[3px] border-white border-b-0 border-l-0 w-2.5 h-2.5 translate-x-1/2 translate-y-[-150%] target-cursor-corner" />
+            <div className="top-1/2 left-1/2 absolute border-[3px] border-white border-t-0 border-l-0 w-2.5 h-2.5 translate-x-1/2 translate-y-1/2 target-cursor-corner" />
+            <div className="top-1/2 left-1/2 absolute border-[3px] border-white border-t-0 border-r-0 w-2.5 h-2.5 translate-x-[-150%] translate-y-1/2 target-cursor-corner" />
         </div>
     );
 }

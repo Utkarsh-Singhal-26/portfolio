@@ -18,7 +18,7 @@ export function AnimatedText({
         <Link
             href={href}
             aria-label={children}
-            className="cursor-target relative block w-fit rounded-full px-2 py-1 text-[13px] leading-5 tracking-tight text-foreground/70 sm:px-3 sm:text-sm"
+            className="inline-flex relative items-center px-2 sm:px-3 py-1 rounded-full w-fit text-[13px] text-foreground/70 sm:text-sm leading-none tracking-tight cursor-target"
         >
             {reduce ? (
                 <span>{children}</span>
@@ -26,11 +26,11 @@ export function AnimatedText({
                 <motion.span
                     initial="initial"
                     whileHover="hovered"
-                    className="block"
+                    className="inline-flex items-center"
                     aria-hidden="true"
                 >
                     <motion.span
-                        className="absolute right-2 bottom-0.5 left-2 h-px bg-brand"
+                        className="right-2 bottom-0.5 left-2 absolute bg-brand h-px"
                         variants={{
                             initial: { scaleX: 0 },
                             hovered: { scaleX: 1 },
@@ -39,7 +39,7 @@ export function AnimatedText({
                         transition={{ duration: DURATION, ease: EASE }}
                     />
 
-                    <span className="relative inline-block">
+                    <span className="inline-block relative">
                         {children.split("").map((l, i) => (
                             <span
                                 key={`${href}-${i}`}
@@ -73,7 +73,7 @@ export function AnimatedText({
                                         ease: EASE,
                                         delay: i * STAGGER,
                                     }}
-                                    className="absolute top-0 left-0 block"
+                                    className="block top-0 left-0 absolute"
                                 >
                                     {l === " " ? "\u00A0" : l}
                                 </motion.span>

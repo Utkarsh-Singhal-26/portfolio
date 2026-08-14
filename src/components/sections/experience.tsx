@@ -1,4 +1,6 @@
-import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+"use client";
+
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
 import { format, parse } from "date-fns";
 
 import type { ExperienceCompany, ExperienceRole } from "@/app/data";
@@ -25,8 +27,8 @@ function flatten(data: ExperienceCompany[]): RoleEntry[] {
 
 function ArrowHit() {
     return (
-        <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-line text-foreground transition-colors duration-300 ease-premium group-hover:border-foreground/35 group-hover:bg-foreground/5">
-            <ArrowUpRight size={14} weight="light" />
+        <span className="flex justify-center items-center group-hover:bg-foreground/5 border border-line group-hover:border-foreground/35 rounded-full size-9 text-foreground transition-colors duration-300 ease-premium shrink-0">
+            <ArrowUpRightIcon size={14} weight="light" />
         </span>
     );
 }
@@ -40,20 +42,20 @@ export function Experience({ data }: { data: ExperienceCompany[] }) {
     const earlier = entries.filter((entry) => entry !== current);
 
     return (
-        <section id="experience" className="cell w-full scroll-mt-24">
+        <section id="experience" className="w-full scroll-mt-24 cell">
             <Reveal>
-                <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-                    Experience
+                <h2 className="font-semibold text-2xl md:text-3xl tracking-tight">
+                    experience.
                 </h2>
             </Reveal>
 
-            <div className="mt-8 grid items-start lg:mt-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
-                <div className="lg:sticky lg:top-14 lg:pr-10">
+            <div className="items-start grid lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] mt-8 lg:mt-10">
+                <div className="lg:top-14 lg:sticky lg:pr-10">
                     <Reveal>
-                        <p className="max-w-[12ch] text-3xl font-semibold tracking-tight md:text-5xl md:leading-[1.08]">
+                        <p className="max-w-[12ch] font-semibold text-3xl md:text-5xl md:leading-[1.08] tracking-tight">
                             From intern to backend engineer
                         </p>
-                        <p className="mt-4 max-w-[36ch] text-base leading-relaxed text-muted-foreground">
+                        <p className="mt-4 max-w-[36ch] text-muted-foreground text-base leading-relaxed">
                             Full-time since January 2026. I interned on the same
                             team first.
                         </p>
@@ -64,15 +66,15 @@ export function Experience({ data }: { data: ExperienceCompany[] }) {
                             href={current.company.website}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="cursor-target group mt-8 block border border-line p-6 md:p-7"
+                            className="group block mt-8 p-6 md:p-7 border border-line cursor-target"
                         >
                             <p className="font-mono text-[11px] text-brand">
                                 now
                             </p>
-                            <p className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl md:leading-tight">
+                            <p className="mt-4 font-semibold text-2xl md:text-3xl md:leading-tight tracking-tight">
                                 {current.role.title}
                             </p>
-                            <p className="mt-2 text-sm text-muted-foreground">
+                            <p className="mt-2 text-muted-foreground text-sm">
                                 {current.company.name}
                                 <span className="mx-2 text-foreground/25">
                                     /
@@ -81,57 +83,57 @@ export function Experience({ data }: { data: ExperienceCompany[] }) {
                                 <span className="mx-2 text-foreground/25">
                                     /
                                 </span>
-                                <span className="font-mono text-[12px] tabular-nums">
+                                <span className="font-mono tabular-nums text-[12px]">
                                     {rangeLabel(
                                         current.role.start,
                                         current.role.end
                                     )}
                                 </span>
                             </p>
-                            <div className="mt-5 max-w-[46ch] space-y-2 text-sm leading-relaxed text-muted-foreground">
+                            <div className="space-y-2 mt-5 max-w-[46ch] text-muted-foreground text-sm leading-relaxed">
                                 {current.role.description.map((line) => (
                                     <p key={line}>{line}</p>
                                 ))}
                             </div>
-                            <ul className="mt-5 flex flex-wrap gap-1.5">
+                            <ul className="flex flex-wrap gap-1.5 mt-5">
                                 {current.role.stack.slice(0, 6).map((tech) => (
                                     <li
                                         key={tech}
-                                        className="rounded-md bg-foreground/5 px-2 py-1 font-mono text-[11px] text-foreground/70"
+                                        className="bg-foreground/5 px-2 py-1 rounded-md font-mono text-[11px] text-foreground/70"
                                     >
                                         {tech}
                                     </li>
                                 ))}
                             </ul>
-                            <span className="mt-6 inline-flex items-center gap-2 text-sm text-foreground">
+                            <span className="inline-flex items-center gap-2 mt-6 text-foreground text-sm">
                                 {current.company.name}
-                                <ArrowUpRight size={14} weight="light" />
+                                <ArrowUpRightIcon size={14} weight="light" />
                             </span>
                         </a>
                     </Reveal>
                 </div>
 
-                <ol className="mt-10 lg:mt-0 lg:border-l lg:border-line lg:pl-10">
+                <ol className="mt-10 lg:mt-0 lg:pl-10 lg:border-line lg:border-l">
                     {earlier.map((entry, index) => (
                         <li
                             key={`${entry.company.name}-${entry.role.title}`}
-                            className="border-t border-line first:border-t-0"
+                            className="border-line border-t first:border-t-0"
                         >
                             <Reveal delay={index * 0.05}>
                                 <a
                                     href={entry.company.website}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="cursor-target group grid grid-cols-[2rem_minmax(0,1fr)_auto] items-start gap-4 py-6 sm:gap-5"
+                                    className="group items-start gap-4 sm:gap-5 grid grid-cols-[2rem_minmax(0,1fr)_auto] py-6 cursor-target"
                                 >
-                                    <span className="pt-1 font-mono text-[12px] text-muted-foreground tabular-nums">
+                                    <span className="pt-1 font-mono tabular-nums text-[12px] text-muted-foreground">
                                         {String(index + 1).padStart(2, "0")}
                                     </span>
                                     <span className="min-w-0">
-                                        <span className="block text-lg font-medium tracking-tight text-foreground md:text-xl">
+                                        <span className="block font-medium text-foreground text-lg md:text-xl tracking-tight">
                                             {entry.role.title}
                                         </span>
-                                        <span className="mt-1 block text-sm text-muted-foreground">
+                                        <span className="block mt-1 text-muted-foreground text-sm">
                                             {entry.company.name}
                                             <span className="mx-2 text-foreground/25">
                                                 /
@@ -140,14 +142,14 @@ export function Experience({ data }: { data: ExperienceCompany[] }) {
                                             <span className="mx-2 text-foreground/25">
                                                 /
                                             </span>
-                                            <span className="font-mono text-[12px] tabular-nums">
+                                            <span className="font-mono tabular-nums text-[12px]">
                                                 {rangeLabel(
                                                     entry.role.start,
                                                     entry.role.end
                                                 )}
                                             </span>
                                         </span>
-                                        <span className="mt-2 block max-w-[48ch] text-sm leading-relaxed text-muted-foreground">
+                                        <span className="block mt-2 max-w-[48ch] text-muted-foreground text-sm leading-relaxed">
                                             {entry.role.description.join(" ")}
                                         </span>
                                     </span>

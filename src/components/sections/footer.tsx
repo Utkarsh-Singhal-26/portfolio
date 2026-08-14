@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp } from "@phosphor-icons/react";
+import { ArrowUpIcon } from "@phosphor-icons/react";
 
 export function Footer() {
     function scrollToTop() {
@@ -11,19 +11,19 @@ export function Footer() {
     }
 
     return (
-        <footer className="cell relative flex w-full flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+        <footer className="relative flex flex-row justify-between items-center gap-4 w-full cell">
             <span className="cross cross-bl" />
             <span className="cross cross-br" />
-            <p className="font-mono text-[12px] text-muted-foreground tabular-nums">
+            <p className="font-mono tabular-nums text-[12px] text-muted-foreground">
                 {new Date().getFullYear()} Utkarsh Singhal
             </p>
             <button
                 type="button"
-                className="cursor-target inline-flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground"
+                className="inline-flex items-center gap-2 px-3 py-2 text-muted-foreground hover:text-foreground text-sm cursor-target"
                 onClick={scrollToTop}
             >
                 Back to top
-                <ArrowUp size={14} weight="light" />
+                <ArrowUpIcon size={14} weight="light" />
             </button>
         </footer>
     );

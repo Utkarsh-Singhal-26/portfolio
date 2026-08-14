@@ -10,11 +10,11 @@ const LINKS = [
 
 export function Navbar() {
     return (
-        <header className="rule-b sticky top-0 z-40 flex h-14 items-center justify-between bg-background/80 px-5 backdrop-blur-xl sm:px-6">
+        <header className="top-0 z-40 sticky flex justify-between items-center bg-background/80 backdrop-blur-xl px-5 sm:px-6 h-14 rule-b">
             <MovingElement
                 href="/"
-                ariaLabel="Navigate to home"
-                className="px-1 font-semibold text-[17px] tracking-tight"
+                ariaLabel="utkarsh. - Navigate to home"
+                className="px-2 font-semibold text-[17px] tracking-tight"
             >
                 utkarsh.
             </MovingElement>
@@ -29,7 +29,7 @@ export function Navbar() {
                         </li>
                     ))}
                 </ul>
-                <ThemeToggle className="ml-1 rounded-full p-2 hover:bg-foreground/5" />
+                <ThemeToggle className="hover:bg-foreground/5 ml-1 p-2 rounded-full" />
             </nav>
         </header>
     );

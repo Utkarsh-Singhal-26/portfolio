@@ -1,7 +1,7 @@
 export function FrameMarks() {
     return (
         <div
-            className="pointer-events-none sticky top-0 z-45 h-0"
+            className="top-0 z-45 sticky h-0 pointer-events-none"
             aria-hidden="true"
         >
             <span className="cross cross-tl" />

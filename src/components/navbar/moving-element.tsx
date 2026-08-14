@@ -38,7 +38,7 @@ export function MovingElement({
     };
 
     const classNames = cn(
-        "inline-flex h-9 items-center justify-center rounded-full px-2",
+        "inline-flex justify-center items-center px-2 rounded-full h-9",
         className
     );
 

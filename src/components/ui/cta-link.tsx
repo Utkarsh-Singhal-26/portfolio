@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight } from "@phosphor-icons/react";
+import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import type { PointerEvent, ReactNode } from "react";
 
@@ -38,7 +38,7 @@ export function CtaLink({
                 y.set(0);
             }}
             className={cn(
-                "cursor-target group inline-flex items-center gap-3 rounded-full bg-foreground py-1.5 pr-1.5 pl-5 text-sm font-medium tracking-tight text-background whitespace-nowrap active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                "group inline-flex items-center gap-3 bg-foreground py-1.5 pr-1.5 pl-5 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background font-medium text-background text-sm tracking-tight whitespace-nowrap active:scale-[0.98] cursor-target",
                 className
             )}
             {...(external
@@ -46,8 +46,8 @@ export function CtaLink({
                 : {})}
         >
             {children}
-            <span className="flex size-8 items-center justify-center rounded-full bg-background/15 transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-px">
-                <ArrowUpRight size={16} weight="light" />
+            <span className="flex justify-center items-center bg-background/15 rounded-full size-8 transition-transform group-hover:-translate-y-px group-hover:translate-x-0.5 duration-300 ease-premium">
+                <ArrowUpRightIcon size={16} weight="light" />
             </span>
         </motion.a>
     );

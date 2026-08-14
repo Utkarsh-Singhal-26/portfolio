@@ -1,6 +1,6 @@
 "use client";
 
-import { Moon, Sun } from "@phosphor-icons/react";
+import { MoonIcon, SunIcon } from "@phosphor-icons/react";
 import { useTheme } from "next-themes";
 import { useCallback, useRef, useSyncExternalStore } from "react";
 import { flushSync } from "react-dom";
@@ -89,9 +89,9 @@ export const ThemeToggle = ({
             {...props}
         >
             {mounted && isDark ? (
-                <Sun size={20} weight="light" />
+                <SunIcon size={20} weight="light" />
             ) : (
-                <Moon size={20} weight="light" />
+                <MoonIcon size={20} weight="light" />
             )}
         </button>
     );

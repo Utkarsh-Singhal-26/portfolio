@@ -1,6 +1,7 @@
-"use client";
-
-import { GithubLogo, LinkedinLogo } from "@phosphor-icons/react";
+import {
+    GithubLogoIcon,
+    LinkedinLogoIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import { Suspense } from "react";
 
 import type { Activity } from "@/components/kibo-ui/contribution-graph";
@@ -23,16 +24,16 @@ export function Header({
         <header className="w-full">
             <div className="cell">
                 <Reveal>
-                    <p className="font-mono text-[13px] text-muted-foreground tabular-nums">
+                    <p className="font-mono tabular-nums text-[13px] text-muted-foreground">
                         {data.AGE}, {data.PRONOUN}
                     </p>
-                    <h1 className="mt-2 max-w-[12ch] text-4xl font-semibold tracking-tight text-foreground sm:text-5xl md:text-6xl md:leading-[1.05]">
+                    <h1 className="mt-2 max-w-[12ch] font-semibold text-foreground text-4xl sm:text-5xl md:text-6xl md:leading-[1.05] tracking-tight">
                         {data.NAME}
                     </h1>
-                    <p className="mt-3 max-w-[36ch] text-base leading-relaxed text-muted-foreground md:text-lg">
+                    <p className="mt-3 max-w-[36ch] text-muted-foreground text-base md:text-lg leading-relaxed">
                         {data.HEADLINE}
                     </p>
-                    <div className="mt-5 flex items-center gap-4">
+                    <div className="flex items-center gap-4 mt-5">
                         <CtaLink href={data.RESUME} external>
                             Resume
                         </CtaLink>
@@ -41,7 +42,7 @@ export function Header({
                                 href={data.GITHUB}
                                 ariaLabel="GitHub"
                             >
-                                <GithubLogo
+                                <GithubLogoIcon
                                     size={20}
                                     weight="light"
                                     aria-hidden="true"
@@ -51,7 +52,7 @@ export function Header({
                                 href={data.LINKEDIN}
                                 ariaLabel="LinkedIn"
                             >
-                                <LinkedinLogo
+                                <LinkedinLogoIcon
                                     size={20}
                                     weight="light"
                                     aria-hidden="true"
@@ -65,21 +66,23 @@ export function Header({
             <div className="rule-t cell">
                 <span className="cross cross-tl" />
                 <span className="cross cross-tr" />
-                <Suspense fallback={<GitHubContributionFallback />}>
-                    <GitHubContributionGraph contributions={contributions} />
-                </Suspense>
+                <div style={{ minHeight: "220px" }}>
+                    <Suspense fallback={<GitHubContributionFallback />}>
+                        <GitHubContributionGraph
+                            contributions={contributions}
+                        />
+                    </Suspense>
+                </div>
             </div>
 
             <div className="rule-t cell">
                 <span className="cross cross-tl" />
                 <span className="cross cross-tr" />
-                <Reveal delay={0.08}>
-                    <p className="max-w-[62ch] text-base leading-relaxed text-muted-foreground">
-                        {data.INTRO}{" "}
-                        <span className="text-foreground">{data.FOCUS}</span>{" "}
-                        {data.EXPERTISE}
-                    </p>
-                </Reveal>
+                <p className="max-w-[62ch] text-muted-foreground text-base leading-relaxed">
+                    {data.INTRO}{" "}
+                    <span className="text-foreground">{data.FOCUS}</span>{" "}
+                    {data.EXPERTISE}
+                </p>
             </div>
         </header>
     );

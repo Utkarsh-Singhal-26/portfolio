@@ -1,8 +1,8 @@
 "use client";
 
-import { ArrowCounterClockwise } from "@phosphor-icons/react";
+import { ArrowCounterClockwiseIcon } from "@phosphor-icons/react";
 import { useReducedMotion } from "framer-motion";
-import Matter from "matter-js";
+import type { Body as MatterBody } from "matter-js";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { CHIPS, type Chip } from "@/app/data";
@@ -14,7 +14,7 @@ const WALL_PAD = 16;
 
 type ChipState = {
     chip: Chip;
-    body: Matter.Body;
+    body: MatterBody;
     width: number;
     height: number;
 };
@@ -48,7 +48,7 @@ export function Stack(): ReactNode {
                 Mouse,
                 MouseConstraint,
                 Events,
-            } = Matter;
+            } = await import("matter-js");
 
             const measureChildren = Array.from(
                 measure.children
@@ -198,15 +198,15 @@ export function Stack(): ReactNode {
     return (
         <section
             id="stack"
-            className="cell flex w-full scroll-mt-24 flex-col gap-6"
+            className="flex flex-col gap-6 w-full scroll-mt-24 cell"
         >
             <Reveal>
-                <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-                    Stack
+                <h2 className="font-semibold text-2xl md:text-3xl tracking-tight">
+                    stack.
                 </h2>
             </Reveal>
 
-            <ul className="hidden flex-wrap gap-2 motion-reduce:flex">
+            <ul className="hidden motion-reduce:flex flex-wrap gap-2">
                 {CHIPS.map((chip) => (
                     <li key={chip.label}>
                         <ChipPill chip={chip} />
@@ -214,14 +214,14 @@ export function Stack(): ReactNode {
                 ))}
             </ul>
 
-            <div className="relative h-80 overflow-hidden border border-line motion-reduce:hidden sm:h-92">
+            <div className="motion-reduce:hidden relative border border-line h-80 sm:h-92 overflow-hidden">
                 <button
                     type="button"
                     onClick={() => setResetKey((k) => k + 1)}
                     aria-label="Reset stack"
-                    className="cursor-target absolute top-3 right-3 z-20 inline-flex h-9 w-9 items-center justify-center border border-line bg-background text-foreground/70 transition-colors hover:text-foreground"
+                    className="inline-flex top-3 right-3 z-20 absolute justify-center items-center bg-background border border-line w-9 h-9 text-foreground/70 hover:text-foreground transition-colors cursor-target"
                 >
-                    <ArrowCounterClockwise
+                    <ArrowCounterClockwiseIcon
                         size={16}
                         weight="light"
                         aria-hidden="true"
@@ -231,7 +231,7 @@ export function Stack(): ReactNode {
                 <div
                     ref={measureRef}
                     aria-hidden="true"
-                    className="invisible pointer-events-none absolute top-0 left-0 flex flex-wrap gap-2"
+                    className="invisible top-0 left-0 absolute flex flex-wrap gap-2 pointer-events-none"
                 >
                     {CHIPS.map((chip) => (
                         <ChipPill key={`m-${chip.label}`} chip={chip} />
@@ -250,7 +250,7 @@ export function Stack(): ReactNode {
                                 chipRefs.current[i] = el;
                             }}
                             data-stack-chip
-                            className="absolute top-0 left-0 will-change-transform"
+                            className="top-0 left-0 absolute will-change-transform"
                             style={{
                                 transform: "translate3d(-9999px, -9999px, 0)",
                             }}
@@ -267,7 +267,7 @@ export function Stack(): ReactNode {
 function ChipPill({ chip }: { chip: Chip }): ReactNode {
     return (
         <div
-            className="cursor-target inline-flex items-center gap-2 p-1 pr-2 dark:ring-1 dark:ring-white/15 font-medium text-[15px] sm:text-[16px] tracking-tight"
+            className="inline-flex items-center gap-2 p-1 pr-2 dark:ring-1 dark:ring-white/15 font-medium text-[15px] sm:text-[16px] tracking-tight cursor-target"
             style={{
                 backgroundColor: chip.bg,
                 color: chip.fg,
