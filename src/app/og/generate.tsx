@@ -1,9 +1,13 @@
 import { ImageResponse } from "next/og";
+import sharp from "sharp";
 
-import { OgCard, SIZE } from "@/app/og/card";
+import { DISPLAY_SIZE, OgCard, SIZE } from "@/app/og/card";
 import { loadOgFonts } from "@/app/og/fonts";
 import { contributionWeeks, emptyWeeks } from "@/app/og/weeks";
 import { getGitHubContributions } from "@/lib/github-contribution";
+
+export const OG_IMAGE_SIZE = DISPLAY_SIZE;
+export const OG_IMAGE_CONTENT_TYPE = "image/jpeg";
 
 export async function generateOgImage() {
     const [fonts, weeks] = await Promise.all([
@@ -13,8 +17,25 @@ export async function generateOgImage() {
             .catch(() => emptyWeeks(52)),
     ]);
 
-    return new ImageResponse(<OgCard weeks={weeks} />, {
+    const png = new ImageResponse(<OgCard weeks={weeks} />, {
         ...SIZE,
         fonts,
+    });
+
+    const pngBuffer = Buffer.from(await png.arrayBuffer());
+    const jpegBuffer = await sharp(pngBuffer)
+        .jpeg({
+            quality: 92,
+            mozjpeg: true,
+            chromaSubsampling: "4:4:4",
+        })
+        .toBuffer();
+
+    return new Response(new Uint8Array(jpegBuffer), {
+        headers: {
+            "Content-Type": OG_IMAGE_CONTENT_TYPE,
+            "Cache-Control":
+                "public, max-age=86400, stale-while-revalidate=604800",
+        },
     });
 }

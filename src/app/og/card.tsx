@@ -13,17 +13,25 @@ const LEVEL = [
     BRAND,
 ] as const;
 
-const SIZE = { width: 1200, height: 630 } as const;
-const FRAME = 20;
-const NAV_H = 52;
-const STRIPE_H = 24;
-const FOOTER_H = 52;
-const HERO_H = 268;
-const PAD_X = 36;
+const SCALE = 2;
+const s = (value: number) => value * SCALE;
+
+const DISPLAY_SIZE = { width: 1200, height: 630 } as const;
+const SIZE = {
+    width: DISPLAY_SIZE.width * SCALE,
+    height: DISPLAY_SIZE.height * SCALE,
+} as const;
+const FRAME = s(20);
+const NAV_H = s(52);
+const STRIPE_H = s(24);
+const FOOTER_H = s(52);
+const HERO_H = s(268);
+const PAD_X = s(36);
 const GRAPH_WEEKS = 52;
-const BLOCK = 17;
-const BLOCK_GAP = 4;
-const CROSS_SIZE = 11;
+const BLOCK = s(17);
+const BLOCK_GAP = s(4);
+const CROSS_SIZE = s(11);
+const LINE_W = s(1);
 const LEFT_X = FRAME;
 const RIGHT_X = SIZE.width - FRAME;
 
@@ -54,7 +62,7 @@ function Cross({ x, y }: { x: number; y: number }) {
                     top: half,
                     left: 0,
                     width: CROSS_SIZE,
-                    height: 1,
+                    height: LINE_W,
                     backgroundColor: CROSS,
                 }}
             />
@@ -63,7 +71,7 @@ function Cross({ x, y }: { x: number; y: number }) {
                     position: "absolute",
                     top: 0,
                     left: half,
-                    width: 1,
+                    width: LINE_W,
                     height: CROSS_SIZE,
                     backgroundColor: CROSS,
                 }}
@@ -80,7 +88,7 @@ function Rule({ y }: { y: number }) {
                 top: y,
                 left: FRAME,
                 width: SIZE.width - FRAME * 2,
-                height: 1,
+                height: LINE_W,
                 backgroundColor: LINE,
             }}
         />
@@ -148,7 +156,7 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                     position: "absolute",
                     top: FRAME,
                     left: LEFT_X,
-                    width: 1,
+                    width: LINE_W,
                     height: frameH,
                     backgroundColor: LINE,
                 }}
@@ -158,7 +166,7 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                     position: "absolute",
                     top: FRAME,
                     left: RIGHT_X,
-                    width: 1,
+                    width: LINE_W,
                     height: frameH,
                     backgroundColor: LINE,
                 }}
@@ -177,20 +185,20 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                 <div
                     style={{
                         display: "flex",
-                        fontSize: 20,
+                        fontSize: s(20),
                         fontWeight: 600,
-                        letterSpacing: -0.4,
+                        letterSpacing: s(-0.4),
                     }}
                 >
                     utkarsh.
                 </div>
-                <div style={{ display: "flex", gap: 28 }}>
+                <div style={{ display: "flex", gap: s(28) }}>
                     {NAV.map((item) => (
                         <div
                             key={item}
                             style={{
                                 display: "flex",
-                                fontSize: 14,
+                                fontSize: s(14),
                                 color: MUTED,
                             }}
                         >
@@ -214,7 +222,7 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                     style={{
                         display: "flex",
                         fontFamily: "Geist Mono",
-                        fontSize: 13,
+                        fontSize: s(13),
                         color: MUTED,
                     }}
                 >
@@ -224,10 +232,10 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                     style={{
                         display: "flex",
                         flexDirection: "column",
-                        marginTop: 8,
-                        fontSize: 56,
+                        marginTop: s(8),
+                        fontSize: s(56),
                         fontWeight: 600,
-                        letterSpacing: -2,
+                        letterSpacing: s(-2),
                         lineHeight: 1.05,
                     }}
                 >
@@ -237,9 +245,9 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                 <div
                     style={{
                         display: "flex",
-                        marginTop: 12,
-                        maxWidth: 620,
-                        fontSize: 20,
+                        marginTop: s(12),
+                        maxWidth: s(620),
+                        fontSize: s(20),
                         lineHeight: 1.35,
                         color: MUTED,
                     }}
@@ -264,8 +272,7 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                 style={{
                     display: "flex",
                     height: STRIPE_H,
-                    backgroundImage:
-                        "repeating-linear-gradient(315deg, rgba(73, 171, 158, 0.42) 0px, rgba(73, 171, 158, 0.42) 1px, transparent 1px, transparent 10px)",
+                    backgroundImage: `repeating-linear-gradient(315deg, rgba(73, 171, 158, 0.42) 0px, rgba(73, 171, 158, 0.42) ${LINE_W}px, transparent ${LINE_W}px, transparent ${s(10)}px)`,
                 }}
             />
 
@@ -283,7 +290,7 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                     style={{
                         display: "flex",
                         fontFamily: "Geist Mono",
-                        fontSize: 13,
+                        fontSize: s(13),
                         color: MUTED,
                     }}
                 >
@@ -293,7 +300,7 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                     style={{
                         display: "flex",
                         fontFamily: "Geist Mono",
-                        fontSize: 13,
+                        fontSize: s(13),
                         color: MUTED,
                     }}
                 >
@@ -323,4 +330,4 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
     );
 }
 
-export { SIZE };
+export { DISPLAY_SIZE, SIZE };

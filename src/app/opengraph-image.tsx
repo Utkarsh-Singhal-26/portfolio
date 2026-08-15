@@ -1,9 +1,13 @@
 import { SITE } from "@/app/data";
-import { generateOgImage } from "@/app/og/generate";
+import {
+    generateOgImage,
+    OG_IMAGE_CONTENT_TYPE,
+    OG_IMAGE_SIZE,
+} from "@/app/og/generate";
 
 export const alt = SITE.ogAlt;
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const size = OG_IMAGE_SIZE;
+export const contentType = OG_IMAGE_CONTENT_TYPE;
 export const runtime = "nodejs";
 
 export default async function OpenGraphImage() {
