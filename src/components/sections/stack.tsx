@@ -247,7 +247,11 @@ export function Stack(): ReactNode {
                     className="invisible top-0 left-0 absolute flex flex-wrap gap-2 pointer-events-none"
                 >
                     {CHIPS.map((chip) => (
-                        <ChipPill key={`m-${chip.label}`} chip={chip} />
+                        <ChipPill
+                            key={`m-${chip.label}`}
+                            chip={chip}
+                            loadIcon={false}
+                        />
                     ))}
                 </div>
 
@@ -277,7 +281,13 @@ export function Stack(): ReactNode {
     );
 }
 
-function ChipPill({ chip }: { chip: Chip }): ReactNode {
+function ChipPill({
+    chip,
+    loadIcon = true,
+}: {
+    chip: Chip;
+    loadIcon?: boolean;
+}): ReactNode {
     return (
         <div
             className="inline-flex items-center gap-2 p-1 pr-2 dark:ring-1 dark:ring-white/15 font-medium text-[15px] sm:text-[16px] tracking-tight cursor-target"
@@ -292,17 +302,23 @@ function ChipPill({ chip }: { chip: Chip }): ReactNode {
                 style={{ borderRadius: `${ICON_RADIUS}px` }}
                 aria-hidden="true"
             >
-                <img
-                    src={
-                        chip.iconUrl ??
-                        `https://cdn.simpleicons.org/${chip.slug}`
-                    }
-                    alt=""
-                    width={18}
-                    height={18}
-                    className="w-5 h-5"
-                    draggable={false}
-                />
+                {loadIcon ? (
+                    <img
+                        src={
+                            chip.iconUrl ??
+                            `https://cdn.simpleicons.org/${chip.slug}`
+                        }
+                        alt=""
+                        width={18}
+                        height={18}
+                        className="w-5 h-5"
+                        draggable={false}
+                        loading="lazy"
+                        decoding="async"
+                    />
+                ) : (
+                    <span className="w-5 h-5" />
+                )}
             </span>
             <span>{chip.label}</span>
         </div>

@@ -6,8 +6,10 @@ import { Geist_Mono, Outfit } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 
 import { SITE } from "@/app/data";
+import { CommandMenu } from "@/components/command-menu";
+import { SiteControls } from "@/components/site-controls";
 import { FrameMarks } from "@/components/ui/blueprint";
-import { TargetCursor } from "@/components/ui/target-cursor";
+import { TargetCursorLazy } from "@/components/ui/target-cursor-lazy";
 
 const outfit = Outfit({
     subsets: ["latin"],
@@ -98,13 +100,16 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <div className="w-full overflow-x-clip">
-                        <div className="relative mx-auto border-line border-x w-full max-w-280">
-                            <FrameMarks />
-                            {children}
+                    <CommandMenu>
+                        <div className="w-full overflow-x-clip">
+                            <div className="relative mx-auto border-line border-x w-full max-w-280">
+                                <FrameMarks />
+                                {children}
+                            </div>
                         </div>
-                    </div>
-                    <TargetCursor />
+                        <SiteControls />
+                        <TargetCursorLazy />
+                    </CommandMenu>
                 </ThemeProvider>
 
                 {process.env.VERCEL_ENV && <Analytics />}

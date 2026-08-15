@@ -1,3 +1,14 @@
+export function CornerMarks() {
+    return (
+        <span aria-hidden="true">
+            <span className="cross cross-tl" />
+            <span className="cross cross-tr" />
+            <span className="cross cross-bl" />
+            <span className="cross cross-br" />
+        </span>
+    );
+}
+
 export function FrameMarks() {
     return (
         <div

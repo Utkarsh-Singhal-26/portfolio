@@ -389,3 +389,22 @@ button {
 ::view-transition-new(root) {
     z-index: 60;
 }
+
+@media (prefers-reduced-transparency: reduce) {
+    [cmdk-overlay] {
+        backdrop-filter: none;
+        background: hsl(var(--background) / 0.92);
+    }
+}
+
+/* z: nav 40, marks 45, grain 50, skip 70, command 80, cursor 9999 */
+[cmdk-group-heading] {
+    padding: 0.85rem 1.25rem 0.35rem;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: hsl(var(--muted-foreground));
+}
+
+[cmdk-group]:not(:first-child) [cmdk-group-heading] {
+    margin-top: 0;
+}
