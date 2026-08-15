@@ -251,6 +251,13 @@ export const DATA = {
     ] satisfies Writing[],
 };
 
+export const SITE = {
+    title: `${DATA.HEADER.NAME} | Software Developer`,
+    description: `${DATA.HEADER.HEADLINE} ${DATA.HEADER.FOCUS}`,
+    ogAlt: `${DATA.HEADER.NAME}. ${DATA.HEADER.HEADLINE}`,
+    twitterCreator: "@Utkarsh_2604",
+} as const;
+
 export type Chip = {
     label: string;
     slug: string;

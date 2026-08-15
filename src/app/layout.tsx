@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Outfit } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 
+import { SITE } from "@/app/data";
 import { FrameMarks } from "@/components/ui/blueprint";
 import { TargetCursor } from "@/components/ui/target-cursor";
 
@@ -25,9 +26,8 @@ const baseUrl =
 
 export const metadata: Metadata = {
     metadataBase: new URL(baseUrl),
-    title: "Utkarsh Singhal | Software Developer",
-    description:
-        "SDE-1 backend at Suraasa. TypeScript, Django, and Node. Contributor to Vue Bits and React Bits.",
+    title: SITE.title,
+    description: SITE.description,
     alternates: {
         canonical: "/",
     },
@@ -36,23 +36,18 @@ export const metadata: Metadata = {
         follow: true,
     },
     openGraph: {
-        title: "Utkarsh Singhal | Software Developer",
-        description:
-            "SDE-1 backend at Suraasa. TypeScript, Django, and Node. Contributor to Vue Bits and React Bits.",
+        title: SITE.title,
+        description: SITE.description,
         url: baseUrl,
         type: "website",
-        images: [
-            {
-                url: "https://utkarsh-singhal.is-a.dev/opengraph-image.png",
-                width: 1200,
-                height: 630,
-                alt: "Utkarsh Singhal | Software Developer",
-            },
-        ],
+        locale: "en_US",
+        siteName: "Utkarsh Singhal",
     },
     twitter: {
         card: "summary_large_image",
-        creator: "@Utkarsh_2604",
+        creator: SITE.twitterCreator,
+        title: SITE.title,
+        description: SITE.description,
     },
     authors: [
         { name: "Utkarsh Singhal", url: "https://utkarsh-singhal.is-a.dev/" },
@@ -60,6 +55,7 @@ export const metadata: Metadata = {
     keywords: [
         "Utkarsh Singhal",
         "Software Developer",
+        "Open Source",
         "Full-Stack Developer",
         "React",
         "Next.js",
