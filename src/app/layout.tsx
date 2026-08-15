@@ -87,7 +87,7 @@ export default function RootLayout({
             suppressHydrationWarning
         >
             <body
-                className={`${outfit.className} min-h-dvh w-full overflow-x-clip bg-background text-foreground antialiased`}
+                className={`${outfit.className} min-h-dvh w-full bg-background text-foreground antialiased`}
             >
                 <a href="#content" className="skip-link">
                     Skip to content
@@ -101,7 +101,7 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <CommandMenu>
-                        <div className="w-full overflow-x-clip">
+                        <div className="w-full">
                             <div className="relative mx-auto border-line border-x w-full max-w-280">
                                 <FrameMarks />
                                 {children}

@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { CHIPS, type Chip } from "@/app/data";
 import { Reveal } from "@/components/ui/reveal";
+import { cn } from "@/lib/utils";
 
 const CHIP_RADIUS = 14;
 const ICON_RADIUS = 10;
@@ -25,9 +26,20 @@ export function Stack(): ReactNode {
     const chipRefs = useRef<Array<HTMLDivElement | null>>([]);
     const [resetKey, setResetKey] = useState(0);
     const reduceMotion = useReducedMotion();
+    const [coarsePointer, setCoarsePointer] = useState(false);
 
     useEffect(() => {
-        if (reduceMotion) return;
+        const mq = window.matchMedia("(pointer: coarse)");
+        const update = () => setCoarsePointer(mq.matches);
+        update();
+        mq.addEventListener("change", update);
+        return () => mq.removeEventListener("change", update);
+    }, []);
+
+    const staticChips = reduceMotion || coarsePointer;
+
+    useEffect(() => {
+        if (staticChips) return;
 
         const container = containerRef.current;
         const measure = measureRef.current;
@@ -206,7 +218,7 @@ export function Stack(): ReactNode {
             io.disconnect();
             cleanup?.();
         };
-    }, [resetKey, reduceMotion]);
+    }, [resetKey, staticChips]);
 
     return (
         <section
@@ -219,7 +231,7 @@ export function Stack(): ReactNode {
                 </h2>
             </Reveal>
 
-            <ul className="hidden motion-reduce:flex flex-wrap gap-2">
+            <ul className={cn("flex flex-wrap gap-2", !staticChips && "hidden")}>
                 {CHIPS.map((chip) => (
                     <li key={chip.label}>
                         <ChipPill chip={chip} />
@@ -227,7 +239,12 @@ export function Stack(): ReactNode {
                 ))}
             </ul>
 
-            <div className="motion-reduce:hidden relative border border-line h-80 sm:h-92 overflow-hidden">
+            <div
+                className={cn(
+                    "relative border border-line h-80 sm:h-92 overflow-hidden",
+                    staticChips && "hidden"
+                )}
+            >
                 <button
                     type="button"
                     onClick={() => setResetKey((k) => k + 1)}

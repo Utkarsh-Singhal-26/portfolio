@@ -189,11 +189,10 @@
         pointer-events: none;
         position: absolute;
         top: 0;
-        left: 50%;
+        right: 0;
+        left: 0;
         z-index: 1;
         height: 1px;
-        width: 100vw;
-        translate: -50% 0;
         background-color: hsl(var(--line));
     }
 }
@@ -204,12 +203,11 @@
         content: "";
         pointer-events: none;
         position: absolute;
+        right: 0;
         bottom: 0;
-        left: 50%;
+        left: 0;
         z-index: 1;
         height: 1px;
-        width: 100vw;
-        translate: -50% 0;
         background-color: hsl(var(--line));
     }
 }
@@ -356,6 +354,12 @@ button {
 .dark .grain {
     opacity: 0.085;
     mix-blend-mode: overlay;
+}
+
+@media (pointer: coarse) {
+    .grain {
+        display: none;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

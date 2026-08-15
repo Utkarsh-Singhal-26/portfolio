@@ -285,7 +285,13 @@ export const CHIPS: Chip[] = [
         fg: "#ffffff",
         iconUrl: "https://svgl.app/library/css.svg",
     },
-    { label: "Node.js", slug: "nodedotjs", bg: "#3E7B2E", fg: "#ffffff" },
+    {
+        label: "Node.js",
+        slug: "nodedotjs",
+        bg: "#3E7B2E",
+        fg: "#ffffff",
+        iconUrl: "https://svgl.app/library/nodejs.svg",
+    },
     { label: "Python", slug: "python", bg: "#3776AB", fg: "#ffffff" },
 
     // Frameworks
@@ -302,12 +308,24 @@ export const CHIPS: Chip[] = [
         label: "Vue.js",
         slug: "vuedotjs",
         bg: "#4FC08D",
-        fg: "#000000",
-        darkBg: true,
+        fg: "#ffffff",
+        iconUrl: "https://svgl.app/library/vue.svg",
     },
     { label: "Svelte", slug: "svelte", bg: "#FF3E00", fg: "#ffffff" },
-    { label: "Astro", slug: "astro", bg: "#C44800", fg: "#ffffff" },
-    { label: "Express.js", slug: "express", bg: "#000000", fg: "#ffffff" },
+    {
+        label: "Astro",
+        slug: "astro",
+        bg: "#C44800",
+        fg: "#ffffff",
+        iconUrl: "https://svgl.app/library/astro-icon-light.svg",
+    },
+    {
+        label: "Express.js",
+        slug: "express",
+        bg: "#000000",
+        fg: "#ffffff",
+        iconUrl: "https://svgl.app/library/expressjs.svg",
+    },
     { label: "AdonisJS", slug: "adonisjs", bg: "#5A45FF", fg: "#ffffff" },
     {
         label: "React Native",
@@ -319,7 +337,13 @@ export const CHIPS: Chip[] = [
     { label: "Expo", slug: "expo", bg: "#000020", fg: "#ffffff" },
 
     // Libraries
-    { label: "React Query", slug: "reactquery", bg: "#FF4154", fg: "#ffffff" },
+    {
+        label: "React Query",
+        slug: "reactquery",
+        bg: "#FF4154",
+        fg: "#ffffff",
+        iconUrl: "https://svgl.app/library/reactquery.svg",
+    },
     {
         label: "Tailwind CSS",
         slug: "tailwindcss",
@@ -334,6 +358,7 @@ export const CHIPS: Chip[] = [
         bg: "#0170FE",
         fg: "#000000",
         darkBg: true,
+        iconUrl: "https://svgl.app/library/ant-design-dark-theme.svg",
     },
     {
         label: "Material UI",
@@ -345,7 +370,14 @@ export const CHIPS: Chip[] = [
     { label: "Celery", slug: "celery", bg: "#37814A", fg: "#ffffff" },
 
     // Database & Backend
-    { label: "PostgreSQL", slug: "postgresql", bg: "#4169E1", fg: "#ffffff" },
+    {
+        label: "PostgreSQL",
+        slug: "postgresql",
+        bg: "#4169E1",
+        fg: "#000",
+        darkBg: true,
+        iconUrl: "https://svgl.app/library/postgresql.svg",
+    },
     {
         label: "MongoDB",
         slug: "mongodb",
@@ -360,10 +392,22 @@ export const CHIPS: Chip[] = [
         fg: "#000000",
         darkBg: true,
     },
-    { label: "Redis", slug: "redis", bg: "#FF4438", fg: "#ffffff" },
+    {
+        label: "Redis",
+        slug: "redis",
+        bg: "#FF4438",
+        fg: "#ffffff",
+        iconUrl: "/icons/redis.svg",
+    },
     { label: "Prisma", slug: "prisma", bg: "#2D3748", fg: "#ffffff" },
     { label: "Contentful", slug: "contentful", bg: "#2478CC", fg: "#ffffff" },
-    { label: "Firebase", slug: "firebase", bg: "#DD2C00", fg: "#ffffff" },
+    {
+        label: "Firebase",
+        slug: "firebase",
+        bg: "#DD2C00",
+        fg: "#ffffff",
+        iconUrl: "https://svgl.app/library/firebase.svg",
+    },
     { label: "GraphQL", slug: "graphql", bg: "#E10098", fg: "#ffffff" },
     { label: "Clerk", slug: "clerk", bg: "#6C47FF", fg: "#ffffff" },
 
@@ -401,8 +445,16 @@ export const CHIPS: Chip[] = [
         slug: "prettier",
         bg: "#F7B93E",
         fg: "#000000",
-        iconUrl: "https://svgl.app/library/prettier-icon-light.svg",
+        darkBg: true,
+        iconUrl: "https://svgl.app/library/prettier-icon-dark.svg",
     },
     { label: "Sentry", slug: "sentry", bg: "#362D59", fg: "#ffffff" },
+    {
+        label: "Posthog",
+        slug: "posthog",
+        bg: "#CD8407",
+        fg: "#ffffff",
+        iconUrl: "https://svgl.app/library/posthog.svg",
+    },
     { label: "Storybook", slug: "storybook", bg: "#FF4785", fg: "#ffffff" },
 ];
