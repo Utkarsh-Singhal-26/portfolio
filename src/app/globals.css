@@ -323,7 +323,6 @@ button {
         transparent 0,
         transparent 50%
     );
-    background-attachment: fixed;
     background-size: 10px 10px;
 }
 
