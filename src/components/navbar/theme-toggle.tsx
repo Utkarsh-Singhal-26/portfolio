@@ -4,7 +4,10 @@ import { MoonIcon, SunIcon } from "@phosphor-icons/react";
 import { useTheme } from "next-themes";
 import { useCallback, useRef, useSyncExternalStore } from "react";
 
-import { setThemeAtPointer, setThemeWithTransition } from "@/lib/theme-transition";
+import {
+    setThemeAtPointer,
+    setThemeWithTransition,
+} from "@/lib/theme-transition";
 
 interface ThemeToggleProps extends React.ComponentPropsWithoutRef<"button"> {
     duration?: number;

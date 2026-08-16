@@ -10,7 +10,6 @@ import { getGitHubContributions } from "@/lib/github-contribution";
 export const OG_IMAGE_SIZE = DISPLAY_SIZE;
 export const OG_IMAGE_CONTENT_TYPE = "image/jpeg";
 export const OG_IMAGE_ALT = SITE.ogAlt;
-export const OG_IMAGE_RUNTIME = "nodejs" as const;
 
 export async function generateOgImage() {
     const [fonts, weeks] = await Promise.all([

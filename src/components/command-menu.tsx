@@ -363,7 +363,9 @@ function CommandPalette() {
                     <CommandItem
                         value="Light theme"
                         keywords={["day"]}
-                        onSelect={() => void setThemeAtPointer("light", setTheme)}
+                        onSelect={() =>
+                            void setThemeAtPointer("light", setTheme)
+                        }
                     >
                         <SunIcon size={16} weight="light" />
                         Light
@@ -371,7 +373,9 @@ function CommandPalette() {
                     <CommandItem
                         value="Dark theme"
                         keywords={["night"]}
-                        onSelect={() => void setThemeAtPointer("dark", setTheme)}
+                        onSelect={() =>
+                            void setThemeAtPointer("dark", setTheme)
+                        }
                     >
                         <MoonIcon size={16} weight="light" />
                         Dark
