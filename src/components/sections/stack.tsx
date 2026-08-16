@@ -1,7 +1,6 @@
 "use client";
 
 import { ArrowCounterClockwiseIcon } from "@phosphor-icons/react";
-import { useReducedMotion } from "framer-motion";
 import type { Body as MatterBody } from "matter-js";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
@@ -25,8 +24,16 @@ export function Stack(): ReactNode {
     const measureRef = useRef<HTMLDivElement | null>(null);
     const chipRefs = useRef<Array<HTMLDivElement | null>>([]);
     const [resetKey, setResetKey] = useState(0);
-    const reduceMotion = useReducedMotion();
+    const [reduceMotion, setReduceMotion] = useState(false);
     const [coarsePointer, setCoarsePointer] = useState(false);
+
+    useEffect(() => {
+        const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const update = () => setReduceMotion(mq.matches);
+        update();
+        mq.addEventListener("change", update);
+        return () => mq.removeEventListener("change", update);
+    }, []);
 
     useEffect(() => {
         const mq = window.matchMedia("(pointer: coarse)");
@@ -201,7 +208,6 @@ export function Stack(): ReactNode {
             };
         };
 
-        // Defer matter-js loading until section enters the viewport
         const io = new IntersectionObserver(
             (entries) => {
                 if (entries[0]?.isIntersecting) {
@@ -231,7 +237,9 @@ export function Stack(): ReactNode {
                 </h2>
             </Reveal>
 
-            <ul className={cn("flex flex-wrap gap-2", !staticChips && "hidden")}>
+            <ul
+                className={cn("flex flex-wrap gap-2", !staticChips && "hidden")}
+            >
                 {CHIPS.map((chip) => (
                     <li key={chip.label}>
                         <ChipPill chip={chip} />

@@ -27,7 +27,9 @@ import {
 } from "react";
 
 import { DATA } from "@/app/data";
+import { toggleThemeFromPointer } from "@/components/navbar/theme-toggle";
 import { CornerMarks } from "@/components/ui/blueprint";
+import { setThemeAtPointer } from "@/lib/theme-transition";
 import { cn } from "@/lib/utils";
 
 const SECTION_SHORTCUTS = [
@@ -200,7 +202,7 @@ export function CommandMenu({ children }: { children: ReactNode }) {
 
             if (event.key.toLowerCase() === "t") {
                 event.preventDefault();
-                setTheme(resolvedTheme === "dark" ? "light" : "dark");
+                void toggleThemeFromPointer(resolvedTheme === "dark", setTheme);
                 return;
             }
 
@@ -361,7 +363,7 @@ function CommandPalette() {
                     <CommandItem
                         value="Light theme"
                         keywords={["day"]}
-                        onSelect={() => run(() => setTheme("light"))}
+                        onSelect={() => void setThemeAtPointer("light", setTheme)}
                     >
                         <SunIcon size={16} weight="light" />
                         Light
@@ -369,7 +371,7 @@ function CommandPalette() {
                     <CommandItem
                         value="Dark theme"
                         keywords={["night"]}
-                        onSelect={() => run(() => setTheme("dark"))}
+                        onSelect={() => void setThemeAtPointer("dark", setTheme)}
                     >
                         <MoonIcon size={16} weight="light" />
                         Dark
@@ -406,10 +408,7 @@ function CommandPalette() {
 
 function ShortcutHelp({ onClose }: { onClose: () => void }) {
     return (
-        <div
-            className="z-85 fixed inset-0 bg-foreground/20"
-            onClick={onClose}
-        >
+        <div className="z-85 fixed inset-0 bg-foreground/20" onClick={onClose}>
             <div
                 role="dialog"
                 aria-label="Keyboard shortcuts"

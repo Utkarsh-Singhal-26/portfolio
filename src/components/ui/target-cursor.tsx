@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import { useEffect, useRef, useState } from "react";
 
 const CORNER = 12;
-const PAD = 3;
+const PAD = 4;
 const REST = [
     { x: -CORNER * 1.5, y: -CORNER * 1.5 },
     { x: CORNER * 0.5, y: -CORNER * 1.5 },

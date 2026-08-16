@@ -6,7 +6,7 @@ export function Contact({ data }: { data: Record<string, string> }) {
         <section id="contact" className="w-full scroll-mt-24 cell">
             <Reveal>
                 <h2 className="max-w-[16ch] font-semibold text-3xl md:text-5xl md:leading-[1.1] tracking-tight">
-                    Open to the next role
+                    Get in touch
                 </h2>
                 <p className="mt-4 max-w-[52ch] text-muted-foreground text-base leading-relaxed">
                     If you want to talk about a role or a project, email is the

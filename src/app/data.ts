@@ -45,6 +45,18 @@ export type Writing = {
 
 export const GITHUB_USERNAME = "Utkarsh-Singhal-26";
 
+/** Repos shown in the open source section, in order (`owner/name`). First is featured. Empty = show all. */
+export const OPEN_SOURCE_REPOS: string[] = [
+    "DavidHDev/vue-bits",
+    "DavidHDev/react-bits",
+    "DavidHDev/svelte-bits",
+    "kubestellar/console",
+    "ansvisor/ansvisor",
+    "wigggle-ui/ui",
+    "tambo-ai/tambo",
+    "TheOrcDev/github-creature",
+];
+
 export const DATA = {
     HEADER: {
         NAME: "Utkarsh Singhal",
@@ -268,7 +280,6 @@ export type Chip = {
 };
 
 export const CHIPS: Chip[] = [
-    // Languages
     {
         label: "JavaScript",
         slug: "javascript",
@@ -294,7 +305,6 @@ export const CHIPS: Chip[] = [
     },
     { label: "Python", slug: "python", bg: "#3776AB", fg: "#ffffff" },
 
-    // Frameworks
     {
         label: "React",
         slug: "react",
@@ -333,10 +343,11 @@ export const CHIPS: Chip[] = [
         bg: "#61DAFB",
         fg: "#000000",
         darkBg: true,
+        iconUrl:
+            "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/reactnative/reactnative-original.svg",
     },
     { label: "Expo", slug: "expo", bg: "#000020", fg: "#ffffff" },
 
-    // Libraries
     {
         label: "React Query",
         slug: "reactquery",
@@ -369,7 +380,6 @@ export const CHIPS: Chip[] = [
     },
     { label: "Celery", slug: "celery", bg: "#37814A", fg: "#ffffff" },
 
-    // Database & Backend
     {
         label: "PostgreSQL",
         slug: "postgresql",
@@ -411,7 +421,6 @@ export const CHIPS: Chip[] = [
     { label: "GraphQL", slug: "graphql", bg: "#E10098", fg: "#ffffff" },
     { label: "Clerk", slug: "clerk", bg: "#6C47FF", fg: "#ffffff" },
 
-    // Cloud & Deployment
     {
         label: "GCP",
         slug: "googlecloud",
@@ -428,7 +437,6 @@ export const CHIPS: Chip[] = [
     },
     { label: "Vercel", slug: "vercel", bg: "#000000", fg: "#ffffff" },
 
-    // Tools & Platforms
     { label: "Git", slug: "git", bg: "#F05032", fg: "#ffffff" },
     { label: "GitHub", slug: "github", bg: "#181717", fg: "#ffffff" },
     { label: "Postman", slug: "postman", bg: "#FF6C37", fg: "#ffffff" },

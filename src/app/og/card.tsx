@@ -1,3 +1,5 @@
+import { DATA } from "@/app/data";
+
 const BG = "#0e0e11";
 const FG = "#f4f4f6";
 const MUTED = "#9f9fa8";
@@ -35,13 +37,8 @@ const LINE_W = s(1);
 const LEFT_X = FRAME;
 const RIGHT_X = SIZE.width - FRAME;
 
-const NAV = ["work", "experience", "source"] as const;
-
-const NAME = "Utkarsh Singhal";
-const AGE = "21";
-const PRONOUN = "he/him";
-const HEADLINE = "I like shipping things people can actually use.";
-const FOCUS = "Nights go to open source and small tools.";
+const NAV = ["work", "experience", "open source"] as const;
+const { NAME, AGE, PRONOUN, HEADLINE, FOCUS } = DATA.HEADER;
 
 function Cross({ x, y }: { x: number; y: number }) {
     const half = (CROSS_SIZE - 1) / 2;

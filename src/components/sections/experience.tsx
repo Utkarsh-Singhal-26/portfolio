@@ -10,6 +10,10 @@ function monthLabel(value: string) {
     return format(parse(value, "yyyy-MM", new Date()), "MMM yyyy");
 }
 
+function longMonthLabel(value: string) {
+    return format(parse(value, "yyyy-MM", new Date()), "MMMM yyyy");
+}
+
 function rangeLabel(start: string, end?: string) {
     return `${monthLabel(start)} - ${end ? monthLabel(end) : "Present"}`;
 }
@@ -56,8 +60,8 @@ export function Experience({ data }: { data: ExperienceCompany[] }) {
                             From intern to backend engineer
                         </p>
                         <p className="mt-4 max-w-[36ch] text-muted-foreground text-base leading-relaxed">
-                            Full-time since January 2026. I interned on the same
-                            team first.
+                            Full-time since {longMonthLabel(current.role.start)}
+                            . I interned on the same team first.
                         </p>
                     </Reveal>
 

@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import sharp from "sharp";
 
+import { SITE } from "@/app/data";
 import { DISPLAY_SIZE, OgCard, SIZE } from "@/app/og/card";
 import { loadOgFonts } from "@/app/og/fonts";
 import { contributionWeeks, emptyWeeks } from "@/app/og/weeks";
@@ -8,6 +9,8 @@ import { getGitHubContributions } from "@/lib/github-contribution";
 
 export const OG_IMAGE_SIZE = DISPLAY_SIZE;
 export const OG_IMAGE_CONTENT_TYPE = "image/jpeg";
+export const OG_IMAGE_ALT = SITE.ogAlt;
+export const OG_IMAGE_RUNTIME = "nodejs" as const;
 
 export async function generateOgImage() {
     const [fonts, weeks] = await Promise.all([

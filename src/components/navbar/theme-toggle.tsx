@@ -3,7 +3,8 @@
 import { MoonIcon, SunIcon } from "@phosphor-icons/react";
 import { useTheme } from "next-themes";
 import { useCallback, useRef, useSyncExternalStore } from "react";
-import { flushSync } from "react-dom";
+
+import { setThemeAtPointer, setThemeWithTransition } from "@/lib/theme-transition";
 
 interface ThemeToggleProps extends React.ComponentPropsWithoutRef<"button"> {
     duration?: number;
@@ -28,54 +29,13 @@ export const ThemeToggle = ({
         if (!buttonRef.current) return;
 
         const next = isDark ? "light" : "dark";
-        const apply = () => {
-            document.documentElement.classList.remove("light", "dark");
-            document.documentElement.classList.add(next);
-            document.documentElement.style.colorScheme = next;
-            flushSync(() => {
-                setTheme(next);
-            });
-        };
-
-        if (
-            !document.startViewTransition ||
-            window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ) {
-            apply();
-            return;
-        }
-
-        const css = document.createElement("style");
-        css.appendChild(
-            document.createTextNode(`* { transition: none !important; }`)
-        );
-        document.head.appendChild(css);
-
-        await document.startViewTransition(apply).ready;
-
-        document.head.removeChild(css);
-
         const { top, left, width, height } =
             buttonRef.current.getBoundingClientRect();
-        const x = left + width / 2;
-        const y = top + height / 2;
-        const maxRadius = Math.hypot(
-            Math.max(left, window.innerWidth - left),
-            Math.max(top, window.innerHeight - top)
-        );
-
-        document.documentElement.animate(
-            {
-                clipPath: [
-                    `circle(0px at ${x}px ${y}px)`,
-                    `circle(${maxRadius}px at ${x}px ${y}px)`,
-                ],
-            },
-            {
-                duration,
-                easing: "cubic-bezier(0.32, 0.72, 0, 1)",
-                pseudoElement: "::view-transition-new(root)",
-            }
+        await setThemeWithTransition(
+            next,
+            { x: left + width / 2, y: top + height / 2 },
+            setTheme,
+            duration
         );
     }, [isDark, setTheme, duration]);
 
@@ -96,3 +56,10 @@ export const ThemeToggle = ({
         </button>
     );
 };
+
+export async function toggleThemeFromPointer(
+    isDark: boolean,
+    setTheme: (theme: string) => void
+) {
+    await setThemeAtPointer(isDark ? "light" : "dark", setTheme);
+}
