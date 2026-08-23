@@ -303,7 +303,7 @@ export const CHIPS: Chip[] = [
         fg: "#ffffff",
         iconUrl: "https://svgl.app/library/nodejs.svg",
     },
-    { label: "Python", slug: "python", bg: "#3776AB", fg: "#ffffff" },
+    { label: "Python", slug: "python", bg: "#3776AB", fg: "#ffffff", darkBg: true, iconUrl: "https://svgl.app/library/python.svg" },
 
     {
         label: "React",
@@ -407,7 +407,7 @@ export const CHIPS: Chip[] = [
         slug: "redis",
         bg: "#FF4438",
         fg: "#ffffff",
-        iconUrl: "/icons/redis.svg",
+        iconUrl: "https://svgl.app/library/redis.svg",
     },
     { label: "Prisma", slug: "prisma", bg: "#2D3748", fg: "#ffffff" },
     { label: "Contentful", slug: "contentful", bg: "#2478CC", fg: "#ffffff" },

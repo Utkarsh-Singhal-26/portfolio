@@ -160,10 +160,12 @@
     }
     html {
         scroll-behavior: smooth;
+        overflow-x: clip;
     }
     body {
         @apply bg-background text-foreground;
         text-wrap: pretty;
+        overflow-x: clip;
     }
     :focus-visible {
         outline: 2px solid hsl(var(--brand));
@@ -195,6 +197,16 @@
         height: 1px;
         background-color: hsl(var(--line));
     }
+
+    /* Full-bleed into side gutters only when the frame is not edge-to-edge */
+    @media (min-width: 70rem) {
+        &::before {
+            right: auto;
+            left: 50%;
+            width: 100vw;
+            translate: -50% 0;
+        }
+    }
 }
 
 @utility rule-b {
@@ -209,6 +221,15 @@
         z-index: 1;
         height: 1px;
         background-color: hsl(var(--line));
+    }
+
+    @media (min-width: 70rem) {
+        &::after {
+            right: auto;
+            left: 50%;
+            width: 100vw;
+            translate: -50% 0;
+        }
     }
 }
 

@@ -101,7 +101,7 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <CommandMenu>
-                        <div className="w-full">
+                        <div className="w-full overflow-x-clip">
                             <div className="relative mx-auto border-line border-x w-full max-w-280">
                                 <FrameMarks />
                                 {children}
