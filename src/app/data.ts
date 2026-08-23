@@ -45,6 +45,12 @@ export type Writing = {
 
 export const GITHUB_USERNAME = "Utkarsh-Singhal-26";
 
+export const LOCATION = {
+    latitude: 28.7172,
+    longitude: 77.1579,
+    timezone: "Asia/Kolkata",
+} as const;
+
 /** Repos shown in the open source section, in order (`owner/name`). First is featured. Empty = show all. */
 export const OPEN_SOURCE_REPOS: string[] = [
     "DavidHDev/vue-bits",

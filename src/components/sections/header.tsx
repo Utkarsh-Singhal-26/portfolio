@@ -4,6 +4,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { Suspense } from "react";
 
+import { LOCATION } from "@/app/data";
 import type { Activity } from "@/components/kibo-ui/contribution-graph";
 import { MovingElement } from "@/components/navbar";
 import { CtaLink } from "@/components/ui/cta-link";
@@ -11,6 +12,7 @@ import {
     GitHubContributionFallback,
     GitHubContributionGraph,
 } from "@/components/ui/github-contribution";
+import { HeaderMeta } from "@/components/ui/header-meta";
 import { Reveal } from "@/components/ui/reveal";
 
 export function Header({
@@ -24,9 +26,13 @@ export function Header({
         <header className="w-full">
             <div className="cell">
                 <Reveal eager>
-                    <p className="font-mono tabular-nums text-[13px] text-muted-foreground">
-                        {data.AGE}, {data.PRONOUN}
-                    </p>
+                    <HeaderMeta
+                        age={data.AGE}
+                        pronoun={data.PRONOUN}
+                        latitude={LOCATION.latitude}
+                        longitude={LOCATION.longitude}
+                        timezone={LOCATION.timezone}
+                    />
                     <h1 className="mt-2 max-w-[12ch] font-semibold text-foreground text-4xl sm:text-5xl md:text-6xl md:leading-[1.05] tracking-tight">
                         {data.NAME}
                     </h1>
