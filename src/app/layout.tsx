@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Outfit } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 
-import { SITE } from "@/app/data";
+import { DATA, SITE } from "@/app/data";
 import { CommandMenu } from "@/components/command-menu";
 import { SiteControls } from "@/components/site-controls";
 import { FrameMarks } from "@/components/ui/blueprint";
@@ -74,6 +74,29 @@ export const metadata: Metadata = {
     publisher: "Utkarsh Singhal",
 };
 
+const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Person",
+            "@id": `${baseUrl}/#person`,
+            name: DATA.HEADER.NAME,
+            url: baseUrl,
+            jobTitle: "Software Developer",
+            description: SITE.description,
+            sameAs: [DATA.HEADER.GITHUB, DATA.HEADER.LINKEDIN],
+        },
+        {
+            "@type": "WebSite",
+            "@id": `${baseUrl}/#website`,
+            url: baseUrl,
+            name: SITE.title,
+            description: SITE.description,
+            publisher: { "@id": `${baseUrl}/#person` },
+        },
+    ],
+};
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -86,6 +109,12 @@ export default function RootLayout({
             data-scroll-behavior="smooth"
             suppressHydrationWarning
         >
+            <head>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
+            </head>
             <body
                 className={`${outfit.className} min-h-dvh w-full bg-background text-foreground antialiased`}
             >
