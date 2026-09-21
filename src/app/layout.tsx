@@ -145,7 +145,7 @@ export default function RootLayout({
 
                 {process.env.VERCEL_ENV &&
                     process.env.NEXT_PUBLIC_CLARITY_ID && (
-                        <Script id="clarity" strategy="afterInteractive">
+                        <Script id="ms-clarity" strategy="afterInteractive">
                             {`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script",${JSON.stringify(process.env.NEXT_PUBLIC_CLARITY_ID)});var g="denied";try{g=localStorage.getItem("consent")==="granted"?"granted":"denied"}catch(e){}clarity("consentv2",{ad_Storage:g,analytics_Storage:g});`}
                         </Script>
                     )}

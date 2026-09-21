@@ -34,8 +34,10 @@ export function ConsentBanner() {
         try {
             localStorage.setItem(KEY, granted ? "granted" : "denied");
         } catch {}
-        apply(granted);
         setDone(true);
+        try {
+            apply(granted);
+        } catch {}
     };
 
     const btn =
