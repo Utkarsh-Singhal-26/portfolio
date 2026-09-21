@@ -3,10 +3,12 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Geist_Mono, Outfit } from "next/font/google";
+import Script from "next/script";
 import { ThemeProvider } from "next-themes";
 
 import { DATA, SITE } from "@/app/data";
 import { CommandMenu } from "@/components/command-menu";
+import { ConsentBanner } from "@/components/consent-banner";
 import { SiteControls } from "@/components/site-controls";
 import { FrameMarks } from "@/components/ui/blueprint";
 import { TargetCursorLazy } from "@/components/ui/target-cursor-lazy";
@@ -141,6 +143,14 @@ export default function RootLayout({
                     </CommandMenu>
                 </ThemeProvider>
 
+                {process.env.VERCEL_ENV &&
+                    process.env.NEXT_PUBLIC_CLARITY_ID && (
+                        <Script id="clarity" strategy="afterInteractive">
+                            {`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script",${JSON.stringify(process.env.NEXT_PUBLIC_CLARITY_ID)});var g="denied";try{g=localStorage.getItem("consent")==="granted"?"granted":"denied"}catch(e){}clarity("consentv2",{ad_Storage:g,analytics_Storage:g});`}
+                        </Script>
+                    )}
+                {process.env.VERCEL_ENV &&
+                    process.env.NEXT_PUBLIC_CLARITY_ID && <ConsentBanner />}
                 {process.env.VERCEL_ENV && <Analytics />}
                 {process.env.VERCEL_ENV && <SpeedInsights />}
             </body>
