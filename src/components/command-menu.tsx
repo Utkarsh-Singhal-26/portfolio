@@ -14,8 +14,8 @@ import {
     SunIcon,
 } from "@phosphor-icons/react";
 import { Command } from "cmdk";
-import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
 import {
     createContext,
     useCallback,
