@@ -4,7 +4,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { Suspense } from "react";
 
-import { LOCATION } from "@/app/data";
+import { getAge, LOCATION } from "@/app/data";
 import type { Activity } from "@/components/kibo-ui/contribution-graph";
 import { MovingElement } from "@/components/navbar";
 import { CtaLink } from "@/components/ui/cta-link";
@@ -27,7 +27,7 @@ export function Header({
             <div className="cell">
                 <Reveal eager>
                     <HeaderMeta
-                        age={data.AGE}
+                        age={String(getAge())}
                         pronoun={data.PRONOUN}
                         latitude={LOCATION.latitude}
                         longitude={LOCATION.longitude}

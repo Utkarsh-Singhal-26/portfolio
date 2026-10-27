@@ -373,14 +373,16 @@ const loadOpenSource = unstable_cache(
     async (): Promise<OpenSourceSnapshot> => {
         const graphql = await fromGraphQL();
         if (graphql?.repos.length) return graphql;
-        return fromRest();
+        const rest = await fromRest();
+        if (!rest.repos.length) throw new Error("open-source fetch failed");
+        return rest;
     },
     ["github-open-source-v11"],
     { revalidate: 86400 }
 );
 
 export async function getOpenSource(): Promise<OpenSourceSnapshot> {
-    const all = await loadOpenSource();
+    const all = await loadOpenSource().catch(() => EMPTY);
     const repos = listedRepos(all.repos);
     const hydrated = await Promise.all(
         repos.map(async (repo) => {

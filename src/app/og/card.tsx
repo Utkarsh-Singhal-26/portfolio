@@ -1,4 +1,4 @@
-import { DATA } from "@/app/data";
+import { DATA, getAge } from "@/app/data";
 
 const BG = "#0e0e11";
 const FG = "#f4f4f6";
@@ -38,7 +38,7 @@ const LEFT_X = FRAME;
 const RIGHT_X = SIZE.width - FRAME;
 
 const NAV = ["work", "experience", "open source"] as const;
-const { NAME, AGE, PRONOUN, HEADLINE, FOCUS } = DATA.HEADER;
+const { NAME, PRONOUN, HEADLINE, FOCUS } = DATA.HEADER;
 
 function Cross({ x, y }: { x: number; y: number }) {
     const half = (CROSS_SIZE - 1) / 2;
@@ -223,7 +223,7 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                         color: MUTED,
                     }}
                 >
-                    {AGE}, {PRONOUN}
+                    {getAge()}, {PRONOUN}
                 </div>
                 <div
                     style={{
