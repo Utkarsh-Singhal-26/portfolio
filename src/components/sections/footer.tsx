@@ -2,6 +2,8 @@
 
 import { ArrowUpIcon } from "@phosphor-icons/react";
 
+const currentYear = () => new Date().getFullYear();
+
 export function Footer() {
     function scrollToTop() {
         window.scrollTo({
@@ -15,7 +17,7 @@ export function Footer() {
             <span className="cross cross-bl" />
             <span className="cross cross-br" />
             <p className="font-mono tabular-nums text-[12px] text-muted-foreground">
-                {new Date().getFullYear()} Utkarsh Singhal
+                {currentYear()} Utkarsh Singhal
             </p>
             <button
                 type="button"

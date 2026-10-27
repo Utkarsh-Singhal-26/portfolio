@@ -2,9 +2,9 @@ import "@/app/globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
 import { Geist_Mono, Outfit } from "next/font/google";
 import Script from "next/script";
-import { ThemeProvider } from "next-themes";
 
 import { DATA, SITE } from "@/app/data";
 import { CommandMenu } from "@/components/command-menu";

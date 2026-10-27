@@ -58,12 +58,10 @@ export function MovingElement({
         </Link>
     );
 
-    if (reduce) return <div className="cursor-target">{link}</div>;
-
     return (
         <div className="cursor-target">
             <motion.div
-                onPointerMove={pull}
+                onPointerMove={reduce ? undefined : pull}
                 onPointerLeave={() => {
                     x.set(0);
                     y.set(0);

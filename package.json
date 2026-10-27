@@ -24,12 +24,12 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "eslint .",
-        "lint:fix": "eslint --fix .",
-        "format:write": "prettier --write \"**/*.{ts,tsx}\" --cache",
-        "format:check": "prettier --check \"**/*.{ts,tsx}\" --cache",
-        "type:check": "tsc --noEmit --pretty",
-        "prepare": "husky || true"
+        "lint": "vp lint",
+        "lint:fix": "vp lint --fix",
+        "format:write": "vp fmt",
+        "format:check": "vp fmt --check",
+        "type:check": "vp check --no-fmt --no-lint",
+        "prepare": "[ -e .git ] || exit 0; vp config --no-agent --hooks-dir .vite-hooks"
     },
     "dependencies": {
         "@base-ui/react": "^1.7.0",
@@ -56,30 +56,13 @@
         "@types/node": "^26.2.0",
         "@types/react": "^19.2.18",
         "@types/react-dom": "^19.2.4",
-        "eslint": "^9",
-        "eslint-config-next": "16.4.3",
-        "eslint-config-prettier": "^10.1.8",
-        "eslint-plugin-import": "^2.32.0",
-        "husky": "^9.1.7",
-        "lint-staged": "^17.3.0",
         "postcss": "^8.5.26",
-        "prettier": "^3.9.6",
         "tailwindcss": "^4.3.3",
-        "typescript": "^5.9.3"
-    },
-    "lint-staged": {
-        "**/*.{ts,tsx}": [
-            "eslint --fix",
-            "prettier --write"
-        ]
+        "typescript": "^5.9.3",
+        "vite-plus": "1.4.0"
     },
     "engines": {
         "node": ">=22"
     },
-    "packageManager": "yarn@1.22.22",
-    "resolutions": {
-        "eslint/**/brace-expansion": "^1.1.21",
-        "eslint-config-next/**/brace-expansion": "^5.0.12",
-        "eslint-config-next/**/zod": "^4.6.6"
-    }
+    "packageManager": "yarn@1.22.22"
 }

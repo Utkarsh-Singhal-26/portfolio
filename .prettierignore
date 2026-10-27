@@ -1,9 +1,0 @@
-dist
-node_modules
-coverage
-.env*
-*.log
-.DS_Store
-package-lock.json
-yarn.lock
-pnpm-lock.yaml

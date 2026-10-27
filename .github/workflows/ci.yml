@@ -18,8 +18,8 @@ jobs:
           node-version: 22
           cache: yarn
       - run: yarn install --frozen-lockfile
+      # build generates next-env.d.ts (gitignored), which type-aware lint and type:check need
+      - run: yarn build
       - run: yarn lint
       - run: yarn format:check
-      # build generates next-env.d.ts (gitignored), which type:check needs for *.webp imports
-      - run: yarn build
       - run: yarn type:check

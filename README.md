@@ -24,20 +24,20 @@ yarn dev
 
 Open http://localhost:3000. Both variables below are optional locally:
 
-| Variable | Purpose |
-| --- | --- |
-| `GITHUB_TOKEN` | Raises the GitHub API rate limit for the open source section |
+| Variable                 | Purpose                                                                |
+| ------------------------ | ---------------------------------------------------------------------- |
+| `GITHUB_TOKEN`           | Raises the GitHub API rate limit for the open source section           |
 | `NEXT_PUBLIC_CLARITY_ID` | Enables Microsoft Clarity (production only, behind the consent banner) |
 
 ## Scripts
 
-| Command | What it does |
-| --- | --- |
-| `yarn dev` | Start the dev server |
-| `yarn build` / `yarn start` | Production build / serve it |
-| `yarn lint` | ESLint |
-| `yarn type:check` | TypeScript (run after a build so `next-env.d.ts` exists) |
-| `yarn format:check` | Prettier |
+| Command                     | What it does                                             |
+| --------------------------- | -------------------------------------------------------- |
+| `yarn dev`                  | Start the dev server                                     |
+| `yarn build` / `yarn start` | Production build / serve it                              |
+| `yarn lint`                 | Lint with Vite+ (oxlint)                                 |
+| `yarn type:check`           | TypeScript (run after a build so `next-env.d.ts` exists) |
+| `yarn format:check`         | Format check with Vite+ (oxfmt)                          |
 
 Site content (profile, projects, experience, links) lives in [`src/app/data.ts`](src/app/data.ts).
 
