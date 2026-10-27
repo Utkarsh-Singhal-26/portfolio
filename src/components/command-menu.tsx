@@ -412,12 +412,17 @@ function CommandPalette() {
 
 function ShortcutHelp({ onClose }: { onClose: () => void }) {
     return (
-        <div className="z-85 fixed inset-0 bg-foreground/20" onClick={onClose}>
-            <div
-                role="dialog"
+        <div
+            role="presentation"
+            className="z-85 fixed inset-0 bg-foreground/20"
+            onClick={(event) => {
+                if (event.target === event.currentTarget) onClose();
+            }}
+        >
+            <dialog
+                open
                 aria-label="Keyboard shortcuts"
-                className="top-[18vh] left-1/2 absolute bg-secondary border border-foreground/20 w-[min(92vw,28rem)] -translate-x-1/2"
-                onClick={(event) => event.stopPropagation()}
+                className="top-[18vh] left-1/2 absolute bg-secondary m-0 p-0 border border-foreground/20 w-[min(92vw,28rem)] max-w-none text-foreground -translate-x-1/2"
             >
                 <CornerMarks />
                 <div className="px-5 py-4 border-line border-b">
@@ -434,7 +439,7 @@ function ShortcutHelp({ onClose }: { onClose: () => void }) {
                         Press <Kbd>esc</Kbd> to close
                     </p>
                 </div>
-            </div>
+            </dialog>
         </div>
     );
 }

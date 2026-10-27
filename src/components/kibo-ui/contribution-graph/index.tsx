@@ -192,7 +192,7 @@ const getMonthLabels = (
 
             if (!firstActivity) {
                 throw new Error(
-                    `Unexpected error: Week ${weekIndex + 1} is empty: [${week}].`
+                    `Unexpected error: Week ${weekIndex + 1} is empty.`
                 );
             }
 
@@ -248,16 +248,18 @@ export type ContributionGraphProps = HTMLAttributes<HTMLDivElement> & {
     className?: string;
 };
 
+const currentYear = () => new Date().getFullYear();
+
 export const ContributionGraph = ({
     data,
     blockMargin = 4,
     blockRadius = 2,
     blockSize = 12,
     fontSize = 14,
-    labels: labelsProp = undefined,
+    labels: labelsProp,
     maxLevel: maxLevelProp = 4,
     style = {},
-    totalCount: totalCountProp = undefined,
+    totalCount: totalCountProp,
     weekStart = 0,
     className,
     ...props
@@ -273,9 +275,7 @@ export const ContributionGraph = ({
     const labelHeight = fontSize + LABEL_MARGIN;
 
     const year =
-        data.length > 0
-            ? getYear(parseISO(data[0].date))
-            : new Date().getFullYear();
+        data.length > 0 ? getYear(parseISO(data[0].date)) : currentYear();
 
     const totalCount =
         typeof totalCountProp === "number"

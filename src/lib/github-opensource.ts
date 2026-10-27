@@ -130,7 +130,7 @@ async function repoMeta(fullName: string): Promise<{
     };
 }
 
-const githubHeaders = (): HeadersInit => {
+const githubHeaders = (): Record<string, string> => {
     const headers: Record<string, string> = {
         Accept: "application/vnd.github+json",
         "User-Agent": "utkarsh-portfolio",

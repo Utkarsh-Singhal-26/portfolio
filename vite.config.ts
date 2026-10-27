@@ -4,6 +4,7 @@ export default defineConfig({
     lint: {
         plugins: ["typescript", "import", "react", "nextjs", "jsx-a11y"],
         categories: { correctness: "error" },
+        options: { typeAware: true, typeCheck: true },
         env: { builtin: true, node: true, browser: true, es2024: true },
         settings: { react: { version: "19" } },
         ignorePatterns: [".next/**", "out/**", "build/**", "next-env.d.ts"],
@@ -13,11 +14,6 @@ export default defineConfig({
             "typescript/consistent-type-imports": "error",
             "typescript/no-import-type-side-effects": "error",
             "nextjs/no-img-element": "off",
-            "react/purity": "off",
-            "jsx-a11y/click-events-have-key-events": "off",
-            "jsx-a11y/no-static-element-interactions": "off",
-            "jsx-a11y/no-noninteractive-element-interactions": "off",
-            "jsx-a11y/prefer-tag-over-role": "off",
         },
     },
     fmt: {

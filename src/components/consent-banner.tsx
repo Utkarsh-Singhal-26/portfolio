@@ -44,8 +44,7 @@ export function ConsentBanner() {
         "border border-line px-3 py-1.5 text-sm motion-safe:transition-colors cursor-target";
 
     return (
-        <div
-            role="region"
+        <section
             aria-label="Cookie consent"
             className="bottom-5 left-5 z-50 fixed bg-background/90 shadow-[0_10px_40px_hsl(var(--foreground)/0.12)] backdrop-blur-xl p-4 border border-line max-w-xs text-sm"
         >
@@ -69,6 +68,6 @@ export function ConsentBanner() {
                     Decline
                 </button>
             </div>
-        </div>
+        </section>
     );
 }
