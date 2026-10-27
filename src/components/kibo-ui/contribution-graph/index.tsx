@@ -388,7 +388,10 @@ export const ContributionGraphCalendar = ({
     );
 
     return (
-        <div
+        <section
+            // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- scrollable region must be keyboard focusable
+            tabIndex={0}
+            aria-label="Contribution graph"
             className={cn(
                 "max-w-full overflow-x-auto overflow-y-hidden",
                 className
@@ -429,7 +432,7 @@ export const ContributionGraphCalendar = ({
                     })
                 )}
             </svg>
-        </div>
+        </section>
     );
 };
 
