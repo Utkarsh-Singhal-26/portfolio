@@ -59,7 +59,7 @@
         "postcss": "^8.5.26",
         "tailwindcss": "^4.3.3",
         "typescript": "^5.9.3",
-        "vite-plus": "0.3.3"
+        "vite-plus": "1.4.0"
     },
     "engines": {
         "node": ">=22"
