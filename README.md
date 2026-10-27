@@ -1,33 +1,52 @@
-# [utkarsh-singhal.is-a.dev](https://utkarsh-singhal.is-a.dev) &middot; ![Portfolio Repo Views](https://github-views-counter.singhalutkarsh26.workers.dev/repo/portfolio?label-color=555&color=f59e0b)
+# [utkarsh-singhal.is-a.dev](https://utkarsh-singhal.is-a.dev)
 
-A modern, responsive portfolio showcasing my work, skills, and projects as a developer.
+Personal portfolio of Utkarsh Singhal, a backend-leaning full-stack developer: shipped work, experience, open source contributions, and writing.
 
-→ Check out the live site: [utkarsh-singhal.is-a.dev](https://utkarsh-singhal.is-a.dev)
+[![Portfolio preview](docs/preview.png)](https://utkarsh-singhal.is-a.dev)
 
-![GitHub Stars](https://www.shieldcn.dev/github/stars/Utkarsh-Singhal-26/portfolio.svg?variant=secondary&size=sm&theme=stone)
-![GitHub Forks](https://www.shieldcn.dev/github/forks/Utkarsh-Singhal-26/portfolio.svg?variant=secondary&size=sm&theme=stone)
-![Commits](https://www.shieldcn.dev/github/commits/Utkarsh-Singhal-26/portfolio.svg?variant=secondary&size=sm&theme=stone)
+## Stack
 
-### Tooling
-![Package mgr · Yarn](https://www.shieldcn.dev/badge/Package_mgr-Yarn-2C8EBB.svg?logo=yarn&variant=branded&size=sm&theme=stone)
-![Language · TypeScript](https://www.shieldcn.dev/badge/Language-TypeScript-3178C6.svg?logo=typescript&variant=branded&size=sm&theme=stone)
-![Lint · ESLint](https://www.shieldcn.dev/badge/Lint-ESLint-4B32C3.svg?logo=eslint&variant=branded&size=sm&theme=stone)
-![Format · Prettier](https://www.shieldcn.dev/badge/Format-Prettier-F7B93E.svg?logo=prettier&variant=branded&size=sm&theme=stone)
-![Framework · Next.js](https://www.shieldcn.dev/badge/Framework-Next.js-000000.svg?logo=nextdotjs&variant=branded&size=sm&theme=stone)
+- [Next.js](https://nextjs.org) (App Router) with React 19 and TypeScript
+- Tailwind CSS v4, Base UI, `cmdk` command menu, `next-themes` (light/dark)
+- Framer Motion, GSAP and Matter.js for motion
+- Open source and contribution data fetched from the GitHub API and cached daily
+- Vercel Analytics, Speed Insights and (opt-in, consent-gated) Microsoft Clarity
 
-### Stack
-![Radix UI](https://www.shieldcn.dev/badge/Stack-Radix_UI-000000.svg?logo=radixui&variant=branded&size=sm&theme=stone)
-![React](https://www.shieldcn.dev/badge/Stack-React-61DAFB.svg?logo=react&variant=branded&size=sm&theme=stone)
-![Husky](https://www.shieldcn.dev/badge/Stack-Husky-3B82F6.svg?logo=husky&variant=branded&size=sm&theme=stone)
-![lint-staged](https://www.shieldcn.dev/badge/Stack-lint--staged-F05032.svg?logo=git&variant=branded&size=sm&theme=stone)
-![Tailwind CSS](https://www.shieldcn.dev/badge/Stack-Tailwind_CSS-06B6D4.svg?logo=tailwindcss&variant=branded&size=sm&theme=stone)
+## Run locally
+
+Requires Node 22+ and Yarn 1.
+
+```bash
+yarn install
+cp .env.sample .env.local
+yarn dev
+```
+
+Open http://localhost:3000. Both variables below are optional locally:
+
+| Variable | Purpose |
+| --- | --- |
+| `GITHUB_TOKEN` | Raises the GitHub API rate limit for the open source section |
+| `NEXT_PUBLIC_CLARITY_ID` | Enables Microsoft Clarity (production only, behind the consent banner) |
+
+## Scripts
+
+| Command | What it does |
+| --- | --- |
+| `yarn dev` | Start the dev server |
+| `yarn build` / `yarn start` | Production build / serve it |
+| `yarn lint` | ESLint |
+| `yarn type:check` | TypeScript (run after a build so `next-env.d.ts` exists) |
+| `yarn format:check` | Prettier |
+
+Site content (profile, projects, experience, links) lives in [`src/app/data.ts`](src/app/data.ts).
 
 ## License
 
-Licensed under the [MIT license](./LICENSE).
+The **code** is MIT licensed, see [LICENSE](./LICENSE). You're free to use it as a starting point.
 
-You're free to use my code! Just make sure to <ins>remove all my personal information</ins> before publishing your website. It's awesome to see my code being useful to someone!
+The **content** (text, résumé, images, project write-ups, and my name and likeness) is © Utkarsh Singhal, all rights reserved. Please replace all of it with your own before publishing your site.
 
-## Sponsors
+## Sponsor
 
-> Found this project useful? [Sponsor me](https://github.com/sponsors/Utkarsh-Singhal-26) to help with support and maintenance.
+Found this useful? [Sponsor me](https://github.com/sponsors/Utkarsh-Singhal-26).
