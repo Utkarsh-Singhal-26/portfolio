@@ -63,10 +63,21 @@ export const OPEN_SOURCE_REPOS: string[] = [
     "TheOrcDev/github-creature",
 ];
 
+const BIRTH_DATE = new Date("2004-10-26");
+
+export function getAge(now = new Date()): number {
+    let age = now.getUTCFullYear() - BIRTH_DATE.getUTCFullYear();
+    const hadBirthday =
+        now.getUTCMonth() > BIRTH_DATE.getUTCMonth() ||
+        (now.getUTCMonth() === BIRTH_DATE.getUTCMonth() &&
+            now.getUTCDate() >= BIRTH_DATE.getUTCDate());
+    if (!hadBirthday) age -= 1;
+    return age;
+}
+
 export const DATA = {
     HEADER: {
         NAME: "Utkarsh Singhal",
-        AGE: "21",
         PRONOUN: "he/him",
         HEADLINE: "I like shipping things people can actually use.",
         RESUME: "https://drive.google.com/file/d/1piWpArbdbjt4PKF4gZlR0nkD09au_8fE/view",

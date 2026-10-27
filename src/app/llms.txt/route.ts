@@ -1,4 +1,9 @@
-# Utkarsh Singhal
+import { getAge } from "@/app/data";
+
+// Re-rendered daily so the age stays current.
+export const revalidate = 86400;
+
+const TEMPLATE = `# Utkarsh Singhal
 
 > Software developer. Backend-leaning full-stack, TypeScript/Node/Python across Django, AdonisJS, and Next.js, with production time on Postgres, MongoDB, and Redis.
 
@@ -6,7 +11,7 @@ Personal portfolio: work, experience, open source contributions, and writing.
 
 ## About
 
-21, based in Delhi NCR, India (Asia/Kolkata). Currently SDE-1 Backend at Suraasa,
+{{AGE}}, based in Delhi NCR, India (Asia/Kolkata). Currently SDE-1 Backend at Suraasa,
 writing product APIs in TypeScript, Django, and AdonisJS, with caching,
 monitoring, and event-driven jobs against Postgres, MongoDB, and Redis.
 
@@ -40,3 +45,10 @@ TypeScript, Node.js, Python, Django, AdonisJS, React, Next.js, PostgreSQL, Mongo
 - GitHub: https://github.com/Utkarsh-Singhal-26
 - LinkedIn: https://www.linkedin.com/in/singhalutkarsh26
 - Email: singhalutkarsh26@gmail.com
+`;
+
+export function GET() {
+    return new Response(TEMPLATE.replace("{{AGE}}", String(getAge())), {
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+}

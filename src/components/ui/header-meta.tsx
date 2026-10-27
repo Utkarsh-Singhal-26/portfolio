@@ -32,7 +32,7 @@ function formatLocalTime(date: Date, timezone: string) {
                 part.type === "hour" ||
                 part.type === "minute" ||
                 part.type === "second" ||
-                part.type === "literal",
+                part.type === "literal"
         )
         .map((part) => part.value)
         .join("")
