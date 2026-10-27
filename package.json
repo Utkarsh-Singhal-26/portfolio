@@ -28,7 +28,7 @@
         "lint:fix": "vp lint --fix",
         "format:write": "vp fmt",
         "format:check": "vp fmt --check",
-        "type:check": "vp check --no-fmt --no-lint",
+        "type:check": "tsc --noEmit --pretty",
         "prepare": "[ -e .git ] || exit 0; vp config --no-agent --hooks-dir .vite-hooks"
     },
     "dependencies": {

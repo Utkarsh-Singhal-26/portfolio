@@ -31,13 +31,13 @@ Open http://localhost:3000. Both variables below are optional locally:
 
 ## Scripts
 
-| Command                     | What it does                                                            |
-| --------------------------- | ----------------------------------------------------------------------- |
-| `yarn dev`                  | Start the dev server                                                    |
-| `yarn build` / `yarn start` | Production build / serve it                                             |
-| `yarn lint`                 | Lint with Vite+ (oxlint)                                                |
-| `yarn type:check`           | TypeScript via `vp check` (run after a build so `next-env.d.ts` exists) |
-| `yarn format:check`         | Format check with Vite+ (oxfmt)                                         |
+| Command                     | What it does                                             |
+| --------------------------- | -------------------------------------------------------- |
+| `yarn dev`                  | Start the dev server                                     |
+| `yarn build` / `yarn start` | Production build / serve it                              |
+| `yarn lint`                 | Lint with Vite+ (oxlint)                                 |
+| `yarn type:check`           | TypeScript (run after a build so `next-env.d.ts` exists) |
+| `yarn format:check`         | Format check with Vite+ (oxfmt)                          |
 
 Site content (profile, projects, experience, links) lives in [`src/app/data.ts`](src/app/data.ts).
 
