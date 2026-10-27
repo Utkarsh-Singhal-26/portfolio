@@ -2,7 +2,7 @@
 
 Personal portfolio of Utkarsh Singhal, a backend-leaning full-stack developer: shipped work, experience, open source contributions, and writing.
 
-[![Portfolio preview](https://utkarsh-singhal.is-a.dev/opengraph-image)](https://utkarsh-singhal.is-a.dev)
+[![Portfolio preview](docs/preview.png)](https://utkarsh-singhal.is-a.dev)
 
 ## Stack
 
