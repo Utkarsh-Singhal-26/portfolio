@@ -1,6 +1,5 @@
 import { getAge } from "@/app/data";
 
-// Re-rendered daily so the age stays current.
 export const revalidate = 86400;
 
 const TEMPLATE = `# Utkarsh Singhal

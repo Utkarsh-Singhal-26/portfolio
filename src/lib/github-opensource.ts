@@ -374,7 +374,6 @@ const loadOpenSource = unstable_cache(
         const graphql = await fromGraphQL();
         if (graphql?.repos.length) return graphql;
         const rest = await fromRest();
-        // Throw so unstable_cache doesn't store a failed (empty) result for 24h.
         if (!rest.repos.length) throw new Error("open-source fetch failed");
         return rest;
     },
