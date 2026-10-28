@@ -94,25 +94,25 @@
         );
 
         /* Cool zinc. Single accent: desaturated pine teal. */
-        --background: 240 8% 97%;
+        --background: 240 7% 92%;
         --foreground: 240 12% 8%;
-        --card: 240 10% 99%;
+        --card: 240 8% 95%;
         --card-foreground: 240 12% 8%;
-        --popover: 240 10% 99%;
+        --popover: 240 8% 95%;
         --popover-foreground: 240 12% 8%;
         --primary: 240 12% 10%;
-        --primary-foreground: 240 8% 97%;
-        --secondary: 240 8% 93%;
+        --primary-foreground: 240 7% 94%;
+        --secondary: 240 7% 88%;
         --secondary-foreground: 240 12% 10%;
-        --muted: 240 8% 93%;
-        --muted-foreground: 240 6% 42%;
-        --accent: 240 8% 93%;
+        --muted: 240 7% 88%;
+        --muted-foreground: 240 6% 36%;
+        --accent: 240 7% 88%;
         --accent-foreground: 240 12% 10%;
         --destructive: 0 72% 48%;
-        --destructive-foreground: 240 8% 97%;
-        --border: 240 8% 88%;
-        --line: 240 8% 74%;
-        --input: 240 8% 88%;
+        --destructive-foreground: 240 7% 94%;
+        --border: 240 7% 83%;
+        --line: 240 7% 68%;
+        --input: 240 7% 83%;
         --ring: 172 42% 32%;
         --brand: 172 42% 32%;
         --brand-foreground: 0 0% 100%;
