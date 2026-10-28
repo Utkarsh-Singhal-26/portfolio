@@ -56,6 +56,7 @@ export const OPEN_SOURCE_REPOS: string[] = [
     "DavidHDev/vue-bits",
     "DavidHDev/react-bits",
     "DavidHDev/svelte-bits",
+    "motdotla/dotenv",
     "kubestellar/console",
     "ansvisor/ansvisor",
     "wigggle-ui/ui",

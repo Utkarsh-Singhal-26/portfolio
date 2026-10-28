@@ -32,7 +32,6 @@
         "prepare": "[ -e .git ] || exit 0; vp config --no-agent --hooks-dir .vite-hooks"
     },
     "dependencies": {
-        "@base-ui/react": "^1.7.0",
         "@phosphor-icons/react": "^2.1.10",
         "@vercel/analytics": "^2.0.1",
         "@vercel/speed-insights": "^2.0.0",

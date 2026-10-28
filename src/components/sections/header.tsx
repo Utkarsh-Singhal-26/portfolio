@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/github-contribution";
 import { HeaderMeta } from "@/components/ui/header-meta";
 import { Reveal } from "@/components/ui/reveal";
+import { TechText } from "@/components/ui/tech-text";
 
 export function Header({
     data,
@@ -33,8 +34,16 @@ export function Header({
                         longitude={LOCATION.longitude}
                         timezone={LOCATION.timezone}
                     />
-                    <h1 className="mt-2 max-w-[12ch] font-semibold text-foreground text-4xl sm:text-5xl md:text-6xl md:leading-[1.05] tracking-tight">
-                        {data.NAME}
+                    <h1 className="mt-2 h-26 sm:h-31 md:h-35 text-foreground">
+                        <TechText
+                            text={data.NAME}
+                            fontSize={120}
+                            align="left"
+                            letterSpacing={-0.04}
+                            guides
+                            intro="metrics"
+                            accentColor="color-mix(in srgb, var(--color-brand) 65%, var(--color-foreground))"
+                        />
                     </h1>
                     <p className="mt-3 max-w-[36ch] text-muted-foreground text-base md:text-lg leading-relaxed">
                         {data.HEADLINE}

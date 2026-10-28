@@ -4,12 +4,6 @@ import { format } from "date-fns";
 import { use } from "react";
 
 import { GITHUB_USERNAME } from "@/app/data";
-import {
-    TooltipContent,
-    TooltipProvider,
-    TooltipRoot,
-    TooltipTrigger,
-} from "@/components/base-ui/tooltip";
 import type { Activity } from "@/components/kibo-ui/contribution-graph";
 import {
     ContributionGraph,
@@ -19,6 +13,16 @@ import {
     ContributionGraphLegend,
     ContributionGraphTotalCount,
 } from "@/components/kibo-ui/contribution-graph";
+import { WarmTooltipField } from "@/components/ui/warm-tooltip";
+
+const tipLabel = (el: Element) => {
+    const count = Number(el.getAttribute("data-count"));
+    const date = format(
+        new Date(el.getAttribute("data-date") ?? ""),
+        "dd.MM.yyyy"
+    );
+    return `${count} contribution${count === 1 ? "" : "s"} on ${date}`;
+};
 
 export function GitHubContributionGraph({
     contributions,
@@ -28,7 +32,7 @@ export function GitHubContributionGraph({
     const data = use(contributions);
 
     return (
-        <TooltipProvider>
+        <WarmTooltipField selector="rect[data-date]" getLabel={tipLabel}>
             <ContributionGraph
                 className="mx-auto py-2 cursor-target"
                 data={data}
@@ -41,26 +45,11 @@ export function GitHubContributionGraph({
                     title="GitHub Contributions"
                 >
                     {({ activity, dayIndex, weekIndex }) => (
-                        <TooltipRoot>
-                            <TooltipTrigger render={<g />}>
-                                <ContributionGraphBlock
-                                    activity={activity}
-                                    dayIndex={dayIndex}
-                                    weekIndex={weekIndex}
-                                />
-                            </TooltipTrigger>
-
-                            <TooltipContent className="font-sans">
-                                <p>
-                                    {activity.count} contribution
-                                    {activity.count === 1 ? "" : "s"} on{" "}
-                                    {format(
-                                        new Date(activity.date),
-                                        "dd.MM.yyyy"
-                                    )}
-                                </p>
-                            </TooltipContent>
-                        </TooltipRoot>
+                        <ContributionGraphBlock
+                            activity={activity}
+                            dayIndex={dayIndex}
+                            weekIndex={weekIndex}
+                        />
                     )}
                 </ContributionGraphCalendar>
 
@@ -86,7 +75,7 @@ export function GitHubContributionGraph({
                     <ContributionGraphLegend />
                 </ContributionGraphFooter>
             </ContributionGraph>
-        </TooltipProvider>
+        </WarmTooltipField>
     );
 }
 
