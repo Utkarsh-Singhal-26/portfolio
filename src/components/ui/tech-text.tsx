@@ -604,14 +604,16 @@ export function TechText({
             const pad = Math.max(12, view.size * 0.12);
             const x1 = Math.round(view.left - pad);
             const x2 = Math.round(view.right + pad);
-            const room = width - x2 > x1;
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             ctx.strokeStyle = accent;
             ctx.fillStyle = accent;
             ctx.lineWidth = 1;
             ctx.font = LABEL_FONT;
             ctx.textBaseline = "middle";
-            ctx.textAlign = room ? "left" : "right";
+            const widest = Math.max(
+                ...view.lines.map((line) => ctx.measureText(line.label).width)
+            );
+            const showLabels = s.labels && width - x2 - 8 >= widest;
             view.lines.forEach((line, k) => {
                 const grow = growth(k);
                 if (grow <= 0.001) return;
@@ -625,13 +627,9 @@ export function TechText({
                 ctx.globalAlpha = alpha * 0.9;
                 ctx.fillRect(x1 - 1, Math.round(line.y) - 1, 3, 3);
                 ctx.fillRect(Math.round(end) - 1, Math.round(line.y) - 1, 3, 3);
-                if (s.labels) {
+                if (showLabels) {
                     ctx.globalAlpha = alpha * smoothstep(0.7, 1, grow);
-                    ctx.fillText(
-                        line.label,
-                        room ? x2 + 8 : x1 - 8,
-                        Math.round(line.y)
-                    );
+                    ctx.fillText(line.label, x2 + 8, Math.round(line.y));
                 }
             });
             ctx.textAlign = "left";
