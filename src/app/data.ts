@@ -81,7 +81,7 @@ export const DATA = {
         NAME: "Utkarsh Singhal",
         PRONOUN: "he/him",
         HEADLINE: "I like shipping things people can actually use.",
-        RESUME: "https://drive.google.com/file/d/1piWpArbdbjt4PKF4gZlR0nkD09au_8fE/view",
+        RESUME: "https://drive.google.com/file/d/1cIGjSvD9CLdq3WMwDn7WAjGpt0bq-Jhk/view",
         EMAIL: "mailto:singhalutkarsh26@gmail.com",
         GITHUB: "https://github.com/Utkarsh-Singhal-26",
         LINKEDIN: "https://www.linkedin.com/in/singhalutkarsh26",
