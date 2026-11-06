@@ -1,11 +1,11 @@
 import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 
-import { DATA } from "@/app/data";
-import { Footer } from "@/components/sections/footer";
-import { Navbar } from "@/components/sections/navbar";
+import { Footer } from "@/components/layout/footer";
+import { Navbar } from "@/components/layout/navbar";
 import { Stripe } from "@/components/ui/blueprint";
 import { CtaLink } from "@/components/ui/cta-link";
+import { DATA } from "@/content/data";
 
 const PLACES = [
     { href: "/", label: "Home", hint: "The whole site lives here" },
@@ -30,12 +30,12 @@ const PLACES = [
         hint: "Notes on TypeScript",
     },
     {
-        href: DATA.HEADER.RESUME,
+        href: DATA.header.resume,
         label: "Resume",
         hint: "PDF",
     },
     {
-        href: DATA.HEADER.EMAIL,
+        href: `mailto:${DATA.header.email}`,
         label: "Email",
         hint: "Fastest way to reach me",
     },

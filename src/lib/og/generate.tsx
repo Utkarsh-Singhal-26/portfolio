@@ -1,11 +1,11 @@
 import { ImageResponse } from "next/og";
 import sharp from "sharp";
 
-import { SITE } from "@/app/data";
-import { DISPLAY_SIZE, OgCard, SIZE } from "@/app/og/card";
-import { loadOgFonts } from "@/app/og/fonts";
-import { contributionWeeks, emptyWeeks } from "@/app/og/weeks";
-import { getGitHubContributions } from "@/lib/github-contribution";
+import { SITE } from "@/content/data";
+import { getGitHubContributions } from "@/lib/github/contributions";
+import { DISPLAY_SIZE, OgCard, SIZE } from "@/lib/og/card";
+import { loadOgFonts } from "@/lib/og/fonts";
+import { contributionWeeks, emptyWeeks } from "@/lib/og/weeks";
 
 export const OG_IMAGE_SIZE = DISPLAY_SIZE;
 export const OG_IMAGE_CONTENT_TYPE = "image/jpeg";

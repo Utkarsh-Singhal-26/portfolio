@@ -7,8 +7,8 @@ import type {
     OpenSourcePr,
     OpenSourceRepo,
     OpenSourceSnapshot,
-} from "@/lib/github-opensource";
-import { getOpenSource } from "@/lib/github-opensource";
+} from "@/lib/github/open-source";
+import { getOpenSource } from "@/lib/github/open-source";
 
 function cleanCopy(text: string): string {
     return text

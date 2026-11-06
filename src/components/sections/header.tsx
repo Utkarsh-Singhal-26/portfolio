@@ -4,17 +4,17 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { Suspense } from "react";
 
-import { getAge, LOCATION } from "@/app/data";
-import type { Activity } from "@/components/kibo-ui/contribution-graph";
-import { MovingElement } from "@/components/navbar";
-import { CtaLink } from "@/components/ui/cta-link";
 import {
     GitHubContributionFallback,
     GitHubContributionGraph,
-} from "@/components/ui/github-contribution";
-import { HeaderMeta } from "@/components/ui/header-meta";
+} from "@/components/features/contribution-calendar";
+import { HeaderMeta } from "@/components/features/header-meta";
+import { TechText } from "@/components/features/tech-text";
+import type { Activity } from "@/components/kibo-ui/contribution-graph";
+import { CtaLink } from "@/components/ui/cta-link";
+import { MovingElement } from "@/components/ui/moving-element";
 import { Reveal } from "@/components/ui/reveal";
-import { TechText } from "@/components/ui/tech-text";
+import { getAge, LOCATION } from "@/content/data";
 
 export function Header({
     data,
@@ -29,14 +29,14 @@ export function Header({
                 <Reveal eager>
                     <HeaderMeta
                         age={String(getAge())}
-                        pronoun={data.PRONOUN}
+                        pronoun={data.pronoun}
                         latitude={LOCATION.latitude}
                         longitude={LOCATION.longitude}
                         timezone={LOCATION.timezone}
                     />
                     <h1 className="mt-2 h-26 sm:h-31 md:h-35 text-foreground">
                         <TechText
-                            text={data.NAME}
+                            text={data.name}
                             fontSize={120}
                             align="left"
                             letterSpacing={-0.04}
@@ -46,15 +46,15 @@ export function Header({
                         />
                     </h1>
                     <p className="mt-3 max-w-[36ch] text-muted-foreground text-base md:text-lg leading-relaxed">
-                        {data.HEADLINE}
+                        {data.headline}
                     </p>
                     <div className="flex items-center gap-4 mt-5">
-                        <CtaLink href={data.RESUME} external>
+                        <CtaLink href={data.resume} external>
                             Resume
                         </CtaLink>
                         <div className="flex items-center gap-1">
                             <MovingElement
-                                href={data.GITHUB}
+                                href={data.github}
                                 ariaLabel="GitHub"
                             >
                                 <GithubLogoIcon
@@ -64,7 +64,7 @@ export function Header({
                                 />
                             </MovingElement>
                             <MovingElement
-                                href={data.LINKEDIN}
+                                href={data.linkedin}
                                 ariaLabel="LinkedIn"
                             >
                                 <LinkedinLogoIcon
@@ -94,9 +94,9 @@ export function Header({
                 <span className="cross cross-tl" />
                 <span className="cross cross-tr" />
                 <p className="max-w-[62ch] text-muted-foreground text-base leading-relaxed">
-                    {data.INTRO}{" "}
-                    <span className="text-foreground">{data.FOCUS}</span>{" "}
-                    {data.EXPERTISE}
+                    {data.intro}{" "}
+                    <span className="text-foreground">{data.focus}</span>{" "}
+                    {data.expertise}
                 </p>
             </div>
         </header>

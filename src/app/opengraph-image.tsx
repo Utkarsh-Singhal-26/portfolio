@@ -1,9 +1,9 @@
-import { SITE } from "@/app/data";
+import { SITE } from "@/content/data";
 import {
     generateOgImage,
     OG_IMAGE_CONTENT_TYPE,
     OG_IMAGE_SIZE,
-} from "@/app/og/generate";
+} from "@/lib/og/generate";
 
 export const alt = SITE.ogAlt;
 export const size = OG_IMAGE_SIZE;

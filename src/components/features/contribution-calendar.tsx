@@ -3,7 +3,6 @@
 import { format } from "date-fns";
 import { use } from "react";
 
-import { GITHUB_USERNAME } from "@/app/data";
 import type { Activity } from "@/components/kibo-ui/contribution-graph";
 import {
     ContributionGraph,
@@ -14,6 +13,7 @@ import {
     ContributionGraphTotalCount,
 } from "@/components/kibo-ui/contribution-graph";
 import { WarmTooltipField } from "@/components/ui/warm-tooltip";
+import { GITHUB_USERNAME } from "@/content/data";
 
 const tipLabel = (el: Element) => {
     const count = Number(el.getAttribute("data-count"));

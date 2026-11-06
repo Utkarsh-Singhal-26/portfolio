@@ -3,8 +3,8 @@
 import { ArrowUpRightIcon } from "@phosphor-icons/react";
 import { format, parse } from "date-fns";
 
-import type { ExperienceCompany, ExperienceRole } from "@/app/data";
 import { Reveal } from "@/components/ui/reveal";
+import type { ExperienceCompany, ExperienceRole } from "@/content/data";
 
 function monthLabel(value: string) {
     return format(parse(value, "yyyy-MM", new Date()), "MMM yyyy");

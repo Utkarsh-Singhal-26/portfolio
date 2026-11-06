@@ -1,7 +1,7 @@
 import { unstable_cache } from "next/cache";
 
-import { GITHUB_USERNAME } from "@/app/data";
 import type { Activity } from "@/components/kibo-ui/contribution-graph";
+import { GITHUB_USERNAME } from "@/content/data";
 
 type GitHubContributionsResponse = {
     contributions?: Activity[];
@@ -11,7 +11,8 @@ type GitHubContributionsResponse = {
 const loadContributions = unstable_cache(
     async (): Promise<Activity[]> => {
         const res = await fetch(
-            `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=last`
+            `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=last`,
+            { signal: AbortSignal.timeout(8000) }
         );
         if (!res.ok) throw new Error(`contributions API ${res.status}`);
         const data = (await res.json()) as GitHubContributionsResponse;

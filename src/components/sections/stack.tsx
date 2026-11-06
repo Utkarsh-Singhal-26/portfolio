@@ -4,8 +4,8 @@ import { ArrowCounterClockwiseIcon } from "@phosphor-icons/react";
 import type { Body as MatterBody } from "matter-js";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-import { CHIPS, type Chip } from "@/app/data";
 import { Reveal } from "@/components/ui/reveal";
+import { CHIPS, type Chip } from "@/content/data";
 import { cn } from "@/lib/utils";
 
 const CHIP_RADIUS = 14;

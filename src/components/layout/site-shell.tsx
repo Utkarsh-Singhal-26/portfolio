@@ -1,9 +1,9 @@
-import { DATA } from "@/app/data";
+import { FloatingMascot } from "@/components/features/floating-mascot";
+import { Footer } from "@/components/layout/footer";
+import { Navbar } from "@/components/layout/navbar";
 import { Contact } from "@/components/sections/contact";
-import { Footer } from "@/components/sections/footer";
-import { Navbar } from "@/components/sections/navbar";
 import { Stripe } from "@/components/ui/blueprint";
-import { FloatingMascot } from "@/components/ui/floating-mascot";
+import { DATA } from "@/content/data";
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
     return (
@@ -13,7 +13,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             <main id="content" className="flex flex-col w-full">
                 {children}
                 <Stripe />
-                <Contact data={DATA.HEADER} />
+                <Contact data={DATA.header} />
                 <Stripe />
                 <Footer />
             </main>
