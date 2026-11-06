@@ -56,7 +56,7 @@ export function GitHubContributionGraph({
                 <ContributionGraphFooter className="px-2">
                     <ContributionGraphTotalCount>
                         {({ totalCount }) => (
-                            <div className="font-mono tabular-nums text-[13px] text-muted-foreground">
+                            <div className="font-mono tabular-nums text-[13px] text-muted-foreground whitespace-normal">
                                 {totalCount.toLocaleString("en")} contributions
                                 in the last year on{" "}
                                 <a
