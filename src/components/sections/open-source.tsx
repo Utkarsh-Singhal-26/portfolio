@@ -193,7 +193,7 @@ function RepoCard({ repo, index }: { repo: OpenSourceRepo; index: number }) {
                             {repo.prCount}
                         </span>
                         <span className="block font-mono text-[10px] text-muted-foreground">
-                            PRs
+                            {repo.prCount === 1 ? "PR" : "PRs"}
                         </span>
                     </span>
                 </div>
