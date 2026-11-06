@@ -42,6 +42,7 @@ export function Header({
                             letterSpacing={-0.04}
                             guides
                             intro="metrics"
+                            introDuration={0.9}
                             accentColor="color-mix(in srgb, var(--color-brand) 65%, var(--color-foreground))"
                         />
                     </h1>
