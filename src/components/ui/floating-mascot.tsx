@@ -69,6 +69,19 @@ export function FloatingMascot() {
         const svg = art.current;
         if (!el || !svg) return;
 
+        // phones get a smaller Commit; physics uses the scaled size
+        let k = 1;
+        let w = W;
+        let h = H;
+        const fit = () => {
+            k = window.innerWidth < 640 ? 0.6 : 1;
+            w = W * k;
+            h = H * k;
+            el.style.width = `${w}px`;
+            el.style.height = `${h}px`;
+        };
+        fit();
+
         const reduce = window.matchMedia(
             "(prefers-reduced-motion: reduce)"
         ).matches;
@@ -77,7 +90,7 @@ export function FloatingMascot() {
 
         const s = {
             x: window.innerWidth * 0.7,
-            y: reduce ? floorY() - H : -H - 20,
+            y: reduce ? floorY() - h : -h - 20,
             vx: 0,
             vy: 0,
             on: null as HTMLElement | "floor" | null,
@@ -134,7 +147,7 @@ export function FloatingMascot() {
         };
 
         const land = (on: HTMLElement | "floor", top: number) => {
-            s.y = top - H;
+            s.y = top - h;
             if (s.vy > 380 && !reduce) {
                 s.vy = -s.vy * 0.35;
                 s.vx *= 0.7;
@@ -210,6 +223,7 @@ export function FloatingMascot() {
             }
         };
         const onResize = () => {
+            fit();
             lines = [...document.querySelectorAll<HTMLElement>(".rule-t")];
         };
 
@@ -237,21 +251,21 @@ export function FloatingMascot() {
                 } else {
                     s.vy += GRAVITY * dt;
                     s.vx *= 1 - 0.8 * dt;
-                    const prevFeet = s.y + H;
+                    const prevFeet = s.y + h;
                     s.x += s.vx * dt;
                     s.y += s.vy * dt;
                     if (s.x < EDGE) {
                         s.x = EDGE;
                         s.vx = Math.abs(s.vx) * 0.5;
                     }
-                    if (s.x > vw - W - EDGE) {
-                        s.x = vw - W - EDGE;
+                    if (s.x > vw - w - EDGE) {
+                        s.x = vw - w - EDGE;
                         s.vx = -Math.abs(s.vx) * 0.5;
                     }
                     s.y = Math.max(s.y, -400);
-                    const feet = s.y + H;
+                    const feet = s.y + h;
                     if (s.vy > 0) {
-                        const mid = s.x + W / 2;
+                        const mid = s.x + w / 2;
                         let hit: HTMLElement | null = null;
                         let hitTop = Infinity;
                         for (const line of lines) {
@@ -287,9 +301,9 @@ export function FloatingMascot() {
                         setMode("fall");
                     }
                 }
-                if (s.on) s.y = top - H;
+                if (s.on) s.y = top - h;
 
-                const right = vw - W - (s.on === "floor" ? SEARCH : EDGE);
+                const right = vw - w - (s.on === "floor" ? SEARCH : EDGE);
                 if (!reduce && s.mode !== "sleep") {
                     if (now - s.lastMove > SLEEP_MS) setMode("sleep");
                     s.timer -= dt;
@@ -342,8 +356,8 @@ export function FloatingMascot() {
                 let dx = s.dir;
                 let dy = 0;
                 if (s.px >= 0 && now - s.lastMove < 4000) {
-                    dx = s.px - (s.x + W / 2);
-                    dy = s.py - (s.y + STEP * 1.5);
+                    dx = s.px - (s.x + w / 2);
+                    dy = s.py - (s.y + STEP * 1.5 * k);
                 }
                 if (s.mode === "held" || s.mode === "fall") dy = 1;
                 const d = Math.hypot(dx, dy) || 1;
@@ -374,7 +388,7 @@ export function FloatingMascot() {
             }
 
             if (s.mode === "held" && readout.current) {
-                readout.current.textContent = `${W} × ${H} · x ${Math.round(s.x)} y ${Math.round(s.y)}`;
+                readout.current.textContent = `${Math.round(w)} × ${Math.round(h)} · x ${Math.round(s.x)} y ${Math.round(s.y)}`;
             }
         };
         el.dataset.mode = s.mode;
@@ -396,7 +410,7 @@ export function FloatingMascot() {
         <div
             ref={root}
             aria-hidden="true"
-            className="group hidden sm:block fixed top-0 left-0 z-40 touch-none select-none cursor-target"
+            className="group block fixed top-0 left-0 z-40 touch-none select-none cursor-target"
             style={{
                 width: W,
                 height: H,
@@ -426,8 +440,8 @@ export function FloatingMascot() {
 
             <svg
                 ref={art}
-                width={W}
-                height={H}
+                width="100%"
+                height="100%"
                 viewBox={`0 0 ${W} ${H}`}
                 className="block overflow-visible"
                 style={{ transformOrigin: "50% 100%" }}
