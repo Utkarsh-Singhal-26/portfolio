@@ -11,6 +11,7 @@ import { CommandMenu } from "@/components/command-menu";
 import { ConsentBanner } from "@/components/consent-banner";
 import { SiteControls } from "@/components/site-controls";
 import { FrameMarks } from "@/components/ui/blueprint";
+import { BlueprintLoader } from "@/components/ui/blueprint-loader";
 import { TargetCursorLazy } from "@/components/ui/target-cursor-lazy";
 
 const outfit = Outfit({
@@ -113,6 +114,11 @@ export default function RootLayout({
         >
             <head>
                 <script
+                    dangerouslySetInnerHTML={{
+                        __html: `try{if(sessionStorage.getItem("drawn")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.loader="skip"}catch(e){}`,
+                    }}
+                />
+                <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
                         __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
@@ -126,6 +132,7 @@ export default function RootLayout({
                     Skip to content
                 </a>
                 <div className="grain" aria-hidden="true" />
+                <BlueprintLoader />
 
                 <ThemeProvider
                     attribute="class"

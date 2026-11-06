@@ -432,3 +432,22 @@ button {
 [cmdk-group]:not(:first-child) [cmdk-group-heading] {
     margin-top: 0;
 }
+
+/* Blueprint loader: skipped on repeat visits / reduced motion (set by the
+   inline head script), scroll locked while it is up, and a failsafe that
+   hides it if JS never runs. */
+html[data-loader="skip"] .blueprint-loader {
+    display: none;
+}
+html:not([data-loader="skip"]):has(.blueprint-loader:not([data-phase="exit"])) {
+    overflow: hidden;
+}
+.blueprint-loader {
+    animation: blueprint-loader-failsafe 0s linear 10s forwards;
+}
+@keyframes blueprint-loader-failsafe {
+    to {
+        visibility: hidden;
+        pointer-events: none;
+    }
+}
