@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
 
-import { GITHUB_USERNAME, OPEN_SOURCE_REPOS } from "@/app/data";
+import { GITHUB_USERNAME, OPEN_SOURCE_REPOS } from "@/content/data";
 
 export type OpenSourcePr = {
     number: number;
@@ -26,6 +26,7 @@ export type OpenSourceSnapshot = {
 };
 
 const RECENT_PR_LIMIT = 3;
+const FETCH_TIMEOUT_MS = 8000;
 const SEARCH_PAGE = 100;
 const SEARCH_MAX = 1000;
 const EMPTY: OpenSourceSnapshot = { repos: [], searchTotal: 0 };
@@ -87,47 +88,56 @@ type GraphQLResponse = {
     };
 };
 
-async function repoMeta(fullName: string): Promise<{
+type RepoMeta = {
     url: string;
     description: string | null;
     language: string | null;
     stars: number;
-}> {
-    const github = await githubJson<RepoResponse>(
-        `https://api.github.com/repos/${fullName}`
-    );
-    if (github) {
-        return {
-            url: github.html_url,
-            description: github.description,
-            language: github.language,
-            stars: github.stargazers_count,
-        };
-    }
+};
 
-    try {
+// Throws when both sources fail so unstable_cache never stores the fallback.
+const loadRepoMeta = unstable_cache(
+    async (fullName: string): Promise<RepoMeta> => {
+        const github = await githubJson<RepoResponse>(
+            `https://api.github.com/repos/${fullName}`
+        );
+        if (github) {
+            return {
+                url: github.html_url,
+                description: github.description,
+                language: github.language,
+                stars: github.stargazers_count,
+            };
+        }
+
         const res = await fetch(`https://ungh.cc/repos/${fullName}`, {
             cache: "no-store",
+            signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
         });
-        if (res.ok) {
-            const ungh = (await res.json()) as UnghRepo;
-            if (ungh.repo) {
-                return {
-                    url: `https://github.com/${fullName}`,
-                    description: ungh.repo.description ?? null,
-                    language: ungh.repo.language ?? null,
-                    stars: ungh.repo.stars ?? 0,
-                };
-            }
-        }
-    } catch {}
+        const ungh = res.ok ? ((await res.json()) as UnghRepo) : null;
+        if (!ungh?.repo) throw new Error(`repo meta failed: ${fullName}`);
+        return {
+            url: `https://github.com/${fullName}`,
+            description: ungh.repo.description ?? null,
+            language: ungh.repo.language ?? null,
+            stars: ungh.repo.stars ?? 0,
+        };
+    },
+    ["github-repo-meta-v1"],
+    { revalidate: 86400 }
+);
 
-    return {
-        url: `https://github.com/${fullName}`,
-        description: null,
-        language: null,
-        stars: 0,
-    };
+async function repoMeta(fullName: string): Promise<RepoMeta> {
+    try {
+        return await loadRepoMeta(fullName);
+    } catch {
+        return {
+            url: `https://github.com/${fullName}`,
+            description: null,
+            language: null,
+            stars: 0,
+        };
+    }
 }
 
 const githubHeaders = (): Record<string, string> => {
@@ -143,12 +153,20 @@ const githubHeaders = (): Record<string, string> => {
 };
 
 async function githubJson<T>(url: string): Promise<T | null> {
-    const res = await fetch(url, {
-        headers: githubHeaders(),
-        cache: "no-store",
-    });
-    if (!res.ok) return null;
-    return (await res.json()) as T;
+    try {
+        const res = await fetch(url, {
+            headers: githubHeaders(),
+            cache: "no-store",
+            signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+        });
+        if (!res.ok) {
+            console.warn(`GitHub API ${res.status}: ${url}`);
+            return null;
+        }
+        return (await res.json()) as T;
+    } catch {
+        return null;
+    }
 }
 
 function sortPrs(prs: OpenSourcePr[]): OpenSourcePr[] {
@@ -258,6 +276,7 @@ async function fromGraphQL(): Promise<OpenSourceSnapshot | null> {
 
         const res: Response = await fetch("https://api.github.com/graphql", {
             method: "POST",
+            signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
             headers: {
                 ...githubHeaders(),
                 "Content-Type": "application/json",
@@ -371,7 +390,7 @@ async function fromRest(): Promise<OpenSourceSnapshot> {
 
 const loadOpenSource = unstable_cache(
     async (): Promise<OpenSourceSnapshot> => {
-        const graphql = await fromGraphQL();
+        const graphql = await fromGraphQL().catch(() => null);
         if (graphql?.repos.length) return graphql;
         const rest = await fromRest();
         if (!rest.repos.length) throw new Error("open-source fetch failed");

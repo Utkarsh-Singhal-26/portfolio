@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 export async function loadOgFonts() {
-    const dir = join(process.cwd(), "src/app/og/fonts");
+    const dir = join(process.cwd(), "src/lib/og/fonts");
     const [outfitRegular, outfitSemiBold, geistMono] = await Promise.all([
         readFile(join(dir, "outfit-latin-400-normal.woff")),
         readFile(join(dir, "outfit-latin-600-normal.woff")),

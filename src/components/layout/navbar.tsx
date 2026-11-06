@@ -1,6 +1,8 @@
 "use client";
 
-import { AnimatedText, MovingElement, ThemeToggle } from "@/components/navbar";
+import { AnimatedText } from "@/components/layout/animated-text";
+import { MovingElement } from "@/components/ui/moving-element";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const LINKS = [
     { href: "/#work", label: "work" },

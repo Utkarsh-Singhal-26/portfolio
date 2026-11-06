@@ -1,15 +1,5 @@
-import { SITE } from "@/app/data";
-import {
-    generateOgImage,
-    OG_IMAGE_CONTENT_TYPE,
-    OG_IMAGE_SIZE,
-} from "@/app/og/generate";
+// Same image as opengraph-image. Route segment config (runtime) can't be
+// re-exported, so it's declared here.
+export { alt, contentType, default, size } from "@/app/opengraph-image";
 
-export const alt = SITE.ogAlt;
-export const size = OG_IMAGE_SIZE;
-export const contentType = OG_IMAGE_CONTENT_TYPE;
 export const runtime = "nodejs";
-
-export default async function TwitterImage() {
-    return generateOgImage();
-}

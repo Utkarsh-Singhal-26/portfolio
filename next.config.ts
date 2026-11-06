@@ -1,5 +1,24 @@
 import type { NextConfig } from "next";
 
+const isDev = process.env.NODE_ENV === "development";
+
+// Static CSP: a nonce-based one would force every page to render dynamically.
+// 'unsafe-inline' scripts cover Next's inline RSC payload, the loader-skip
+// script and the Clarity bootstrap; everything else is pinned to known origins.
+const csp = [
+    "default-src 'self'",
+    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://www.clarity.ms https://scripts.clarity.ms`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: blob: https:",
+    "font-src 'self'",
+    "connect-src 'self' https://*.clarity.ms https://c.bing.com",
+    "frame-ancestors 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "object-src 'none'",
+    ...(isDev ? [] : ["upgrade-insecure-requests"]),
+].join("; ");
+
 const nextConfig: NextConfig = {
     productionBrowserSourceMaps: false,
     images: {
@@ -10,6 +29,14 @@ const nextConfig: NextConfig = {
             {
                 source: "/(.*)",
                 headers: [
+                    {
+                        key: "Content-Security-Policy",
+                        value: csp,
+                    },
+                    {
+                        key: "Cross-Origin-Opener-Policy",
+                        value: "same-origin",
+                    },
                     {
                         key: "X-Frame-Options",
                         value: "DENY",

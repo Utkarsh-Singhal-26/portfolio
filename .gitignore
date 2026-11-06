@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+.lighthouse-*.json
 
 # next.js
 /.next/
@@ -45,3 +46,5 @@ next-env.d.ts
 package-lock.json
 pnpm-lock.yaml
 bun.lock
+
+chrome/

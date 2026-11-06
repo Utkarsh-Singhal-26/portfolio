@@ -4,8 +4,8 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 
-import type { Project } from "@/app/data";
 import { Reveal } from "@/components/ui/reveal";
+import type { Project } from "@/content/data";
 import { cn, extractDomain } from "@/lib/utils";
 
 function StackList({ stack }: { stack: string[] }) {

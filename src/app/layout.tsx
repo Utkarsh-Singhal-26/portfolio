@@ -6,13 +6,13 @@ import { ThemeProvider } from "next-themes";
 import { Geist_Mono, Outfit } from "next/font/google";
 import Script from "next/script";
 
-import { DATA, SITE } from "@/app/data";
-import { CommandMenu } from "@/components/command-menu";
-import { ConsentBanner } from "@/components/consent-banner";
-import { SiteControls } from "@/components/site-controls";
+import { BlueprintLoader } from "@/components/features/blueprint-loader";
+import { CommandMenu } from "@/components/features/command-menu";
+import { ConsentBanner } from "@/components/features/consent-banner";
+import { SiteControls } from "@/components/features/site-controls";
+import { TargetCursorLazy } from "@/components/features/target-cursor-lazy";
 import { FrameMarks } from "@/components/ui/blueprint";
-import { BlueprintLoader } from "@/components/ui/blueprint-loader";
-import { TargetCursorLazy } from "@/components/ui/target-cursor-lazy";
+import { DATA, SITE, SITE_URL } from "@/content/data";
 
 const outfit = Outfit({
     subsets: ["latin"],
@@ -26,11 +26,8 @@ const geistMono = Geist_Mono({
     variable: "--font-geist-mono",
 });
 
-const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://utkarsh-singhal.is-a.dev";
-
 export const metadata: Metadata = {
-    metadataBase: new URL(baseUrl),
+    metadataBase: new URL(SITE_URL),
     title: SITE.title,
     description: SITE.description,
     alternates: {
@@ -43,7 +40,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: SITE.title,
         description: SITE.description,
-        url: baseUrl,
+        url: SITE_URL,
         type: "website",
         locale: "en_US",
         siteName: "Utkarsh Singhal",
@@ -54,9 +51,7 @@ export const metadata: Metadata = {
         title: SITE.title,
         description: SITE.description,
     },
-    authors: [
-        { name: "Utkarsh Singhal", url: "https://utkarsh-singhal.is-a.dev/" },
-    ],
+    authors: [{ name: DATA.header.name, url: `${SITE_URL}/` }],
     keywords: [
         "Utkarsh Singhal",
         "Software Developer",
@@ -82,20 +77,20 @@ const jsonLd = {
     "@graph": [
         {
             "@type": "Person",
-            "@id": `${baseUrl}/#person`,
-            name: DATA.HEADER.NAME,
-            url: baseUrl,
+            "@id": `${SITE_URL}/#person`,
+            name: DATA.header.name,
+            url: SITE_URL,
             jobTitle: "Software Developer",
             description: SITE.description,
-            sameAs: [DATA.HEADER.GITHUB, DATA.HEADER.LINKEDIN],
+            sameAs: [DATA.header.github, DATA.header.linkedin],
         },
         {
             "@type": "WebSite",
-            "@id": `${baseUrl}/#website`,
-            url: baseUrl,
+            "@id": `${SITE_URL}/#website`,
+            url: SITE_URL,
             name: SITE.title,
             description: SITE.description,
-            publisher: { "@id": `${baseUrl}/#person` },
+            publisher: { "@id": `${SITE_URL}/#person` },
         },
     ],
 };

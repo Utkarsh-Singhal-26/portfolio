@@ -1,12 +1,11 @@
 import type { MetadataRoute } from "next";
 
-const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://utkarsh-singhal.is-a.dev";
+import { SITE_URL } from "@/content/data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
     return [
         {
-            url: `${baseUrl}/`,
+            url: `${SITE_URL}/`,
             changeFrequency: "weekly",
             priority: 1.0,
         },

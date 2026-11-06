@@ -26,9 +26,9 @@ import {
     type ReactNode,
 } from "react";
 
-import { DATA } from "@/app/data";
-import { toggleThemeFromPointer } from "@/components/navbar/theme-toggle";
 import { CornerMarks } from "@/components/ui/blueprint";
+import { toggleThemeFromPointer } from "@/components/ui/theme-toggle";
+import { DATA } from "@/content/data";
 import { setThemeAtPointer } from "@/lib/theme-transition";
 import { cn } from "@/lib/utils";
 
@@ -61,13 +61,13 @@ const JUMP = [
         href: "/#work",
         label: "Work",
         icon: StackIcon,
-        keywords: DATA.PROJECTS.map((project) => project.name),
+        keywords: DATA.projects.map((project) => project.name),
     },
     {
         href: "/#experience",
         label: "Experience",
         icon: BriefcaseIcon,
-        keywords: DATA.EXPERIENCE.map((company) => company.name),
+        keywords: DATA.experience.map((company) => company.name),
     },
     {
         href: "/#open-source",
@@ -299,7 +299,7 @@ function CommandPalette() {
                 </Command.Group>
 
                 <Command.Group heading="Work">
-                    {DATA.PROJECTS.map((project) => (
+                    {DATA.projects.map((project) => (
                         <CommandItem
                             key={project.href}
                             value={project.name}
@@ -313,7 +313,7 @@ function CommandPalette() {
                 </Command.Group>
 
                 <Command.Group heading="Writing">
-                    {DATA.WRITING.map((item) => (
+                    {DATA.writing.map((item) => (
                         <CommandItem
                             key={item.href}
                             value={item.title}
@@ -330,7 +330,9 @@ function CommandPalette() {
                     <CommandItem
                         value="Email"
                         keywords={["mail", "contact"]}
-                        onSelect={() => run(() => goTo(DATA.HEADER.EMAIL))}
+                        onSelect={() =>
+                            run(() => goTo(`mailto:${DATA.header.email}`))
+                        }
                     >
                         <EnvelopeSimpleIcon size={16} weight="light" />
                         Email
@@ -338,21 +340,21 @@ function CommandPalette() {
                     <CommandItem
                         value="Resume"
                         keywords={["cv", "pdf"]}
-                        onSelect={() => run(() => goTo(DATA.HEADER.RESUME))}
+                        onSelect={() => run(() => goTo(DATA.header.resume))}
                     >
                         <FileTextIcon size={16} weight="light" />
                         Resume
                     </CommandItem>
                     <CommandItem
                         value="GitHub"
-                        onSelect={() => run(() => goTo(DATA.HEADER.GITHUB))}
+                        onSelect={() => run(() => goTo(DATA.header.github))}
                     >
                         <GithubLogoIcon size={16} weight="light" />
                         GitHub
                     </CommandItem>
                     <CommandItem
                         value="LinkedIn"
-                        onSelect={() => run(() => goTo(DATA.HEADER.LINKEDIN))}
+                        onSelect={() => run(() => goTo(DATA.header.linkedin))}
                     >
                         <LinkedinLogoIcon size={16} weight="light" />
                         LinkedIn

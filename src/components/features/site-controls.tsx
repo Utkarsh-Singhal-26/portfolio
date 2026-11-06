@@ -2,7 +2,7 @@
 
 import { MagnifyingGlassIcon } from "@phosphor-icons/react";
 
-import { useCommandMenu } from "@/components/command-menu";
+import { useCommandMenu } from "@/components/features/command-menu";
 
 export function SiteControls() {
     const { setOpen } = useCommandMenu();

@@ -1,8 +1,8 @@
 import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { format, parseISO } from "date-fns";
 
-import type { Writing as WritingItem } from "@/app/data";
 import { Reveal } from "@/components/ui/reveal";
+import type { Writing as WritingItem } from "@/content/data";
 
 export function Writing({ data }: { data: WritingItem[] }) {
     return (

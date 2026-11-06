@@ -1,4 +1,4 @@
-import { DATA, getAge } from "@/app/data";
+import { DATA, getAge, SITE_URL } from "@/content/data";
 
 const BG = "#0e0e11";
 const FG = "#f4f4f6";
@@ -38,7 +38,7 @@ const LEFT_X = FRAME;
 const RIGHT_X = SIZE.width - FRAME;
 
 const NAV = ["work", "experience", "open source"] as const;
-const { NAME, PRONOUN, HEADLINE, FOCUS } = DATA.HEADER;
+const { name, pronoun, headline, focus } = DATA.header;
 
 function Cross({ x, y }: { x: number; y: number }) {
     const half = (CROSS_SIZE - 1) / 2;
@@ -121,7 +121,7 @@ function Graph({ weeks }: { weeks: number[][] }) {
 }
 
 export function OgCard({ weeks }: { weeks: number[][] }) {
-    const [firstName, ...lastParts] = NAME.split(" ");
+    const [firstName, ...lastParts] = name.split(" ");
     const lastName = lastParts.join(" ");
     const graphWeeks = weeks.slice(-GRAPH_WEEKS);
 
@@ -223,7 +223,7 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                         color: MUTED,
                     }}
                 >
-                    {getAge()}, {PRONOUN}
+                    {getAge()}, {pronoun}
                 </div>
                 <div
                     style={{
@@ -249,7 +249,7 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                         color: MUTED,
                     }}
                 >
-                    {HEADLINE}
+                    {headline}
                 </div>
             </div>
 
@@ -291,7 +291,7 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                         color: MUTED,
                     }}
                 >
-                    {FOCUS}
+                    {focus}
                 </div>
                 <div
                     style={{
@@ -301,7 +301,7 @@ export function OgCard({ weeks }: { weeks: number[][] }) {
                         color: MUTED,
                     }}
                 >
-                    utkarsh-singhal.is-a.dev
+                    {new URL(SITE_URL).host}
                 </div>
             </div>
 

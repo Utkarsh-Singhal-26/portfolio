@@ -1,8 +1,32 @@
-import { getAge } from "@/app/data";
+import { format, parse } from "date-fns";
+
+import { DATA, getAge, SITE_URL } from "@/content/data";
 
 export const revalidate = 86400;
 
-const TEMPLATE = `# Utkarsh Singhal
+const month = (value: string) =>
+    format(parse(value, "yyyy-MM", new Date()), "MMM yyyy");
+
+const experience = DATA.experience
+    .flatMap((company) =>
+        company.roles.map(
+            (role) =>
+                `- ${company.name}: ${role.title} (${role.type}), ${month(role.start)} to ${role.end ? month(role.end) : "present"}`
+        )
+    )
+    .join("\n");
+
+const projects = DATA.projects
+    .map((project) => `- ${project.name} (${project.href}): ${project.summary}`)
+    .join("\n");
+
+const writing = DATA.writing
+    .map((post) => `- [${post.title}](${post.href}), ${post.date}`)
+    .join("\n");
+
+function body() {
+    const { header } = DATA;
+    return `# ${header.name}
 
 > Software developer. Backend-leaning full-stack, TypeScript/Node/Python across Django, AdonisJS, and Next.js, with production time on Postgres, MongoDB, and Redis.
 
@@ -10,44 +34,42 @@ Personal portfolio: work, experience, open source contributions, and writing.
 
 ## About
 
-{{AGE}}, based in Delhi NCR, India (Asia/Kolkata). Currently SDE-1 Backend at Suraasa,
-writing product APIs in TypeScript, Django, and AdonisJS, with caching,
-monitoring, and event-driven jobs against Postgres, MongoDB, and Redis.
+${getAge()}, based in Delhi NCR, India (Asia/Kolkata). ${header.headline} ${header.focus}
 
 ## Experience
 
-- Suraasa — SDE-1 Backend, Jan 2026-present (Backend Developer Intern before that, Oct-Dec 2025)
-- Aardo Solutions — Software Developer, Nov 2024-Sep 2025: web apps on AWS EC2, TypeScript/React/Next.js/Node/MongoDB
-- VIPS-TC — Software Developer Intern, Nov 2023-Jun 2025: campus web apps in React, Firebase, GCP
-- Requestly — Product Engineer Intern, Aug-Oct 2024: API testing platform research, AWS Lambda/Kinesis/S3, Chrome extension
+${experience}
 
 ## Projects
 
-- Vue Bits / React Bits — animated component libraries (vue-bits.dev, reactbits.dev): sends animated Vue and React+TypeScript+Tailwind components into these libraries
-- Contributors Circles (contrib-circles.vercel.app) — circle-pack contributor badges for markdown, one-line embed
-- AirWatch (airwatch-pwa-app.vercel.app) — live air quality PWA with maps, charts, alerts
+${projects}
 
 ## Stack
 
 TypeScript, Node.js, Python, Django, AdonisJS, React, Next.js, PostgreSQL, MongoDB, Redis, AWS, GCP, Firebase, Tailwind CSS.
 
+## Writing
+
+${writing}
+
 ## Pages
 
-- [Home](https://utkarsh-singhal.is-a.dev/): profile, headline, and all sections below
-- [Work](https://utkarsh-singhal.is-a.dev/#work): shipped projects
-- [Experience](https://utkarsh-singhal.is-a.dev/#experience): roles and dates
-- [Open Source](https://utkarsh-singhal.is-a.dev/#open-source): merged pull requests
-- [Writing](https://utkarsh-singhal.is-a.dev/#writing): notes on TypeScript
+- [Home](${SITE_URL}/): profile, headline, and all sections below
+- [Work](${SITE_URL}/#work): shipped projects
+- [Experience](${SITE_URL}/#experience): roles and dates
+- [Open Source](${SITE_URL}/#open-source): merged pull requests
+- [Writing](${SITE_URL}/#writing): notes on TypeScript
 
 ## Contact
 
-- GitHub: https://github.com/Utkarsh-Singhal-26
-- LinkedIn: https://www.linkedin.com/in/singhalutkarsh26
-- Email: singhalutkarsh26@gmail.com
+- GitHub: ${header.github}
+- LinkedIn: ${header.linkedin}
+- Email: ${header.email}
 `;
+}
 
 export function GET() {
-    return new Response(TEMPLATE.replace("{{AGE}}", String(getAge())), {
+    return new Response(body(), {
         headers: { "Content-Type": "text/plain; charset=utf-8" },
     });
 }

@@ -13,7 +13,7 @@ export function Contact({ data }: { data: Record<string, string> }) {
                     fastest way.
                 </p>
                 <div className="mt-8">
-                    <CtaLink href={data.EMAIL}>Email me</CtaLink>
+                    <CtaLink href={`mailto:${data.email}`}>Email me</CtaLink>
                 </div>
             </Reveal>
         </section>

@@ -43,6 +43,9 @@ export type Writing = {
     href: string;
 };
 
+export const SITE_URL =
+    process.env.NEXT_PUBLIC_BASE_URL || "https://utkarsh-singhal.is-a.dev";
+
 export const GITHUB_USERNAME = "Utkarsh-Singhal-26";
 
 export const LOCATION = {
@@ -77,21 +80,21 @@ export function getAge(now = new Date()): number {
 }
 
 export const DATA = {
-    HEADER: {
-        NAME: "Utkarsh Singhal",
-        PRONOUN: "he/him",
-        HEADLINE: "I like shipping things people can actually use.",
-        RESUME: "https://drive.google.com/file/d/1cIGjSvD9CLdq3WMwDn7WAjGpt0bq-Jhk/view",
-        EMAIL: "mailto:singhalutkarsh26@gmail.com",
-        GITHUB: "https://github.com/Utkarsh-Singhal-26",
-        LINKEDIN: "https://www.linkedin.com/in/singhalutkarsh26",
-        INTRO: "I get restless if I am not building something I can share.",
-        FOCUS: "Nights go to open source and small tools.",
-        EXPERTISE:
+    header: {
+        name: "Utkarsh Singhal",
+        pronoun: "he/him",
+        headline: "I like shipping things people can actually use.",
+        resume: "https://drive.google.com/file/d/1cIGjSvD9CLdq3WMwDn7WAjGpt0bq-Jhk/view",
+        email: "singhalutkarsh26@gmail.com",
+        github: "https://github.com/Utkarsh-Singhal-26",
+        linkedin: "https://www.linkedin.com/in/singhalutkarsh26",
+        intro: "I get restless if I am not building something I can share.",
+        focus: "Nights go to open source and small tools.",
+        expertise:
             "I like reading other people's code as much as I like writing my own.",
     },
 
-    EXPERIENCE: [
+    experience: [
         {
             name: "Suraasa",
             website: "https://www.suraasa.com/",
@@ -212,7 +215,7 @@ export const DATA = {
         },
     ] satisfies ExperienceCompany[],
 
-    PROJECTS: [
+    projects: [
         {
             name: "Vue Bits",
             href: "https://vue-bits.dev/",
@@ -253,7 +256,7 @@ export const DATA = {
         },
     ] satisfies Project[],
 
-    WRITING: [
+    writing: [
         {
             title: "ORMs & ODMs: Choosing the Right Tool for Your Database Needs",
             date: "2025-03-24",
@@ -282,9 +285,9 @@ export const DATA = {
 };
 
 export const SITE = {
-    title: `${DATA.HEADER.NAME} | Software Developer`,
-    description: `${DATA.HEADER.HEADLINE} ${DATA.HEADER.FOCUS}`,
-    ogAlt: `${DATA.HEADER.NAME}. ${DATA.HEADER.HEADLINE}`,
+    title: `${DATA.header.name} | Software Developer`,
+    description: `${DATA.header.headline} ${DATA.header.focus}`,
+    ogAlt: `${DATA.header.name}. ${DATA.header.headline}`,
     twitterCreator: "@Utkarsh_2604",
 } as const;
 
