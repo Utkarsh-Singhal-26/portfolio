@@ -93,11 +93,9 @@ export function BlueprintLoader() {
 
     useEffect(() => {
         if (document.documentElement.dataset.loader === "skip") {
-            setPhase("gone");
-            return;
+            const id = requestAnimationFrame(() => setPhase("gone"));
+            return () => cancelAnimationFrame(id);
         }
-
-        setDate(format(new Date(), "dd.MM.yyyy"));
 
         const start = performance.now();
         let target = 0.2;
@@ -109,7 +107,10 @@ export function BlueprintLoader() {
             target = Math.max(target, n);
         };
 
-        raf = requestAnimationFrame(() => setDrawn(true));
+        raf = requestAnimationFrame(() => {
+            setDate(format(new Date(), "dd.MM.yyyy"));
+            setDrawn(true);
+        });
 
         const measure = () => {
             const d = deskSvg.current?.getBoundingClientRect();
