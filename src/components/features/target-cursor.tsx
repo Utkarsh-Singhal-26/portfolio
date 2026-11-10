@@ -148,6 +148,7 @@ export function TargetCursor() {
     return (
         <div
             ref={cursorRef}
+            aria-hidden="true"
             className="top-0 left-0 z-9999 fixed w-0 h-0 pointer-events-none mix-blend-difference"
             style={{ willChange: "transform" }}
         >
