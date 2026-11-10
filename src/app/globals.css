@@ -171,6 +171,10 @@
         outline: 2px solid hsl(var(--brand));
         outline-offset: 3px;
     }
+    /* Programmatic focus targets (sections after a jump) are not controls. */
+    [tabindex="-1"]:focus-visible {
+        outline: none;
+    }
 }
 
 @layer base {

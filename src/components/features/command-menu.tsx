@@ -21,6 +21,8 @@ import {
     useCallback,
     useContext,
     useEffect,
+    useLayoutEffect,
+    useRef,
     useState,
     type ComponentProps,
     type ReactNode,
@@ -144,10 +146,15 @@ function useGoTo() {
             if (href.startsWith("/#")) {
                 const id = href.slice(2);
                 if (window.location.pathname === "/") {
-                    document
-                        .getElementById(id)
-                        ?.scrollIntoView({ behavior: "smooth" });
+                    const section = document.getElementById(id);
+                    section?.scrollIntoView({ behavior: "smooth" });
                     history.replaceState(null, "", href);
+                    // Move keyboard focus with the scroll so Tab continues from the section.
+                    if (section)
+                        setTimeout(() => {
+                            section.tabIndex = -1;
+                            section.focus({ preventScroll: true });
+                        });
                     return;
                 }
                 router.push(href);
@@ -235,6 +242,19 @@ function CommandPalette() {
     const { setTheme } = useTheme();
     const goTo = useGoTo();
     const [search, setSearch] = useState("");
+
+    // Opened from state, not a Dialog.Trigger, so Radix has nothing to return
+    // focus to. Layout effect runs before Radix moves focus into the input.
+    useLayoutEffect(() => {
+        if (!open) return;
+        const previous = document.activeElement as HTMLElement | null;
+        return () => {
+            requestAnimationFrame(() => {
+                if (document.activeElement === document.body)
+                    previous?.focus({ preventScroll: true });
+            });
+        };
+    }, [open]);
 
     const onOpenChange = useCallback(
         (next: boolean) => {
@@ -413,36 +433,58 @@ function CommandPalette() {
 }
 
 function ShortcutHelp({ onClose }: { onClose: () => void }) {
+    const ref = useRef<HTMLDialogElement>(null);
+
+    // showModal gives focus trap, inert background and Escape for free.
+    useEffect(() => {
+        const dialog = ref.current;
+        const previous = document.activeElement as HTMLElement | null;
+        dialog?.showModal();
+        return () => {
+            dialog?.close();
+            previous?.focus({ preventScroll: true });
+        };
+    }, []);
+
     return (
-        <div
-            role="presentation"
-            className="z-85 fixed inset-0 bg-foreground/20"
-            onClick={(event) => {
-                if (event.target === event.currentTarget) onClose();
+        <dialog
+            ref={ref}
+            aria-label="Keyboard shortcuts"
+            onCancel={(event) => {
+                event.preventDefault();
+                onClose();
             }}
+            className="bg-transparent m-0 p-0 size-full max-w-none max-h-none overflow-visible outline-none backdrop:bg-transparent"
         >
-            <dialog
-                open
-                aria-label="Keyboard shortcuts"
-                className="top-[18vh] left-1/2 absolute bg-secondary m-0 p-0 border border-foreground/20 w-[min(92vw,28rem)] max-w-none text-foreground -translate-x-1/2"
+            <div
+                role="presentation"
+                className="fixed inset-0 bg-foreground/20"
+                onClick={(event) => {
+                    if (event.target === event.currentTarget) onClose();
+                }}
             >
-                <CornerMarks />
-                <div className="px-5 py-4 border-line border-b">
-                    <h2 className="font-medium text-sm tracking-tight">
-                        Keyboard shortcuts
-                    </h2>
+                <div className="top-[18vh] left-1/2 absolute bg-secondary border border-foreground/20 w-[min(92vw,28rem)] text-foreground -translate-x-1/2">
+                    <CornerMarks />
+                    <div className="px-5 py-4 border-line border-b">
+                        <h2 className="font-medium text-sm tracking-tight">
+                            Keyboard shortcuts
+                        </h2>
+                    </div>
+                    <div className="px-5 py-4 space-y-5">
+                        <ShortcutList
+                            title="Sections"
+                            items={SECTION_SHORTCUTS}
+                        />
+                        <ShortcutList title="Global" items={GLOBAL_SHORTCUTS} />
+                    </div>
+                    <div className="px-5 py-3 border-line border-t">
+                        <p className="font-mono text-[11px] text-muted-foreground text-center">
+                            Press <Kbd>esc</Kbd> to close
+                        </p>
+                    </div>
                 </div>
-                <div className="px-5 py-4 space-y-5">
-                    <ShortcutList title="Sections" items={SECTION_SHORTCUTS} />
-                    <ShortcutList title="Global" items={GLOBAL_SHORTCUTS} />
-                </div>
-                <div className="px-5 py-3 border-line border-t">
-                    <p className="font-mono text-[11px] text-muted-foreground text-center">
-                        Press <Kbd>esc</Kbd> to close
-                    </p>
-                </div>
-            </dialog>
-        </div>
+            </div>
+        </dialog>
     );
 }
 
