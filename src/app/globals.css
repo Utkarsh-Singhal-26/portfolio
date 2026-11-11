@@ -178,6 +178,10 @@
 }
 
 @layer base {
+    html {
+        background-color: hsl(var(--background));
+    }
+
     ::selection {
         background-color: hsl(var(--brand));
         color: hsl(var(--brand-foreground));
@@ -235,6 +239,23 @@
             translate: -50% 0;
         }
     }
+}
+
+/* Drawing-review highlight: the site's hatch, run under real words. */
+@utility mark-under {
+    padding-bottom: 3px;
+    background-image: repeating-linear-gradient(
+        315deg,
+        hsl(var(--brand) / 0.7) 0,
+        hsl(var(--brand) / 0.7) 1px,
+        transparent 0,
+        transparent 50%
+    );
+    background-position: 0 100%;
+    background-repeat: repeat-x;
+    background-size: 6px 6px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
 }
 
 @utility no-scrollbar {

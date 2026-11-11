@@ -98,7 +98,7 @@ type ContributionGraphContextType = {
 const ContributionGraphContext =
     createContext<ContributionGraphContextType | null>(null);
 
-const useContributionGraph = () => {
+export const useContributionGraph = () => {
     const context = useContext(ContributionGraphContext);
 
     if (!context) {

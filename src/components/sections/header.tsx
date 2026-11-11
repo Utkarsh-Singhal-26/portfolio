@@ -41,6 +41,7 @@ export function Header({
                             align="left"
                             letterSpacing={-0.04}
                             guides
+                            bounce={0.53}
                             intro="metrics"
                             introDuration={0.9}
                             accentColor="color-mix(in srgb, var(--color-brand) 65%, var(--color-foreground))"
@@ -82,7 +83,7 @@ export function Header({
             <div className="rule-t cell">
                 <span className="cross cross-tl" />
                 <span className="cross cross-tr" />
-                <div style={{ minHeight: "220px" }}>
+                <div className="min-h-70 min-[70rem]:min-h-55">
                     <Suspense fallback={<GitHubContributionFallback />}>
                         <GitHubContributionGraph
                             contributions={contributions}
@@ -96,7 +97,9 @@ export function Header({
                 <span className="cross cross-tr" />
                 <p className="max-w-[62ch] text-muted-foreground text-base leading-relaxed">
                     {data.intro}{" "}
-                    <span className="text-foreground">{data.focus}</span>{" "}
+                    <span className="text-foreground mark-under">
+                        {data.focus}
+                    </span>{" "}
                     {data.expertise}
                 </p>
             </div>
