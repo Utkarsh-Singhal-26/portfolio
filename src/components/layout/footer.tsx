@@ -9,6 +9,7 @@ import {
 import { useEffect, useRef } from "react";
 
 import { letterTerrain } from "@/components/features/floating-mascot";
+import { AccentSwitcher } from "@/components/ui/accent-switcher";
 import { MovingElement } from "@/components/ui/moving-element";
 import { DATA } from "@/content/data";
 
@@ -312,6 +313,7 @@ export function Footer() {
                     </button>
                 </div>
             </div>
+            <AccentSwitcher />
             <LetterTerrain />
         </footer>
     );

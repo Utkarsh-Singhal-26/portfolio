@@ -66,6 +66,11 @@
 
 @layer base {
     :root {
+        --hue: 172;
+        --sl: 42;
+        --ll: 32;
+        --sd: 40;
+        --ld: 48;
         --elastic-out: linear(
             0,
             0.35 1.5%,
@@ -113,13 +118,13 @@
         --border: 240 7% 83%;
         --line: 240 7% 68%;
         --input: 240 7% 83%;
-        --ring: 172 42% 32%;
-        --brand: 172 42% 32%;
+        --ring: var(--hue) calc(var(--sl) * 1%) calc(var(--ll) * 1%);
+        --brand: var(--hue) calc(var(--sl) * 1%) calc(var(--ll) * 1%);
         --brand-foreground: 0 0% 100%;
-        --chart-1: 172 42% 32%;
-        --chart-2: 173 40% 28%;
+        --chart-1: var(--hue) calc(var(--sl) * 1%) calc(var(--ll) * 1%);
+        --chart-2: var(--hue) 40% 28%;
         --chart-3: 240 8% 40%;
-        --chart-4: 172 30% 50%;
+        --chart-4: var(--hue) 30% 50%;
         --chart-5: 240 6% 55%;
         --radius: 1.25rem;
     }
@@ -143,14 +148,61 @@
         --border: 240 6% 16%;
         --line: 240 5% 26%;
         --input: 240 6% 16%;
-        --ring: 172 40% 48%;
-        --brand: 172 40% 48%;
+        --ring: var(--hue) calc(var(--sd) * 1%) calc(var(--ld) * 1%);
+        --brand: var(--hue) calc(var(--sd) * 1%) calc(var(--ld) * 1%);
         --brand-foreground: 240 8% 6%;
-        --chart-1: 172 40% 48%;
-        --chart-2: 173 35% 38%;
+        --chart-1: var(--hue) calc(var(--sd) * 1%) calc(var(--ld) * 1%);
+        --chart-2: var(--hue) 35% 38%;
         --chart-3: 240 6% 55%;
-        --chart-4: 172 30% 60%;
+        --chart-4: var(--hue) 30% 60%;
         --chart-5: 240 5% 70%;
+    }
+
+    /* Accent presets: hue + saturation. Set on <html data-accent>. */
+    /* Accents: hue, then saturation/lightness for light (sl, ll) and dark (sd, ld).
+       Names/hues from the rare colors on interiorcompany.com/in/trends/rare-colors,
+       saturation eased to sit with the zinc, lightness set so each is >= 4.6:1 on the page. */
+    [data-accent="teal"] {
+        --hue: 172;
+        --sl: 42;
+        --ll: 32;
+        --sd: 40;
+        --ld: 48;
+    }
+    [data-accent="byzantium"] {
+        --hue: 311;
+        --sl: 46;
+        --ll: 36;
+        --sd: 46;
+        --ld: 60;
+    }
+    [data-accent="falu"] {
+        --hue: 0;
+        --sl: 62;
+        --ll: 38;
+        --sd: 62;
+        --ld: 60;
+    }
+    [data-accent="fulvous"] {
+        --hue: 35;
+        --sl: 70;
+        --ll: 32;
+        --sd: 70;
+        --ld: 54;
+    }
+    [data-accent="glaucous"] {
+        --hue: 213;
+        --sl: 37;
+        --ll: 38;
+        --sd: 37;
+        --ld: 60;
+    }
+    [data-accent="xanadu"] {
+        --hue: 137;
+        --sl: 12;
+        --ll: 36;
+        --sd: 12;
+        --ld: 56;
     }
 }
 
