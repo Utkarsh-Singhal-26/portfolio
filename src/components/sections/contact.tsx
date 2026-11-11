@@ -40,14 +40,14 @@ function Cell({
     className?: string;
 }) {
     return (
-        <div
+        <dl
             className={cn("px-4 py-3 border-line not-last:border-r", className)}
         >
             <dt className={LABEL}>{label}</dt>
             <dd className="mt-1 font-mono tabular-nums text-[13px] text-foreground whitespace-nowrap">
                 {children}
             </dd>
-        </div>
+        </dl>
     );
 }
 
@@ -55,21 +55,21 @@ const LINK = "underline underline-offset-4";
 
 function TitleBlock({ name, github }: { name: string; github: string }) {
     return (
-        <dl className="relative border border-line w-full md:w-104 shrink-0 cursor-target">
+        <div className="relative border border-line w-full md:w-104 shrink-0 cursor-target">
             <CornerMarks />
             <div className="flex border-line border-b">
                 <span
                     aria-hidden="true"
                     className="bg-[repeating-linear-gradient(315deg,hsl(var(--brand)/0.55)_0,hsl(var(--brand)/0.55)_1px,transparent_0,transparent_50%)] border-line border-r w-2.5 bg-size-[6px_6px] shrink-0"
                 />
-                <div className="px-4 py-3">
+                <dl className="px-4 py-3">
                     <dt className={LABEL}>Drawn by</dt>
                     <dd
                         className={`${signature.className} mt-1 text-foreground text-3xl leading-tight`}
                     >
                         {name}
                     </dd>
-                </div>
+                </dl>
             </div>
             <div className="grid grid-cols-[1fr_1fr_auto] border-line border-b">
                 <Cell label="Build">
@@ -111,7 +111,7 @@ function TitleBlock({ name, github }: { name: string; github: string }) {
                     <span className="block">Geist Mono</span>
                 </Cell>
             </div>
-        </dl>
+        </div>
     );
 }
 
