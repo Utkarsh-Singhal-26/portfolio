@@ -158,10 +158,7 @@
         --chart-5: 240 5% 70%;
     }
 
-    /* Accent presets: hue + saturation. Set on <html data-accent>. */
-    /* Accents: hue, then saturation/lightness for light (sl, ll) and dark (sd, ld).
-       Names/hues from the rare colors on interiorcompany.com/in/trends/rare-colors,
-       saturation eased to sit with the zinc, lightness set so each is >= 4.6:1 on the page. */
+    /* sl/ll: saturation/lightness in light mode, sd/ld: dark mode */
     [data-accent="teal"] {
         --hue: 172;
         --sl: 42;

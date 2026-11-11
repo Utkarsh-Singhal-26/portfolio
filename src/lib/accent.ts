@@ -8,7 +8,6 @@ export const ACCENTS = [
     "glaucous",
     "xanadu",
 ] as const;
-/** Rendered brand color per mode (what the page actually shows). */
 export const ACCENT_HEX: Record<
     (typeof ACCENTS)[number],
     { light: string; dark: string }
@@ -25,7 +24,6 @@ export type Accent = (typeof ACCENTS)[number];
 
 const EVENT = "accent-change";
 
-/** Sets <html data-accent>; a head script in layout restores it before paint. */
 export function setAccent(name: Accent) {
     document.documentElement.dataset.accent = name;
     try {
@@ -48,7 +46,6 @@ export function useAccent(): Accent {
     );
 }
 
-/** Swatch fill: give the element data-accent so it resolves its own hue. */
 export const accentSwatchStyle = {
     backgroundColor:
         "hsl(var(--hue) calc(var(--sd) * 1%) calc(var(--ld) * 1%))",
