@@ -4,15 +4,16 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Geist_Mono, Outfit } from "next/font/google";
-import Script from "next/script";
 
 import { BlueprintLoader } from "@/components/features/blueprint-loader";
+import { Clarity } from "@/components/features/clarity";
 import { CommandMenu } from "@/components/features/command-menu";
 import { ConsentBanner } from "@/components/features/consent-banner";
 import { SiteControls } from "@/components/features/site-controls";
 import { TargetCursorLazy } from "@/components/features/target-cursor-lazy";
 import { FrameMarks } from "@/components/ui/blueprint";
 import { DATA, SITE, SITE_URL } from "@/content/data";
+import { bootScript } from "@/lib/boot-script";
 
 const outfit = Outfit({
     subsets: ["latin"],
@@ -108,11 +109,7 @@ export default function RootLayout({
             suppressHydrationWarning
         >
             <head>
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `try{if(sessionStorage.getItem("drawn")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.loader="skip"}catch(e){}try{var a=localStorage.getItem("accent");if(a)document.documentElement.dataset.accent=a}catch(e){}`,
-                    }}
-                />
+                <script dangerouslySetInnerHTML={{ __html: bootScript }} />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
@@ -149,9 +146,7 @@ export default function RootLayout({
 
                 {process.env.VERCEL_ENV &&
                     process.env.NEXT_PUBLIC_CLARITY_ID && (
-                        <Script id="ms-clarity" strategy="afterInteractive">
-                            {`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script",${JSON.stringify(process.env.NEXT_PUBLIC_CLARITY_ID)});var g="denied";try{g=localStorage.getItem("consent")==="granted"?"granted":"denied"}catch(e){}clarity("consentv2",{ad_Storage:g,analytics_Storage:g});`}
-                        </Script>
+                        <Clarity id={process.env.NEXT_PUBLIC_CLARITY_ID} />
                     )}
                 {process.env.VERCEL_ENV &&
                     process.env.NEXT_PUBLIC_CLARITY_ID && <ConsentBanner />}
