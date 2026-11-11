@@ -1,6 +1,19 @@
+import { execSync } from "node:child_process";
+
 import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV === "development";
+
+function buildCommit() {
+    if (process.env.VERCEL_GIT_COMMIT_SHA) {
+        return process.env.VERCEL_GIT_COMMIT_SHA;
+    }
+    try {
+        return execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
+    } catch {
+        return "";
+    }
+}
 
 // Static CSP: a nonce-based one would force every page to render dynamically.
 // 'unsafe-inline' scripts cover Next's inline RSC payload, the loader-skip
@@ -21,6 +34,10 @@ const csp = [
 
 const nextConfig: NextConfig = {
     productionBrowserSourceMaps: false,
+    env: {
+        BUILD_COMMIT: buildCommit(),
+        BUILD_DATE: new Date().toISOString(),
+    },
     images: {
         deviceSizes: [420, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     },

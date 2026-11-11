@@ -55,6 +55,32 @@ type Mode = "fall" | "idle" | "walk" | "held" | "sleep";
 
 const rand = (a: number, b: number) => a + Math.random() * (b - a);
 
+const TERRAIN_WALK = 70;
+
+// Footer letters register here: `tops` holds each column's glyph top, 0 to 1.
+export const letterTerrain = {
+    el: null as Element | null,
+    tops: null as Float32Array | null,
+    feet: null as { x: number; y: number } | null,
+};
+
+// Highest letter surface under a span, in viewport pixels.
+function terrainTop(x: number, width: number) {
+    const { el, tops } = letterTerrain;
+    if (!el || !tops) return null;
+    const r = el.getBoundingClientRect();
+    const scale = tops.length / r.width;
+    const from = Math.max(0, Math.floor((x + 8 - r.left) * scale));
+    const to = Math.min(
+        tops.length - 1,
+        Math.ceil((x + width - 8 - r.left) * scale)
+    );
+    if (from > to) return null;
+    let best = 1;
+    for (let i = from; i <= to; i++) best = Math.min(best, tops[i]);
+    return r.top + best * r.height;
+}
+
 export function FloatingMascot() {
     const root = useRef<HTMLDivElement>(null);
     const art = useRef<SVGSVGElement>(null);
@@ -93,7 +119,10 @@ export function FloatingMascot() {
             y: reduce ? floorY() - h : -h - 20,
             vx: 0,
             vy: 0,
-            on: null as HTMLElement | "floor" | null,
+            on: null as HTMLElement | "floor" | "terrain" | null,
+            visited: false, // already jumped onto the letters this visit
+            seek: false, // airborne toward the letters: ignore hairlines
+            terrainY: 0,
             mode: "fall" as Mode,
             timer: 2,
             dir: -1,
@@ -146,7 +175,7 @@ export function FloatingMascot() {
             el.dataset.mode = m;
         };
 
-        const land = (on: HTMLElement | "floor", top: number) => {
+        const land = (on: HTMLElement | "floor" | "terrain", top: number) => {
             s.y = top - h;
             if (s.vy > 380 && !reduce) {
                 s.vy = -s.vy * 0.35;
@@ -245,6 +274,36 @@ export function FloatingMascot() {
             const floor = floorY();
             const vw = window.innerWidth;
 
+            const box = letterTerrain.tops
+                ? letterTerrain.el?.getBoundingClientRect()
+                : undefined;
+            const onScreen =
+                !!box &&
+                box.top < window.innerHeight - box.height * 0.5 &&
+                box.bottom > NAV;
+            if (box) {
+                // ride the letters through page scroll
+                if (s.on === "terrain") s.y += box.top - s.terrainY;
+                s.terrainY = box.top;
+            }
+            if (box && onScreen && !s.visited && !reduce && s.mode !== "held") {
+                s.visited = true;
+                s.seek = true;
+                s.on = null;
+                s.x = Math.min(Math.max(s.x, box.left), box.right - w);
+                const rise = s.y + h - (terrainTop(s.x, w) ?? floor);
+                s.vx = 0;
+                s.vy = rise > 0 ? -Math.sqrt(2 * GRAVITY * (rise + 40)) : 0;
+                setMode("fall");
+            } else if (!onScreen && s.visited) {
+                s.visited = false;
+                s.seek = false;
+                if (s.on === "terrain") {
+                    s.on = null;
+                    setMode("fall");
+                }
+            }
+
             if (s.mode === "fall") {
                 if (reduce) {
                     land("floor", floor);
@@ -268,7 +327,7 @@ export function FloatingMascot() {
                         const mid = s.x + w / 2;
                         let hit: HTMLElement | null = null;
                         let hitTop = Infinity;
-                        for (const line of lines) {
+                        for (const line of s.seek ? [] : lines) {
                             const r = line.getBoundingClientRect();
                             if (
                                 r.top >= NAV &&
@@ -283,14 +342,43 @@ export function FloatingMascot() {
                                 hitTop = r.top;
                             }
                         }
-                        if (hit) land(hit, hitTop);
+                        const ground = onScreen ? terrainTop(s.x, w) : null;
+                        if (
+                            ground !== null &&
+                            feet >= ground &&
+                            (s.seek || prevFeet <= ground + 1)
+                        ) {
+                            land("terrain", ground);
+                            if (s.on === "terrain") s.seek = false;
+                        } else if (hit) land(hit, hitTop);
                         else if (feet >= floor) land("floor", floor);
                     }
                 }
             } else if (s.mode !== "held") {
                 // standing: ride whatever we stand on as the page scrolls
                 let top = floor;
-                if (s.on && s.on !== "floor") {
+                if (s.on === "terrain") {
+                    const ground = terrainTop(s.x, w);
+                    const feet = s.y + h;
+                    if (ground === null) {
+                        s.on = null;
+                        setMode("fall");
+                    } else if (ground < feet - 6) {
+                        // a taller letter ahead: hop up onto it
+                        s.on = null;
+                        s.seek = true;
+                        s.vx = s.dir * 150;
+                        s.vy = -Math.sqrt(2 * GRAVITY * (feet - ground + 18));
+                        setMode("fall");
+                    } else if (ground > feet + 6) {
+                        // walked off an edge
+                        s.on = null;
+                        s.seek = true;
+                        s.vx = s.dir * 60;
+                        s.vy = 0;
+                        setMode("fall");
+                    } else top = ground;
+                } else if (s.on && s.on !== "floor") {
                     top = s.on.getBoundingClientRect().top;
                     if (top > floor) {
                         s.on = "floor";
@@ -324,7 +412,10 @@ export function FloatingMascot() {
                         setMode("walk");
                         s.timer = rand(2, 4.5);
                     } else if (s.mode === "walk") {
-                        s.x += s.dir * WALK * dt;
+                        s.x +=
+                            s.dir *
+                            (s.on === "terrain" ? TERRAIN_WALK : WALK) *
+                            dt;
                         s.step += dt;
                         if (s.x < EDGE) {
                             s.x = EDGE;
@@ -338,6 +429,20 @@ export function FloatingMascot() {
                     }
                 }
             }
+
+            if (box && (s.on === "terrain" || s.seek)) {
+                if (s.x < box.left) {
+                    s.x = box.left;
+                    s.dir = 1;
+                }
+                if (s.x + w > box.right) {
+                    s.x = box.right - w;
+                    s.dir = -1;
+                }
+            }
+
+            letterTerrain.feet =
+                s.on === "terrain" ? { x: s.x + w / 2, y: s.y + h } : null;
 
             el.style.transform = `translate3d(${s.x}px, ${s.y}px, 0)`;
 

@@ -61,7 +61,12 @@ const LABEL_FONT =
     "10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
 
 const LABEL_ROOM = 24;
-const SPRING = 320;
+// Resting canvas overhang, room for the click-kick bounce. Drags go full viewport.
+const BLEED_X = 16;
+const BLEED_Y = 96;
+const NAV_HEIGHT = 56;
+const DRAG_MARGIN = 8;
+const SPRING = 170;
 const INHERIT = /^(currentcolor|inherit)$/i;
 const INTRO_DELAY = 0.15;
 const KICK_DECAY = 0.62;
@@ -74,6 +79,9 @@ const approach = (
 ) => current + (target - current) * (1 - Math.exp(-dt / seconds));
 
 const clamp01 = (value: number) => Math.min(1, Math.max(0, value || 0));
+// Never pulls a glyph off its rest position when that position is out of bounds.
+const keepIn = (value: number, low: number, high: number) =>
+    Math.min(Math.max(0, high), Math.max(Math.min(0, low), value));
 
 const smoothstep = (edge0: number, edge1: number, value: number) => {
     const t = clamp01((value - edge0) / (edge1 - edge0));
@@ -167,6 +175,11 @@ export function TechText({
         )?.matches;
         let width = 1;
         let height = 1;
+        let originX = 0;
+        let originY = 0;
+        let floating = false;
+        const client = { x: 0, y: 0 };
+        const limits = { left: 0, right: 0, top: 0, bottom: 0 };
         let dpr = 1;
         let raf = 0;
         let last = performance.now();
@@ -538,7 +551,7 @@ export function TechText({
             const y1 = crisp(frame.y1);
             const x2 = crisp(frame.x2);
             const y2 = crisp(frame.y2);
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.setTransform(dpr, 0, 0, dpr, originX, originY);
             ctx.fillStyle = accent;
             ctx.strokeStyle = accent;
             ctx.lineWidth = 1;
@@ -604,7 +617,7 @@ export function TechText({
             const pad = Math.max(12, view.size * 0.12);
             const x1 = Math.round(view.left - pad);
             const x2 = Math.round(view.right + pad);
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.setTransform(dpr, 0, 0, dpr, originX, originY);
             ctx.strokeStyle = accent;
             ctx.fillStyle = accent;
             ctx.lineWidth = 1;
@@ -633,7 +646,7 @@ export function TechText({
                 }
             });
             ctx.textAlign = "left";
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.setTransform(1, 0, 0, 1, originX, originY);
             ctx.globalAlpha = 1;
         };
 
@@ -721,7 +734,9 @@ export function TechText({
             const { ink, accent } = palette(s);
             const view = ensureLayout(s, ink);
             const damping =
-                2 * Math.sqrt(SPRING) * (1 - clamp01(s.bounce) * 0.96);
+                2 *
+                Math.sqrt(SPRING) *
+                (1 - (reducedMotion ? 0 : clamp01(s.bounce)) * 0.96);
 
             if (s.intro !== introKind) {
                 introKind = s.intro;
@@ -778,18 +793,29 @@ export function TechText({
                 kicks.splice(k, 1);
             }
 
+            if (dragging >= 0) track();
+
             let moving = false;
             glyphs.forEach((glyph, i) => {
                 if (i === dragging) {
+                    const { box } = glyph;
                     glyph.offset.x = approach(
                         glyph.offset.x,
-                        pointer.x - grab.x,
+                        keepIn(
+                            pointer.x - grab.x,
+                            limits.left - box.x1,
+                            limits.right - box.x2
+                        ),
                         dt,
                         0.03
                     );
                     glyph.offset.y = approach(
                         glyph.offset.y,
-                        pointer.y - grab.y,
+                        keepIn(
+                            pointer.y - grab.y,
+                            limits.top - box.y1,
+                            limits.bottom - box.y2
+                        ),
                         dt,
                         0.03
                     );
@@ -810,10 +836,17 @@ export function TechText({
                     velocity.y = 0;
                     return;
                 }
-                velocity.x += (-SPRING * offset.x - damping * velocity.x) * dt;
-                velocity.y += (-SPRING * offset.y - damping * velocity.y) * dt;
-                offset.x += velocity.x * dt;
-                offset.y += velocity.y * dt;
+                // Small fixed steps keep the curve identical at any frame rate.
+                const steps = Math.ceil(dt * 240);
+                const h = dt / steps;
+                for (let k = 0; k < steps; k++) {
+                    velocity.x +=
+                        (-SPRING * offset.x - damping * velocity.x) * h;
+                    velocity.y +=
+                        (-SPRING * offset.y - damping * velocity.y) * h;
+                    offset.x += velocity.x * h;
+                    offset.y += velocity.y * h;
+                }
                 moving = true;
             });
 
@@ -877,10 +910,12 @@ export function TechText({
                 container.style.cursor = nextCursor;
             }
 
+            syncFloat(dragging >= 0 || (floating && moving));
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.globalCompositeOperation = "source-over";
             ctx.globalAlpha = 1;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.setTransform(1, 0, 0, 1, originX, originY);
             for (const glyph of glyphs) {
                 const moved = Math.hypot(glyph.offset.x, glyph.offset.y);
                 if (moved > 1) {
@@ -927,31 +962,76 @@ export function TechText({
                 kicks.length > 0 ||
                 (guideAlpha > 0.005 && guideAlpha < 0.995) ||
                 (frame.alpha > 0.01 && frame.alpha < 0.99);
-            if ((active || settling) && visible && alive)
+            if ((active || settling) && (visible || floating) && alive)
                 raf = requestAnimationFrame(tick);
         };
 
         const wake = () => {
-            if (raf || !visible || !alive) return;
+            if (raf || (!visible && !floating) || !alive) return;
             last = performance.now();
             raf = requestAnimationFrame(tick);
         };
         wakeRef.current = wake;
 
+        // Fixed to the viewport while a glyph is out, back in flow once it lands,
+        // so normal scrolling never has to redraw the name.
+        const placeCanvas = () => {
+            const { style } = canvas;
+            if (floating) {
+                style.position = "fixed";
+                style.top = "0";
+                style.left = "0";
+                style.width = `${window.innerWidth}px`;
+                style.height = `${window.innerHeight}px`;
+                canvas.width = Math.round(window.innerWidth * dpr);
+                canvas.height = Math.round(window.innerHeight * dpr);
+                return;
+            }
+            style.position = "absolute";
+            style.top = `${-BLEED_Y}px`;
+            style.left = `${-BLEED_X}px`;
+            style.width = `${width + BLEED_X * 2}px`;
+            style.height = `${height + BLEED_Y * 2}px`;
+            originX = Math.round(BLEED_X * dpr);
+            originY = Math.round(BLEED_Y * dpr);
+            canvas.width = Math.round(width * dpr) + originX * 2;
+            canvas.height = Math.round(height * dpr) + originY * 2;
+        };
+
+        const syncFloat = (on: boolean) => {
+            if (on !== floating) {
+                floating = on;
+                placeCanvas();
+            }
+            if (!floating) return;
+            const rect = container.getBoundingClientRect();
+            originX = Math.round(rect.left * dpr);
+            originY = Math.round(rect.top * dpr);
+        };
+
         const resize = () => {
             width = Math.max(1, container.clientWidth);
             height = Math.max(1, container.clientHeight);
             dpr = Math.min(window.devicePixelRatio || 1, 2);
-            canvas.width = Math.round(width * dpr);
-            canvas.height = Math.round(height * dpr);
+            placeCanvas();
             layoutKey = "";
             wake();
         };
 
-        const locate = (e: PointerEvent) => {
+        // Re-read every frame of a drag, so the glyph stays under the cursor on scroll.
+        const track = () => {
             const rect = container.getBoundingClientRect();
-            pointer.x = e.clientX - rect.left;
-            pointer.y = e.clientY - rect.top;
+            pointer.x = client.x - rect.left;
+            pointer.y = client.y - rect.top;
+            limits.left = DRAG_MARGIN - rect.left;
+            limits.right = window.innerWidth - rect.left - DRAG_MARGIN;
+            limits.top = NAV_HEIGHT + DRAG_MARGIN - rect.top;
+            limits.bottom = window.innerHeight - rect.top - DRAG_MARGIN;
+        };
+        const locate = (e: PointerEvent) => {
+            client.x = e.clientX;
+            client.y = e.clientY;
+            track();
         };
         const onMove = (e: PointerEvent) => {
             locate(e);
@@ -1068,7 +1148,16 @@ export function TechText({
                 style={style}
                 aria-hidden="true"
             >
-                <canvas ref={canvasRef} className="block w-full h-full" />
+                <canvas
+                    ref={canvasRef}
+                    className="absolute z-30 pointer-events-none"
+                    style={{
+                        top: -BLEED_Y,
+                        left: -BLEED_X,
+                        width: `calc(100% + ${BLEED_X * 2}px)`,
+                        height: `calc(100% + ${BLEED_Y * 2}px)`,
+                    }}
+                />
             </div>
         </>
     );
