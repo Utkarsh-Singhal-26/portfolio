@@ -31,6 +31,12 @@ import {
 import { CornerMarks } from "@/components/ui/blueprint";
 import { toggleThemeFromPointer } from "@/components/ui/theme-toggle";
 import { DATA } from "@/content/data";
+import {
+    ACCENT_HEX,
+    ACCENTS,
+    accentSwatchStyle,
+    setAccent,
+} from "@/lib/accent";
 import { setThemeAtPointer } from "@/lib/theme-transition";
 import { cn } from "@/lib/utils";
 
@@ -239,7 +245,7 @@ export function CommandMenu({ children }: { children: ReactNode }) {
 
 function CommandPalette() {
     const { open, setOpen } = useCommandMenu();
-    const { setTheme } = useTheme();
+    const { setTheme, resolvedTheme } = useTheme();
     const goTo = useGoTo();
     const [search, setSearch] = useState("");
 
@@ -402,6 +408,34 @@ function CommandPalette() {
                         <MoonIcon size={16} weight="light" />
                         Dark
                     </CommandItem>
+                </Command.Group>
+
+                <Command.Group heading="Accent">
+                    {ACCENTS.map((name) => (
+                        <CommandItem
+                            key={name}
+                            value={`${name} accent`}
+                            keywords={["accent", "color", "colour"]}
+                            onSelect={() => run(() => setAccent(name))}
+                        >
+                            <span
+                                data-accent={name}
+                                aria-hidden="true"
+                                className="border border-line size-3.5"
+                                style={accentSwatchStyle}
+                            />
+                            <span className="capitalize">{name}</span>
+                            <span className="ml-auto font-mono text-[11px] text-muted-foreground">
+                                {
+                                    ACCENT_HEX[name][
+                                        resolvedTheme === "light"
+                                            ? "light"
+                                            : "dark"
+                                    ]
+                                }
+                            </span>
+                        </CommandItem>
+                    ))}
                 </Command.Group>
             </Command.List>
 

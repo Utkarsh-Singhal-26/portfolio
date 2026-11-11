@@ -7,7 +7,7 @@ Personal portfolio of Utkarsh Singhal, a backend-leaning full-stack developer: s
 ## Stack
 
 - [Next.js](https://nextjs.org) (App Router) with React 19 and TypeScript
-- Tailwind CSS v4, `cmdk` command menu, `next-themes` (light/dark)
+- Tailwind CSS v4, `cmdk` command menu, `next-themes` (light/dark), and a visitor-selectable accent color (footer row or `⌘K`, saved in `localStorage`)
 - Framer Motion, GSAP and Matter.js for motion
 - Open source and contribution data fetched from the GitHub API and cached daily
 - Vercel Analytics, Speed Insights and (opt-in, consent-gated) Microsoft Clarity
@@ -54,6 +54,7 @@ src/
     features/           self-contained widgets (command menu, mascot, loader, cursor, ...)
     kibo-ui/            vendored component
   lib/
+    accent.ts           accent names and their rendered hex codes (hue/saturation/lightness live in globals.css)
     github/             GitHub data fetching (cached daily)
     og/                 Open Graph image rendering
 ```

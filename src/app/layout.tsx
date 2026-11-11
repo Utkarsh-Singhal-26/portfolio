@@ -110,7 +110,7 @@ export default function RootLayout({
             <head>
                 <script
                     dangerouslySetInnerHTML={{
-                        __html: `try{if(sessionStorage.getItem("drawn")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.loader="skip"}catch(e){}`,
+                        __html: `try{if(sessionStorage.getItem("drawn")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.loader="skip"}catch(e){}try{var a=localStorage.getItem("accent");if(a)document.documentElement.dataset.accent=a}catch(e){}`,
                     }}
                 />
                 <script
