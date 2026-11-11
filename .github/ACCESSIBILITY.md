@@ -9,6 +9,7 @@ The goal is for https://utkarsh-singhal.is-a.dev to meet [WCAG 2.2](https://www.
 - Section shortcuts and menu jumps move keyboard focus to the section, so Tab continues from there
 - Every interactive element has an accessible name; landmarks (`header`, `nav`, `main`, `footer`) and a single `h1` structure the page
 - Light and dark themes
+- Accent color switcher (footer row and `⌘K`): swatches are buttons with an accessible name and `aria-pressed`, grouped under a labelled fieldset; every accent keeps at least 4.6:1 contrast against the page background in both themes
 - `prefers-reduced-motion` turns off the page loader, name intro, reveal animations, physics and custom cursor
 - Decorative visuals (mascot, physics stack, custom cursor, blueprint drawings) are hidden from assistive technology
 
