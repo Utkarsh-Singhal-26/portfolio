@@ -352,7 +352,7 @@ function CommandPalette() {
                     ))}
                 </Command.Group>
 
-                <Command.Group heading="Connect">
+                <Command.Group heading="Connect" data-cols="2">
                     <CommandItem
                         value="Email"
                         keywords={["mail", "contact"]}
@@ -387,7 +387,7 @@ function CommandPalette() {
                     </CommandItem>
                 </Command.Group>
 
-                <Command.Group heading="Theme">
+                <Command.Group heading="Theme" data-cols="2">
                     <CommandItem
                         value="Light theme"
                         keywords={["day"]}
@@ -410,7 +410,7 @@ function CommandPalette() {
                     </CommandItem>
                 </Command.Group>
 
-                <Command.Group heading="Accent">
+                <Command.Group heading="Accent" data-cols="2">
                     {ACCENTS.map((name) => (
                         <CommandItem
                             key={name}

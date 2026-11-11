@@ -507,6 +507,20 @@ button {
     margin-top: 0;
 }
 
+@media (min-width: 48rem) {
+    [cmdk-group][data-cols="2"] [cmdk-group-items] {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    [cmdk-group][data-cols="2"] [cmdk-item]:nth-child(odd) {
+        border-right: 1px solid hsl(var(--line));
+    }
+    [cmdk-group][data-cols="2"] [cmdk-item]:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        border-right: 0;
+    }
+}
+
 /* Blueprint loader: skipped on repeat visits / reduced motion (set by the
    inline head script), scroll locked while it is up, and a failsafe that
    hides it if JS never runs. */
