@@ -2,11 +2,11 @@
 
 import { useState, useSyncExternalStore } from "react";
 
-const KEY = "consent";
+export const CONSENT_KEY = "consent";
 
 type Clarity = (...args: unknown[]) => void;
 
-function apply(granted: boolean) {
+export function applyConsent(granted: boolean) {
     const state = granted ? "granted" : "denied";
     (window as unknown as { clarity?: Clarity }).clarity?.("consentv2", {
         ad_Storage: state,
@@ -20,7 +20,7 @@ export function ConsentBanner() {
         () => () => {},
         () => {
             try {
-                return localStorage.getItem(KEY);
+                return localStorage.getItem(CONSENT_KEY);
             } catch {
                 return null;
             }
@@ -32,11 +32,11 @@ export function ConsentBanner() {
 
     const choose = (granted: boolean) => {
         try {
-            localStorage.setItem(KEY, granted ? "granted" : "denied");
+            localStorage.setItem(CONSENT_KEY, granted ? "granted" : "denied");
         } catch {}
         setDone(true);
         try {
-            apply(granted);
+            applyConsent(granted);
         } catch {}
     };
 
