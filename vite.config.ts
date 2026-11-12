@@ -14,6 +14,8 @@ export default defineConfig({
             "typescript/consistent-type-imports": "error",
             "typescript/no-import-type-side-effects": "error",
             "nextjs/no-img-element": "off",
+            // false positives on local `let` flags mutated in effect cleanups
+            "react/immutability": "off",
         },
     },
     fmt: {
