@@ -83,7 +83,25 @@ const jsonLd = {
             url: SITE_URL,
             jobTitle: "Software Developer",
             description: SITE.description,
-            sameAs: [DATA.header.github, DATA.header.linkedin],
+            worksFor: {
+                "@type": "Organization",
+                name: DATA.experience[0].name,
+                url: DATA.experience[0].website,
+            },
+            knowsAbout: [
+                "TypeScript",
+                "Node.js",
+                "Python",
+                "Django",
+                "React",
+                "Next.js",
+                "Open source software",
+            ],
+            sameAs: [
+                DATA.header.github,
+                DATA.header.linkedin,
+                `https://x.com/${SITE.twitterCreator.slice(1)}`,
+            ],
         },
         {
             "@type": "WebSite",

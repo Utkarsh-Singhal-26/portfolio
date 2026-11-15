@@ -34,6 +34,7 @@ const csp = [
 
 const nextConfig: NextConfig = {
     productionBrowserSourceMaps: false,
+    poweredByHeader: false,
     env: {
         BUILD_COMMIT: buildCommit(),
         BUILD_DATE: new Date().toISOString(),
