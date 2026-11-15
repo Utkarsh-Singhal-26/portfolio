@@ -88,6 +88,7 @@ export const DATA = {
         email: "singhalutkarsh26@gmail.com",
         github: "https://github.com/Utkarsh-Singhal-26",
         linkedin: "https://www.linkedin.com/in/singhalutkarsh26",
+        about: "Utkarsh Singhal is a backend-leaning full-stack developer at Suraasa, based in Delhi NCR, India. He works in TypeScript, Node.js, Python and Django, and contributes to React Bits and Vue Bits.",
         intro: "I get restless if I am not building something I can share.",
         focus: "Nights go to open source and small tools.",
         expertise:

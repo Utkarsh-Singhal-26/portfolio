@@ -111,6 +111,14 @@ const jsonLd = {
             description: SITE.description,
             publisher: { "@id": `${SITE_URL}/#person` },
         },
+        {
+            "@type": "ProfilePage",
+            "@id": `${SITE_URL}/#profilepage`,
+            url: SITE_URL,
+            name: SITE.title,
+            isPartOf: { "@id": `${SITE_URL}/#website` },
+            mainEntity: { "@id": `${SITE_URL}/#person` },
+        },
     ],
 };
 

@@ -102,6 +102,9 @@ export function Header({
                     </span>{" "}
                     {data.expertise}
                 </p>
+                <p className="mt-3 max-w-[62ch] text-muted-foreground text-sm leading-relaxed">
+                    {data.about}
+                </p>
             </div>
         </header>
     );
