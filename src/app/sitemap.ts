@@ -6,8 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     return [
         {
             url: `${SITE_URL}/`,
-            changeFrequency: "weekly",
-            priority: 1.0,
+            lastModified: new Date(process.env.BUILD_DATE ?? Date.now()),
         },
     ];
 }
