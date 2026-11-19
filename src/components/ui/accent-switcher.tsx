@@ -1,6 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
+import { useSyncExternalStore } from "react";
 
 import {
     ACCENT_HEX,
@@ -13,8 +14,15 @@ import {
 export function AccentSwitcher() {
     const current = useAccent();
     const { resolvedTheme } = useTheme();
+    const mounted = useSyncExternalStore(
+        () => () => {},
+        () => true,
+        () => false
+    );
     const hex =
-        ACCENT_HEX[current][resolvedTheme === "light" ? "light" : "dark"];
+        ACCENT_HEX[current][
+            mounted && resolvedTheme === "light" ? "light" : "dark"
+        ];
 
     return (
         <div className="flex justify-between items-center gap-4 px-5 sm:px-6 py-4 rule-b">
