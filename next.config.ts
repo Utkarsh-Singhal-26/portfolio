@@ -56,6 +56,12 @@ const nextConfig: NextConfig = {
                         value: "same-origin",
                     },
                     {
+                        // same-site: other sites can't hot-link this site's files in a
+                        // browser. Not COEP: it would block Clarity and the logo CDNs.
+                        key: "Cross-Origin-Resource-Policy",
+                        value: "same-site",
+                    },
+                    {
                         key: "X-Frame-Options",
                         value: "DENY",
                     },
