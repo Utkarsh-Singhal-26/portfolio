@@ -1,6 +1,0 @@
-Contact: mailto:singhalutkarsh26@gmail.com
-Contact: https://github.com/Utkarsh-Singhal-26/portfolio/security/advisories/new
-Expires: 2027-09-30T00:00:00.000Z
-Preferred-Languages: en
-Canonical: https://utkarsh-singhal.is-a.dev/.well-known/security.txt
-Policy: https://github.com/Utkarsh-Singhal-26/portfolio/blob/main/.github/SECURITY.md
