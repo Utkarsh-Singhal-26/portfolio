@@ -24,10 +24,11 @@ yarn dev
 
 Open http://localhost:3000. Both variables below are optional locally:
 
-| Variable                 | Purpose                                                                |
-| ------------------------ | ---------------------------------------------------------------------- |
-| `GITHUB_TOKEN`           | Raises the GitHub API rate limit for the open source section           |
-| `NEXT_PUBLIC_CLARITY_ID` | Enables Microsoft Clarity (production only, behind the consent banner) |
+| Variable                 | Purpose                                                                                      |
+| ------------------------ | -------------------------------------------------------------------------------------------- |
+| `GITHUB_TOKEN`           | Raises the GitHub API rate limit for the open source section                                 |
+| `NEXT_PUBLIC_CLARITY_ID` | Enables Microsoft Clarity (production only, behind the consent banner)                       |
+| `NEXT_PUBLIC_GA_ID`      | Enables Google Analytics 4 (production only, Consent Mode v2: storage denied until accepted) |
 
 ## Scripts
 
