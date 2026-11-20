@@ -8,9 +8,16 @@ type Clarity = (...args: unknown[]) => void;
 
 export function applyConsent(granted: boolean) {
     const state = granted ? "granted" : "denied";
-    (window as unknown as { clarity?: Clarity }).clarity?.("consentv2", {
+    const w = window as unknown as { clarity?: Clarity; gtag?: Clarity };
+    w.clarity?.("consentv2", {
         ad_Storage: state,
         analytics_Storage: state,
+    });
+    w.gtag?.("consent", "update", {
+        ad_storage: state,
+        analytics_storage: state,
+        ad_user_data: state,
+        ad_personalization: state,
     });
 }
 
@@ -49,8 +56,9 @@ export function ConsentBanner() {
             className="bottom-5 left-5 z-50 fixed bg-background/90 shadow-[0_10px_40px_hsl(var(--foreground)/0.12)] backdrop-blur-xl p-4 border border-line max-w-xs text-sm"
         >
             <p className="text-muted-foreground">
-                I use Microsoft Clarity to see how visitors use this site
-                (clicks, scrolls, session replays). Allow cookies?
+                I use Google Analytics and Microsoft Clarity to see how visitors
+                use this site (page views, clicks, scrolls, session replays).
+                Allow cookies?
             </p>
             <div className="flex gap-2 mt-3">
                 <button

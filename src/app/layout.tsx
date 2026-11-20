@@ -9,6 +9,7 @@ import { BlueprintLoader } from "@/components/features/blueprint-loader";
 import { Clarity } from "@/components/features/clarity";
 import { CommandMenu } from "@/components/features/command-menu";
 import { ConsentBanner } from "@/components/features/consent-banner";
+import { Ga4 } from "@/components/features/ga4";
 import { SiteControls } from "@/components/features/site-controls";
 import { TargetCursorLazy } from "@/components/features/target-cursor-lazy";
 import { FrameMarks } from "@/components/ui/blueprint";
@@ -174,8 +175,12 @@ export default function RootLayout({
                     process.env.NEXT_PUBLIC_CLARITY_ID && (
                         <Clarity id={process.env.NEXT_PUBLIC_CLARITY_ID} />
                     )}
+                {process.env.VERCEL_ENV && process.env.NEXT_PUBLIC_GA_ID && (
+                    <Ga4 id={process.env.NEXT_PUBLIC_GA_ID} />
+                )}
                 {process.env.VERCEL_ENV &&
-                    process.env.NEXT_PUBLIC_CLARITY_ID && <ConsentBanner />}
+                    (process.env.NEXT_PUBLIC_CLARITY_ID ||
+                        process.env.NEXT_PUBLIC_GA_ID) && <ConsentBanner />}
                 {process.env.VERCEL_ENV && <Analytics />}
                 {process.env.VERCEL_ENV && <SpeedInsights />}
             </body>
