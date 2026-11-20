@@ -19,6 +19,9 @@ export function applyConsent(granted: boolean) {
         ad_user_data: state,
         ad_personalization: state,
     });
+    // The load-time page_view went out while consent was denied (cookieless, not
+    // shown in Realtime). Re-send once now so an accepting first visit is counted.
+    if (granted) w.gtag?.("event", "page_view");
 }
 
 export function ConsentBanner() {
