@@ -15,6 +15,7 @@ import { TargetCursorLazy } from "@/components/features/target-cursor-lazy";
 import { FrameMarks } from "@/components/ui/blueprint";
 import { DATA, SITE, SITE_URL } from "@/content/data";
 import { bootScript } from "@/lib/boot-script";
+import { CONSENT_ENABLED } from "@/lib/consent-enabled";
 
 const outfit = Outfit({
     subsets: ["latin"],
@@ -159,7 +160,7 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <CommandMenu>
+                    <CommandMenu consent={CONSENT_ENABLED}>
                         <div className="w-full overflow-x-clip">
                             <div className="relative mx-auto border-line border-x w-full max-w-280">
                                 <FrameMarks />
@@ -178,9 +179,7 @@ export default function RootLayout({
                 {process.env.VERCEL_ENV && process.env.NEXT_PUBLIC_GA_ID && (
                     <Ga4 id={process.env.NEXT_PUBLIC_GA_ID} />
                 )}
-                {process.env.VERCEL_ENV &&
-                    (process.env.NEXT_PUBLIC_CLARITY_ID ||
-                        process.env.NEXT_PUBLIC_GA_ID) && <ConsentBanner />}
+                {CONSENT_ENABLED && <ConsentBanner />}
                 {process.env.VERCEL_ENV && <Analytics />}
                 {process.env.VERCEL_ENV && <SpeedInsights />}
             </body>

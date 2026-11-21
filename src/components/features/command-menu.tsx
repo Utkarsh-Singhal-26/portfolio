@@ -10,6 +10,7 @@ import {
     LinkedinLogoIcon,
     MagnifyingGlassIcon,
     MoonIcon,
+    ShieldCheckIcon,
     StackIcon,
     SunIcon,
 } from "@phosphor-icons/react";
@@ -28,6 +29,7 @@ import {
     type ReactNode,
 } from "react";
 
+import { openConsent } from "@/components/features/consent-banner";
 import { CornerMarks } from "@/components/ui/blueprint";
 import { toggleThemeFromPointer } from "@/components/ui/theme-toggle";
 import { DATA } from "@/content/data";
@@ -38,7 +40,7 @@ import {
     setAccent,
 } from "@/lib/accent";
 import { setThemeAtPointer } from "@/lib/theme-transition";
-import { cn } from "@/lib/utils";
+import { cn, isTypingTarget } from "@/lib/utils";
 
 const SECTION_SHORTCUTS = [
     { key: "h", label: "Home", href: "/" },
@@ -48,6 +50,7 @@ const SECTION_SHORTCUTS = [
     { key: "s", label: "Stack", href: "/#stack" },
     { key: "a", label: "Writing", href: "/#writing" },
     { key: "c", label: "Contact", href: "/#contact" },
+    { key: "p", label: "Privacy policy", href: "/privacy" },
 ] as const;
 
 const GLOBAL_SHORTCUTS = [
@@ -57,6 +60,8 @@ const GLOBAL_SHORTCUTS = [
     { key: "t", label: "Toggle theme" },
     { key: "esc", label: "Close menu or help" },
 ] as const;
+
+const COOKIE_SHORTCUT = { key: "k", label: "Cookie settings" } as const;
 
 const JUMP = [
     {
@@ -101,9 +106,16 @@ const JUMP = [
         icon: EnvelopeSimpleIcon,
         keywords: ["email", "hire"],
     },
+    {
+        href: "/privacy",
+        label: "Privacy policy",
+        icon: ShieldCheckIcon,
+        keywords: ["cookies", "data", "analytics", "gdpr"],
+    },
 ] as const;
 
 type CommandMenuContextValue = {
+    consent: boolean;
     open: boolean;
     setOpen: (open: boolean | ((value: boolean) => boolean)) => void;
 };
@@ -118,17 +130,6 @@ export function useCommandMenu() {
     return context;
 }
 
-function isTypingTarget(target: EventTarget | null) {
-    if (!(target instanceof HTMLElement)) return false;
-    const tag = target.tagName;
-    return (
-        tag === "INPUT" ||
-        tag === "TEXTAREA" ||
-        tag === "SELECT" ||
-        target.isContentEditable
-    );
-}
-
 function useGoTo() {
     const router = useRouter();
 
@@ -139,31 +140,22 @@ function useGoTo() {
                 return;
             }
 
-            if (href === "/") {
-                if (window.location.pathname === "/") {
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                    history.replaceState(null, "", "/");
-                    return;
-                }
-                router.push("/");
+            if (href === "/" && window.location.pathname === "/") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                history.replaceState(null, "", "/");
                 return;
             }
 
-            if (href.startsWith("/#")) {
-                const id = href.slice(2);
-                if (window.location.pathname === "/") {
-                    const section = document.getElementById(id);
-                    section?.scrollIntoView({ behavior: "smooth" });
-                    history.replaceState(null, "", href);
-                    // Move keyboard focus with the scroll so Tab continues from the section.
-                    if (section)
-                        setTimeout(() => {
-                            section.tabIndex = -1;
-                            section.focus({ preventScroll: true });
-                        });
-                    return;
-                }
-                router.push(href);
+            if (href.startsWith("/#") && window.location.pathname === "/") {
+                const section = document.getElementById(href.slice(2));
+                section?.scrollIntoView({ behavior: "smooth" });
+                history.replaceState(null, "", href);
+                // Move keyboard focus with the scroll so Tab continues from the section.
+                if (section)
+                    setTimeout(() => {
+                        section.tabIndex = -1;
+                        section.focus({ preventScroll: true });
+                    });
                 return;
             }
 
@@ -173,7 +165,14 @@ function useGoTo() {
     );
 }
 
-export function CommandMenu({ children }: { children: ReactNode }) {
+export function CommandMenu({
+    children,
+    consent = false,
+}: {
+    children: ReactNode;
+    /** The cookie banner exists, so Cookie settings does something. */
+    consent?: boolean;
+}) {
     const [open, setOpen] = useState(false);
     const [helpOpen, setHelpOpen] = useState(false);
     const goTo = useGoTo();
@@ -213,6 +212,12 @@ export function CommandMenu({ children }: { children: ReactNode }) {
                 return;
             }
 
+            if (consent && event.key.toLowerCase() === "k") {
+                event.preventDefault();
+                openConsent();
+                return;
+            }
+
             if (event.key.toLowerCase() === "t") {
                 event.preventDefault();
                 void toggleThemeFromPointer(resolvedTheme === "dark", setTheme);
@@ -230,10 +235,10 @@ export function CommandMenu({ children }: { children: ReactNode }) {
 
         window.addEventListener("keydown", onKeyDown);
         return () => window.removeEventListener("keydown", onKeyDown);
-    }, [goTo, helpOpen, open, resolvedTheme, setTheme]);
+    }, [consent, goTo, helpOpen, open, resolvedTheme, setTheme]);
 
     return (
-        <CommandMenuContext.Provider value={{ open, setOpen }}>
+        <CommandMenuContext.Provider value={{ consent, open, setOpen }}>
             {children}
             <CommandPalette />
             {helpOpen ? (
@@ -244,7 +249,7 @@ export function CommandMenu({ children }: { children: ReactNode }) {
 }
 
 function CommandPalette() {
-    const { open, setOpen } = useCommandMenu();
+    const { consent, open, setOpen } = useCommandMenu();
     const { setTheme, resolvedTheme } = useTheme();
     const goTo = useGoTo();
     const [search, setSearch] = useState("");
@@ -301,7 +306,7 @@ function CommandPalette() {
                     value={search}
                     onValueChange={setSearch}
                     placeholder="Type to jump..."
-                    className="px-12 py-4 border-line border-b w-full text-[15px] bg-transparent outline-none placeholder:text-muted-foreground"
+                    className="bg-transparent px-12 py-4 border-line border-b outline-none w-full text-[15px] placeholder:text-muted-foreground"
                 />
             </div>
 
@@ -310,7 +315,7 @@ function CommandPalette() {
                     Nothing matches.
                 </Command.Empty>
 
-                <Command.Group heading="Jump">
+                <Command.Group heading="Jump" data-cols="2">
                     {JUMP.map((item) => (
                         <CommandItem
                             key={item.href}
@@ -320,8 +325,26 @@ function CommandPalette() {
                         >
                             <item.icon size={16} weight="light" />
                             {item.label}
+                            <ShortcutKey
+                                value={
+                                    SECTION_SHORTCUTS.find(
+                                        (entry) => entry.href === item.href
+                                    )?.key
+                                }
+                            />
                         </CommandItem>
                     ))}
+                    {consent ? (
+                        <CommandItem
+                            value="Cookie settings"
+                            keywords={["consent", "privacy", "analytics"]}
+                            onSelect={() => run(openConsent)}
+                        >
+                            <ShieldCheckIcon size={16} weight="light" />
+                            Cookie settings
+                            <ShortcutKey value="k" />
+                        </CommandItem>
+                    ) : null}
                 </Command.Group>
 
                 <Command.Group heading="Work">
@@ -439,19 +462,11 @@ function CommandPalette() {
                 </Command.Group>
             </Command.List>
 
-            <div className="px-5 py-3 border-line border-t space-y-1.5">
+            <div className="space-y-1.5 px-5 py-3 border-line border-t">
                 <p className="font-mono text-[11px] text-muted-foreground text-center">
-                    <Kbd>h</Kbd>
-                    <Kbd>w</Kbd>
-                    <Kbd>e</Kbd>
-                    <Kbd>o</Kbd>
-                    <Kbd>s</Kbd>
-                    <Kbd>a</Kbd>
-                    <Kbd>c</Kbd> sections
-                    <span className="inline-block w-2" />
                     <Kbd>t</Kbd> theme
                     <span className="inline-block w-2" />
-                    <Kbd>?</Kbd> help
+                    <Kbd>?</Kbd> all shortcuts
                 </p>
                 <p className="font-mono text-[11px] text-muted-foreground text-center">
                     <Kbd>⌘K</Kbd> or <Kbd>/</Kbd> search
@@ -467,6 +482,7 @@ function CommandPalette() {
 }
 
 function ShortcutHelp({ onClose }: { onClose: () => void }) {
+    const { consent } = useCommandMenu();
     const ref = useRef<HTMLDialogElement>(null);
 
     // showModal gives focus trap, inert background and Escape for free.
@@ -488,7 +504,7 @@ function ShortcutHelp({ onClose }: { onClose: () => void }) {
                 event.preventDefault();
                 onClose();
             }}
-            className="bg-transparent m-0 p-0 size-full max-w-none max-h-none overflow-visible outline-none backdrop:bg-transparent"
+            className="bg-transparent backdrop:bg-transparent m-0 p-0 outline-none max-w-none max-h-none size-full overflow-visible"
         >
             <div
                 role="presentation"
@@ -504,12 +520,19 @@ function ShortcutHelp({ onClose }: { onClose: () => void }) {
                             Keyboard shortcuts
                         </h2>
                     </div>
-                    <div className="px-5 py-4 space-y-5">
+                    <div className="space-y-5 px-5 py-4">
                         <ShortcutList
                             title="Sections"
                             items={SECTION_SHORTCUTS}
                         />
-                        <ShortcutList title="Global" items={GLOBAL_SHORTCUTS} />
+                        <ShortcutList
+                            title="Global"
+                            items={
+                                consent
+                                    ? [...GLOBAL_SHORTCUTS, COOKIE_SHORTCUT]
+                                    : GLOBAL_SHORTCUTS
+                            }
+                        />
                     </div>
                     <div className="px-5 py-3 border-line border-t">
                         <p className="font-mono text-[11px] text-muted-foreground text-center">
@@ -538,7 +561,7 @@ function ShortcutList({
                 {items.map((item) => (
                     <li
                         key={item.key}
-                        className="flex items-center justify-between gap-4 text-sm"
+                        className="flex justify-between items-center gap-4 text-sm"
                     >
                         <span className="text-foreground/80">{item.label}</span>
                         <Kbd>{item.key}</Kbd>
@@ -557,7 +580,7 @@ function CommandItem({
     return (
         <Command.Item
             className={cn(
-                "flex items-center gap-3 px-5 py-3 border-line border-b text-foreground/80 text-sm select-none cursor-target",
+                "flex items-center gap-3 px-5 py-3 border-line border-b text-foreground/80 text-sm cursor-target select-none",
                 "data-[selected=true]:bg-foreground/5 data-[selected=true]:text-foreground",
                 className
             )}
@@ -566,6 +589,15 @@ function CommandItem({
             {children}
         </Command.Item>
     );
+}
+
+/** Right-aligned key hint on a command row; nothing when the row has no key. */
+function ShortcutKey({ value }: { value?: string }) {
+    return value ? (
+        <span className="ml-auto" aria-hidden="true">
+            <Kbd>{value}</Kbd>
+        </span>
+    ) : null;
 }
 
 function Kbd({ children }: { children: ReactNode }) {
