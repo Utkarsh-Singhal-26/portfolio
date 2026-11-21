@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { Architects_Daughter } from "next/font/google";
 import type { ReactNode } from "react";
 
+import { VisitorCount } from "@/components/features/visitor-count";
 import { CornerMarks } from "@/components/ui/blueprint";
 import { CtaLink } from "@/components/ui/cta-link";
 import { Reveal } from "@/components/ui/reveal";
@@ -70,6 +71,7 @@ function TitleBlock({ name, github }: { name: string; github: string }) {
                         {name}
                     </dd>
                 </dl>
+                <VisitorCount />
             </div>
             <div className="grid grid-cols-[1fr_1fr_auto] border-line border-b">
                 <Cell label="Build">
