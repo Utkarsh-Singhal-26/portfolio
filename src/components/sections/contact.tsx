@@ -63,15 +63,17 @@ function TitleBlock({ name, github }: { name: string; github: string }) {
                     aria-hidden="true"
                     className="bg-[repeating-linear-gradient(315deg,hsl(var(--brand)/0.55)_0,hsl(var(--brand)/0.55)_1px,transparent_0,transparent_50%)] border-line border-r w-2.5 bg-size-[6px_6px] shrink-0"
                 />
-                <dl className="px-4 py-3">
-                    <dt className={LABEL}>Drawn by</dt>
-                    <dd
-                        className={`${signature.className} mt-1 text-foreground text-3xl leading-tight`}
-                    >
-                        {name}
-                    </dd>
-                </dl>
-                <VisitorCount />
+                <div className="flex flex-wrap flex-1 justify-between items-center">
+                    <dl className="px-4 py-3 whitespace-nowrap">
+                        <dt className={LABEL}>Drawn by</dt>
+                        <dd
+                            className={`${signature.className} mt-1 text-foreground text-3xl leading-tight`}
+                        >
+                            {name}
+                        </dd>
+                    </dl>
+                    <VisitorCount />
+                </div>
             </div>
             <div className="grid grid-cols-[1fr_1fr_auto] border-line border-b">
                 <Cell label="Build">

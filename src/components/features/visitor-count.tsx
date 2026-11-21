@@ -66,7 +66,7 @@ export function VisitorCount() {
     return (
         <div
             title={`You are the ${count.toLocaleString("en-US")}${suffix(count)} visitor`}
-            className="flex flex-col justify-center gap-1 ml-auto px-4"
+            className="flex flex-col justify-center gap-1 px-4 pb-3 min-[430px]:pb-0"
         >
             <span className="sr-only">
                 You are visitor number {count.toLocaleString("en-US")}
