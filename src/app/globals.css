@@ -488,6 +488,19 @@ button {
     z-index: 60;
 }
 
+/* Route band ticker (route-band.tsx): scrolls one copy of the strip. */
+@keyframes route-ticker {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* Next lands a sticky-header page at the first non-sticky element; this makes
+   that scrollY 0 instead of the navbar's 56px. */
+main#content {
+    scroll-margin-top: 3.5rem;
+}
+
 @media (prefers-reduced-transparency: reduce) {
     [cmdk-overlay] {
         backdrop-filter: none;

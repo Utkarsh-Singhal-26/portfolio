@@ -6,6 +6,7 @@ import {
     GithubLogoIcon,
     LinkedinLogoIcon,
 } from "@phosphor-icons/react";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 import { letterTerrain } from "@/components/features/floating-mascot";
@@ -278,6 +279,13 @@ export function Footer() {
                     >
                         Source
                     </a>
+                    <span className="mx-2 text-foreground/25">/</span>
+                    <Link
+                        className="hover:text-foreground underline underline-offset-4"
+                        href="/privacy"
+                    >
+                        Privacy
+                    </Link>
                 </p>
                 <div className="flex items-center gap-1">
                     <MovingElement href={github} ariaLabel="GitHub">

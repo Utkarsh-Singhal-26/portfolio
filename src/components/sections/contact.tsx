@@ -1,11 +1,14 @@
 import { format } from "date-fns";
 import { Architects_Daughter } from "next/font/google";
+import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { PrivacyLink } from "@/components/features/privacy-link";
 import { VisitorCount } from "@/components/features/visitor-count";
 import { CornerMarks } from "@/components/ui/blueprint";
 import { CtaLink } from "@/components/ui/cta-link";
 import { Reveal } from "@/components/ui/reveal";
+import { CONSENT_ENABLED } from "@/lib/consent-enabled";
 import { cn } from "@/lib/utils";
 
 import pkg from "../../../package.json";
@@ -102,7 +105,7 @@ function TitleBlock({ name, github }: { name: string; github: string }) {
                     </a>
                 </Cell>
             </div>
-            <div className="grid grid-cols-[1fr_auto]">
+            <div className="grid grid-cols-[1fr_auto_auto]">
                 <Cell label="Stack">
                     {STACK.map((item) => (
                         <span key={item} className="block">
@@ -113,6 +116,15 @@ function TitleBlock({ name, github }: { name: string; github: string }) {
                 <Cell label="Typeface">
                     <span className="block">Outfit</span>
                     <span className="block">Geist Mono</span>
+                </Cell>
+                <Cell label="Privacy">
+                    <Link
+                        href="/privacy"
+                        className="block underline underline-offset-4"
+                    >
+                        Policy
+                    </Link>
+                    {CONSENT_ENABLED && <PrivacyLink />}
                 </Cell>
             </div>
         </div>

@@ -3,10 +3,15 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/content/data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+    const lastModified = new Date(process.env.BUILD_DATE ?? Date.now());
     return [
         {
             url: `${SITE_URL}/`,
-            lastModified: new Date(process.env.BUILD_DATE ?? Date.now()),
+            lastModified,
+        },
+        {
+            url: `${SITE_URL}/privacy`,
+            lastModified,
         },
     ];
 }
