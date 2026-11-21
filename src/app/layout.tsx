@@ -10,6 +10,7 @@ import { Clarity } from "@/components/features/clarity";
 import { CommandMenu } from "@/components/features/command-menu";
 import { ConsentBanner } from "@/components/features/consent-banner";
 import { Ga4 } from "@/components/features/ga4";
+import { RouteBand } from "@/components/features/route-band";
 import { SiteControls } from "@/components/features/site-controls";
 import { TargetCursorLazy } from "@/components/features/target-cursor-lazy";
 import { FrameMarks } from "@/components/ui/blueprint";
@@ -153,6 +154,7 @@ export default function RootLayout({
                 </a>
                 <div className="grain" aria-hidden="true" />
                 <BlueprintLoader />
+                <RouteBand />
 
                 <ThemeProvider
                     attribute="class"

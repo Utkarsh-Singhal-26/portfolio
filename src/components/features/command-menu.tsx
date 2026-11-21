@@ -30,6 +30,7 @@ import {
 } from "react";
 
 import { openConsent } from "@/components/features/consent-banner";
+import { go } from "@/components/features/route-band";
 import { CornerMarks } from "@/components/ui/blueprint";
 import { toggleThemeFromPointer } from "@/components/ui/theme-toggle";
 import { DATA } from "@/content/data";
@@ -159,7 +160,7 @@ function useGoTo() {
                 return;
             }
 
-            router.push(href);
+            go(router, href);
         },
         [router]
     );
