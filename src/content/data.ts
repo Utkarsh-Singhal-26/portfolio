@@ -49,6 +49,7 @@ export const SITE_URL =
 export const GITHUB_USERNAME = "Utkarsh-Singhal-26";
 
 export const LOCATION = {
+    name: "Delhi NCR, India",
     latitude: 28.7172,
     longitude: 77.1579,
     timezone: "Asia/Kolkata",
