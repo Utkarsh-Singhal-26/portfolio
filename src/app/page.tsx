@@ -1,12 +1,15 @@
 import { SiteShell } from "@/components/layout/site-shell";
 import { Experience } from "@/components/sections/experience";
+import { Faq } from "@/components/sections/faq";
 import { Header } from "@/components/sections/header";
 import { OpenSource } from "@/components/sections/open-source";
 import { Stack } from "@/components/sections/stack";
+import { Stats } from "@/components/sections/stats";
 import { Work } from "@/components/sections/work";
 import { Writing } from "@/components/sections/writing";
 import { Stripe } from "@/components/ui/blueprint";
 import { DATA } from "@/content/data";
+import { FAQ } from "@/content/faq";
 import { getGitHubContributions } from "@/lib/github/contributions";
 
 export default function Page() {
@@ -15,6 +18,7 @@ export default function Page() {
     return (
         <SiteShell>
             <Header data={DATA.header} contributions={contributions} />
+            <Stats contributions={contributions} />
             <Stripe />
             <Work data={DATA.projects} />
             <Stripe />
@@ -25,6 +29,8 @@ export default function Page() {
             <Stack />
             <Stripe />
             <Writing data={DATA.writing} />
+            <Stripe />
+            <Faq data={FAQ} />
         </SiteShell>
     );
 }

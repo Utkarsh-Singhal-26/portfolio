@@ -10,6 +10,7 @@ import {
     LinkedinLogoIcon,
     MagnifyingGlassIcon,
     MoonIcon,
+    QuestionIcon,
     ShieldCheckIcon,
     StackIcon,
     SunIcon,
@@ -34,6 +35,7 @@ import { go } from "@/components/features/route-band";
 import { CornerMarks } from "@/components/ui/blueprint";
 import { toggleThemeFromPointer } from "@/components/ui/theme-toggle";
 import { DATA } from "@/content/data";
+import { FAQ } from "@/content/faq";
 import {
     ACCENT_HEX,
     ACCENTS,
@@ -50,6 +52,7 @@ const SECTION_SHORTCUTS = [
     { key: "o", label: "Open source", href: "/#open-source" },
     { key: "s", label: "Stack", href: "/#stack" },
     { key: "a", label: "Writing", href: "/#writing" },
+    { key: "f", label: "FAQ", href: "/#faq" },
     { key: "c", label: "Contact", href: "/#contact" },
     { key: "p", label: "Privacy policy", href: "/privacy" },
 ] as const;
@@ -100,6 +103,12 @@ const JUMP = [
         label: "Writing",
         icon: ArticleIcon,
         keywords: ["blog", "articles"],
+    },
+    {
+        href: "/#faq",
+        label: "FAQ",
+        icon: QuestionIcon,
+        keywords: ["questions", "help", "answers"],
     },
     {
         href: "/#contact",
@@ -376,6 +385,20 @@ function CommandPalette() {
                     ))}
                 </Command.Group>
 
+                <Command.Group heading="Questions">
+                    {FAQ.map((item) => (
+                        <CommandItem
+                            key={item.question}
+                            value={item.question}
+                            keywords={["faq", "question"]}
+                            onSelect={() => run(() => goTo("/#faq"))}
+                        >
+                            <QuestionIcon size={16} weight="light" />
+                            <span className="truncate">{item.question}</span>
+                        </CommandItem>
+                    ))}
+                </Command.Group>
+
                 <Command.Group heading="Connect" data-cols="2">
                     <CommandItem
                         value="Email"
@@ -514,7 +537,7 @@ function ShortcutHelp({ onClose }: { onClose: () => void }) {
                     if (event.target === event.currentTarget) onClose();
                 }}
             >
-                <div className="top-[18vh] left-1/2 absolute bg-secondary border border-foreground/20 w-[min(92vw,28rem)] text-foreground -translate-x-1/2">
+                <div className="top-[18vh] left-1/2 absolute bg-secondary border border-foreground/20 w-[min(92vw,36rem)] text-foreground -translate-x-1/2">
                     <CornerMarks />
                     <div className="px-5 py-4 border-line border-b">
                         <h2 className="font-medium text-sm tracking-tight">
@@ -558,7 +581,7 @@ function ShortcutList({
             <p className="mb-2 font-mono text-[10px] text-muted-foreground uppercase tracking-[0.14em]">
                 {title}
             </p>
-            <ul className="space-y-2">
+            <ul className="gap-x-8 gap-y-2 grid sm:grid-cols-2">
                 {items.map((item) => (
                     <li
                         key={item.key}
