@@ -59,6 +59,7 @@ const SECTION_SHORTCUTS = [
     { key: "f", label: "FAQ", href: "/#faq" },
     { key: "c", label: "Contact", href: "/#contact" },
     { key: "g", label: "Activity", href: "/activity" },
+    { key: "r", label: "Resume", href: "/resume" },
     { key: "p", label: "Privacy policy", href: "/privacy" },
 ] as const;
 
@@ -139,6 +140,12 @@ const JUMP = [
             "coding time",
             "streak",
         ],
+    },
+    {
+        href: "/resume",
+        label: "Resume",
+        icon: FileTextIcon,
+        keywords: ["cv", "pdf", "hire"],
     },
     {
         href: "/privacy",
@@ -459,12 +466,20 @@ function CommandPalette() {
                         Email
                     </CommandItem>
                     <CommandItem
-                        value="Resume"
-                        keywords={["cv", "pdf"]}
-                        onSelect={() => run(() => goTo(DATA.header.resume))}
+                        value="Resume PDF"
+                        keywords={["cv", "download", "print"]}
+                        onSelect={() =>
+                            run(() =>
+                                window.open(
+                                    "/resume.pdf",
+                                    "_blank",
+                                    "noopener,noreferrer"
+                                )
+                            )
+                        }
                     >
                         <FileTextIcon size={16} weight="light" />
-                        Resume
+                        Resume PDF
                     </CommandItem>
                     <CommandItem
                         value="GitHub"

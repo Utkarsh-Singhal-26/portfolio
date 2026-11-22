@@ -31,9 +31,9 @@ const PLACES = [
         hint: "Notes on TypeScript",
     },
     {
-        href: DATA.header.resume,
+        href: "/resume",
         label: "Resume",
-        hint: "PDF",
+        hint: "Experience and skills",
     },
     {
         href: `mailto:${DATA.header.email}`,
