@@ -84,11 +84,12 @@ ${FAQ.map(({ question, answer }) => `### ${question}\n\n${answer}`).join("\n\n")
 - [Open Source](${SITE_URL}/#open-source): merged pull requests
 - [Writing](${SITE_URL}/#writing): notes on TypeScript
 - [Developers](${SITE_URL}/developers): the API, OpenAPI spec and agent files
+- [Resume](${SITE_URL}/resume): experience, projects and skills; the PDF is at ${SITE_URL}/resume.pdf
 - [Activity](${SITE_URL}/activity): GitHub contributions for the last year and all-time coding time, as charts
 
 ## For agents
 
-- [Homepage as Markdown](${SITE_URL}/index.md): this page; it also answers \`Accept: text/markdown\`
+- [Homepage as Markdown](${SITE_URL}/index.md): this page; any page also answers \`Accept: text/markdown\`
 - [Full context](${SITE_URL}/llms-full.txt): this file plus role-by-role detail
 - [API index](${SITE_URL}/api/v1): JSON for profile, experience, projects and skills
 - [OpenAPI spec](${SITE_URL}/openapi.json): OpenAPI 3.1 description of the API
@@ -193,6 +194,60 @@ export const markdownResponse = (body: string) =>
             Vary: "Accept",
         },
     });
+
+export function resumeMarkdown(): string {
+    const { header } = DATA;
+    const roles = DATA.experience
+        .flatMap((company) =>
+            company.roles.map(
+                (role) =>
+                    `### ${role.title}, ${company.name}\n\n${role.type} · ${company.location} · ${month(role.start)} to ${role.end ? month(role.end) : "present"}\n\n${role.description.map((line) => `- ${line}`).join("\n")}\n\nStack: ${role.stack.join(", ")}`
+            )
+        )
+        .join("\n\n");
+    const projects = DATA.projects
+        .map(
+            (project) =>
+                `### ${project.name}${project.contribution ? " (contributor)" : ""}\n\n${project.summary}\n\n- ${project.href}\n- Stack: ${project.stack.join(", ")}`
+        )
+        .join("\n\n");
+    const writing = DATA.writing
+        .map((post) => `- [${post.title}](${post.href}), ${post.date}`)
+        .join("\n");
+
+    return `# ${header.name}
+
+${header.role}. ${LOCATION.name}.
+
+- Email: ${header.email}
+- GitHub: ${header.github}
+- LinkedIn: ${header.linkedin}
+- Site: ${SITE_URL}
+- PDF: ${SITE_URL}/resume.pdf
+
+## Summary
+
+${SITE.description}
+
+## Experience
+
+${roles}
+
+## Projects
+
+${projects}
+
+## Skills
+
+${skills()
+    .map((group) => `- ${group.discipline}: ${group.items.join(", ")}`)
+    .join("\n")}
+
+## Writing
+
+${writing}
+`;
+}
 
 export function developersMarkdown(): string {
     const lines = ENDPOINTS.map(

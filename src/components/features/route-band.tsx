@@ -25,6 +25,7 @@ const SHEETS: Record<string, string> = {
     "/": "HOME · FIG. 01",
     "/privacy": "PRIVACY · FIG. 99",
     "/activity": "ACTIVITY · FIG. 10",
+    "/resume": "RESUME · FIG. 11",
     "/developers": "DEVELOPERS · FIG. 05",
 };
 

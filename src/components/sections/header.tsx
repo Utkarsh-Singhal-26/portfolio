@@ -51,9 +51,7 @@ export function Header({
                         {data.headline}
                     </p>
                     <div className="flex items-center gap-4 mt-5">
-                        <CtaLink href={data.resume} external>
-                            Resume
-                        </CtaLink>
+                        <CtaLink href="/resume">Resume</CtaLink>
                         <div className="flex items-center gap-1">
                             <MovingElement
                                 href={data.github}

@@ -254,7 +254,7 @@ function LetterTerrain() {
 }
 
 export function Footer() {
-    const { github, linkedin, resume } = DATA.header;
+    const { github, linkedin } = DATA.header;
 
     function scrollToTop() {
         window.scrollTo({
@@ -302,7 +302,7 @@ export function Footer() {
                             aria-hidden="true"
                         />
                     </MovingElement>
-                    <MovingElement href={resume} ariaLabel="Resume">
+                    <MovingElement href="/resume" ariaLabel="Resume">
                         <FileTextIcon
                             size={18}
                             weight="light"

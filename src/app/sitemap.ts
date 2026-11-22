@@ -14,6 +14,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
             lastModified,
         },
         {
+            url: `${SITE_URL}/resume`,
+            lastModified,
+        },
+        {
             url: `${SITE_URL}/activity`,
             lastModified,
         },
