@@ -3,6 +3,7 @@
 import {
     ArticleIcon,
     BriefcaseIcon,
+    ChartLineUpIcon,
     CodeIcon,
     EnvelopeSimpleIcon,
     FileTextIcon,
@@ -57,6 +58,7 @@ const SECTION_SHORTCUTS = [
     { key: "d", label: "Developers", href: "/developers" },
     { key: "f", label: "FAQ", href: "/#faq" },
     { key: "c", label: "Contact", href: "/#contact" },
+    { key: "g", label: "Activity", href: "/activity" },
     { key: "p", label: "Privacy policy", href: "/privacy" },
 ] as const;
 
@@ -124,6 +126,19 @@ const JUMP = [
         label: "Contact",
         icon: EnvelopeSimpleIcon,
         keywords: ["email", "hire"],
+    },
+    {
+        href: "/activity",
+        label: "Activity",
+        icon: ChartLineUpIcon,
+        keywords: [
+            "github",
+            "contributions",
+            "commits",
+            "wakatime",
+            "coding time",
+            "streak",
+        ],
     },
     {
         href: "/privacy",

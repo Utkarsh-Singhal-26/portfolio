@@ -14,6 +14,9 @@ import { FAQ } from "@/content/faq";
 import { PRIVACY_SECTIONS, PRIVACY_SUMMARY } from "@/content/privacy";
 import { POLICY_UPDATED } from "@/content/storage";
 import { skills } from "@/lib/agent/api";
+import { buildStory } from "@/lib/github/activity-story";
+import type { Day } from "@/lib/github/commit-stats";
+import type { WakaStats } from "@/lib/wakatime";
 
 const month = (value: string) =>
     format(parse(value, "yyyy-MM", new Date()), "MMM yyyy");
@@ -81,6 +84,7 @@ ${FAQ.map(({ question, answer }) => `### ${question}\n\n${answer}`).join("\n\n")
 - [Open Source](${SITE_URL}/#open-source): merged pull requests
 - [Writing](${SITE_URL}/#writing): notes on TypeScript
 - [Developers](${SITE_URL}/developers): the API, OpenAPI spec and agent files
+- [Activity](${SITE_URL}/activity): GitHub contributions for the last year and all-time coding time, as charts
 
 ## For agents
 
@@ -205,4 +209,46 @@ ${lines}
 
 Any page also answers \`Accept: text/markdown\`.
 `;
+}
+
+export function activityMarkdown(days: Day[], waka: WakaStats | null): string {
+    if (days.length === 0)
+        return "# Activity\n\nGitHub did not answer. Try again later.\n";
+    const s = buildStory(days);
+    const coding = waka
+        ? `
+## In the editor
+
+All-time coding time from WakaTime: ${waka.total}, about ${waka.dailyAverage} a day.
+
+- Languages: ${waka.languages.map((l) => `${l.name} ${l.percent.toFixed(1)}%`).join(", ")}
+- Editors: ${waka.editors.map((e) => `${e.name} ${e.percent.toFixed(1)}%`).join(", ")}
+`
+        : "";
+
+    return `# Activity
+
+GitHub contributions for the last ${s.year.of} days.
+
+## The year
+
+- ${s.year.count} contributions, ${s.year.active} active days (${s.year.percent}%)
+- About ${s.year.perDay} a day, best day ${s.year.peakCount} on ${s.year.peakDate}
+
+## Busiest month
+
+${s.month.name}${s.month.partial ? " so far" : ""}: ${s.month.count} contributions.
+
+## Consistency
+
+Longest streak: ${s.streak.length} days, ${s.streak.start} to ${s.streak.end}${s.streak.ongoing ? ", ongoing" : ""}.
+
+## Rhythm
+
+${s.week.name} is the busiest weekday (${s.week.share}%). Weekends are ${s.week.weekendShare}% of the total.
+
+## Month by month
+
+${s.months.ups} of ${s.months.of} months beat the month before.
+${coding}`;
 }

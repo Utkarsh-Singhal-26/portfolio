@@ -27,6 +27,12 @@ export const ENDPOINTS: Endpoint[] = [
     },
     {
         group: "Read",
+        path: "/activity.md",
+        summary: "GitHub activity and coding time as Markdown",
+        type: "text/markdown",
+    },
+    {
+        group: "Read",
         path: "/developers.md",
         summary: "This API reference as Markdown",
         type: "text/markdown",
