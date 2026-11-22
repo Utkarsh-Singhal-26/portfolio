@@ -496,3 +496,51 @@ export const CHIPS: Chip[] = [
     },
     { label: "Storybook", slug: "storybook", bg: "#FF4785", fg: "#000000" },
 ];
+
+// Chip label -> discipline. Anything unlisted lands in "Other", so new chips never vanish.
+export const SKILL_GROUPS: Record<string, string[]> = {
+    Languages: ["JavaScript", "TypeScript", "HTML", "CSS", "Python"],
+    Backend: [
+        "Node.js",
+        "Express.js",
+        "Django",
+        "AdonisJS",
+        "Celery",
+        "GraphQL",
+    ],
+    Frontend: [
+        "React",
+        "Next.js",
+        "Vue.js",
+        "Svelte",
+        "Astro",
+        "React Native",
+        "Expo",
+        "React Query",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Ant Design",
+        "Material UI",
+        "Storybook",
+    ],
+    Data: [
+        "PostgreSQL",
+        "MongoDB",
+        "Snowflake",
+        "Redis",
+        "Prisma",
+        "Contentful",
+        "Firebase",
+    ],
+    Cloud: ["AWS", "GCP", "Vercel", "Docker"],
+    Tooling: [
+        "Git",
+        "GitHub",
+        "Postman",
+        "VS Code",
+        "Prettier",
+        "Sentry",
+        "Posthog",
+        "Clerk",
+    ],
+};

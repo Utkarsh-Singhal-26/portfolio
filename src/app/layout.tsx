@@ -17,6 +17,7 @@ import { FrameMarks } from "@/components/ui/blueprint";
 import { DATA, SITE, SITE_URL } from "@/content/data";
 import { bootScript } from "@/lib/boot-script";
 import { CONSENT_ENABLED } from "@/lib/consent-enabled";
+import { jsonLd } from "@/lib/json-ld";
 
 const outfit = Outfit({
     subsets: ["latin"],
@@ -36,6 +37,7 @@ export const metadata: Metadata = {
     description: SITE.description,
     alternates: {
         canonical: "/",
+        types: { "text/markdown": "/index.md" },
     },
     robots: {
         index: true,
@@ -74,55 +76,6 @@ export const metadata: Metadata = {
     ],
     creator: "Utkarsh Singhal",
     publisher: "Utkarsh Singhal",
-};
-
-const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-        {
-            "@type": "Person",
-            "@id": `${SITE_URL}/#person`,
-            name: DATA.header.name,
-            url: SITE_URL,
-            jobTitle: "Software Developer",
-            description: SITE.description,
-            worksFor: {
-                "@type": "Organization",
-                name: DATA.experience[0].name,
-                url: DATA.experience[0].website,
-            },
-            knowsAbout: [
-                "TypeScript",
-                "Node.js",
-                "Python",
-                "Django",
-                "React",
-                "Next.js",
-                "Open source software",
-            ],
-            sameAs: [
-                DATA.header.github,
-                DATA.header.linkedin,
-                `https://x.com/${SITE.twitterCreator.slice(1)}`,
-            ],
-        },
-        {
-            "@type": "WebSite",
-            "@id": `${SITE_URL}/#website`,
-            url: SITE_URL,
-            name: SITE.title,
-            description: SITE.description,
-            publisher: { "@id": `${SITE_URL}/#person` },
-        },
-        {
-            "@type": "ProfilePage",
-            "@id": `${SITE_URL}/#profilepage`,
-            url: SITE_URL,
-            name: SITE.title,
-            isPartOf: { "@id": `${SITE_URL}/#website` },
-            mainEntity: { "@id": `${SITE_URL}/#person` },
-        },
-    ],
 };
 
 export default function RootLayout({

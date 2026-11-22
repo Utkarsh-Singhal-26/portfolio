@@ -42,8 +42,26 @@ const nextConfig: NextConfig = {
     images: {
         deviceSizes: [420, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     },
+    async rewrites() {
+        const has = [
+            {
+                type: "header" as const,
+                key: "accept",
+                value: ".*text/markdown.*",
+            },
+        ];
+        return {
+            beforeFiles: [
+                { source: "/", has, destination: "/index.md" },
+                { source: "/privacy", has, destination: "/privacy.md" },
+            ],
+        };
+    },
     async headers() {
         return [
+            // The same URL can answer HTML or Markdown, so caches must key on Accept.
+            { source: "/", headers: [{ key: "Vary", value: "Accept" }] },
+            { source: "/privacy", headers: [{ key: "Vary", value: "Accept" }] },
             {
                 source: "/(.*)",
                 headers: [

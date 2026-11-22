@@ -8,6 +8,10 @@ import { Navbar } from "@/components/layout/navbar";
 import { Stripe } from "@/components/ui/blueprint";
 import { DATA, SITE_URL } from "@/content/data";
 import {
+    PRIVACY_SECTIONS as SECTIONS,
+    PRIVACY_SUMMARY,
+} from "@/content/privacy";
+import {
     ANALYTICS_STORAGE,
     ESSENTIAL_STORAGE,
     POLICY_UPDATED,
@@ -18,31 +22,16 @@ import { CONSENT_ENABLED } from "@/lib/consent-enabled";
 export const metadata: Metadata = {
     title: "Privacy & cookies",
     description: `What ${DATA.header.name}'s portfolio stores, what it measures, who receives data, and how to change your choice.`,
-    alternates: { canonical: `${SITE_URL}/privacy` },
+    alternates: {
+        canonical: `${SITE_URL}/privacy`,
+        types: { "text/markdown": "/privacy.md" },
+    },
 };
 
 const LINK = "underline underline-offset-4 hover:text-foreground";
 const P =
     "text-muted-foreground text-[15px] leading-relaxed text-justify hyphens-none";
 const B = "font-medium text-foreground";
-
-const SECTIONS = [
-    ["who", "Who I am and scope"],
-    ["collect", "What I collect and why"],
-    ["device", "Stored on your device"],
-    ["analytics", "Analytics (only if you accept)"],
-    ["always-on", "Always on, no consent needed"],
-    ["email", "If you email me"],
-    ["recipients", "Who receives data"],
-    ["transfers", "International transfers"],
-    ["retention", "How long it is kept"],
-    ["security", "Security"],
-    ["rights", "Your rights and choices"],
-    ["optional", "Optional data, no automation"],
-    ["children", "Children"],
-    ["changes", "Changes to this policy"],
-    ["contact", "Contact and complaints"],
-] as const;
 
 function Section({
     id,
@@ -159,22 +148,9 @@ export default function PrivacyPage() {
                     </h1>
 
                     <ul className="space-y-1.5 mt-5 max-w-[68ch] text-[15px] text-muted-foreground leading-relaxed list-disc list-inside">
-                        <li>
-                            This is a personal portfolio. I collect as little as
-                            I can and never sell data.
-                        </li>
-                        <li>
-                            Analytics (Google Analytics, Microsoft Clarity)
-                            stays off until you accept.
-                        </li>
-                        <li>
-                            Hosting and a visitor counter run for everyone, with
-                            no cookies and no profile of you.
-                        </li>
-                        <li>
-                            You can change your choice any time and ask me to
-                            act on your data.
-                        </li>
+                        {PRIVACY_SUMMARY.map((item) => (
+                            <li key={item}>{item}</li>
+                        ))}
                     </ul>
 
                     {CONSENT_ENABLED && (
