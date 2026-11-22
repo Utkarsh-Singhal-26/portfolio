@@ -3,11 +3,13 @@ import { Architects_Daughter } from "next/font/google";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { ContactBrief } from "@/components/features/contact-brief";
 import { PrivacyLink } from "@/components/features/privacy-link";
 import { VisitorCount } from "@/components/features/visitor-count";
 import { CornerMarks } from "@/components/ui/blueprint";
-import { CtaLink } from "@/components/ui/cta-link";
 import { Reveal } from "@/components/ui/reveal";
+import { CONTACT_GUIDE } from "@/content/contact";
+import { SITE_URL } from "@/content/data";
 import { CONSENT_ENABLED } from "@/lib/consent-enabled";
 import { cn } from "@/lib/utils";
 
@@ -59,7 +61,7 @@ const LINK = "underline underline-offset-4";
 
 function TitleBlock({ name, github }: { name: string; github: string }) {
     return (
-        <div className="relative border border-line w-full md:w-104 shrink-0 cursor-target">
+        <div className="relative border border-line w-full cursor-target">
             <CornerMarks />
             <div className="flex border-line border-b">
                 <span
@@ -78,7 +80,7 @@ function TitleBlock({ name, github }: { name: string; github: string }) {
                     <VisitorCount />
                 </div>
             </div>
-            <div className="grid grid-cols-[1fr_1fr_auto] border-line border-b">
+            <div className="grid grid-cols-[1fr_1fr_auto] max-[360px]:grid-cols-2 border-line border-b">
                 <Cell label="Build">
                     {COMMIT ? (
                         <a
@@ -93,8 +95,13 @@ function TitleBlock({ name, github }: { name: string; github: string }) {
                         "local"
                     )}
                 </Cell>
-                <Cell label="Date">{BUILD_DATE}</Cell>
-                <Cell label="License">
+                <Cell label="Date" className="max-[360px]:border-r-0">
+                    {BUILD_DATE}
+                </Cell>
+                <Cell
+                    label="License"
+                    className="max-[360px]:col-span-2 max-[360px]:border-line max-[360px]:border-t"
+                >
                     <a
                         className={LINK}
                         href={`${github}/portfolio/blob/main/LICENSE`}
@@ -105,8 +112,11 @@ function TitleBlock({ name, github }: { name: string; github: string }) {
                     </a>
                 </Cell>
             </div>
-            <div className="grid grid-cols-[1fr_auto_auto]">
-                <Cell label="Stack">
+            <div className="max-sm:hidden grid grid-cols-2 sm:grid-cols-[1fr_0.5fr_0.5fr]">
+                <Cell
+                    label="Stack"
+                    className="max-sm:col-span-2 max-sm:border-line max-sm:border-r-0 max-sm:border-b"
+                >
                     {STACK.map((item) => (
                         <span key={item} className="block">
                             {item}
@@ -131,26 +141,55 @@ function TitleBlock({ name, github }: { name: string; github: string }) {
     );
 }
 
+function Guide() {
+    return (
+        <div className="relative flex flex-col border border-line">
+            <CornerMarks />
+            {CONTACT_GUIDE.map(({ label, items }, index) => (
+                <dl
+                    key={label}
+                    className={cn(
+                        "flex-1 sm:items-center gap-x-4 grid sm:grid-cols-[8.5rem_minmax(0,1fr)] not-last:border-line not-last:border-b",
+                        // Phones skip the AI-agents line, so the one above it ends the card.
+                        index === CONTACT_GUIDE.length - 1 && "max-sm:hidden",
+                        index === CONTACT_GUIDE.length - 2 &&
+                            "max-sm:border-b-0"
+                    )}
+                >
+                    <dt
+                        className={cn(
+                            LABEL,
+                            "px-4 pt-3 sm:py-3 sm:border-r sm:h-full sm:flex sm:items-center border-line"
+                        )}
+                    >
+                        {label}
+                    </dt>
+                    <dd className="px-4 sm:px-0 sm:py-3 pt-1 sm:pr-4 pb-3 font-mono text-[12px] text-foreground leading-snug">
+                        {items.join(" · ")}
+                    </dd>
+                </dl>
+            ))}
+        </div>
+    );
+}
+
 export function Contact({ data }: { data: Record<string, string> }) {
     return (
         <section id="contact" className="w-full scroll-mt-24 cell">
             <Reveal>
-                <div className="flex md:flex-row flex-col md:justify-between md:items-end gap-10">
-                    <div>
-                        <h2 className="max-w-[16ch] font-semibold text-3xl md:text-5xl md:leading-[1.1] tracking-tight">
-                            Get in touch
-                        </h2>
-                        <p className="mt-4 max-w-[52ch] text-muted-foreground text-base leading-relaxed">
-                            If you want to talk about a role or a project, email
-                            is the fastest way.
-                        </p>
-                        <div className="mt-8">
-                            <CtaLink href={`mailto:${data.email}`}>
-                                Email me
-                            </CtaLink>
-                        </div>
+                <h2 className="font-semibold text-3xl md:text-5xl md:leading-[1.1] tracking-tight">
+                    Get in touch
+                </h2>
+                <div className="space-y-6 mt-6">
+                    <ContactBrief
+                        email={data.email}
+                        name={data.name}
+                        siteUrl={SITE_URL}
+                    />
+                    <div className="items-stretch gap-6 grid md:grid-cols-2">
+                        <Guide />
+                        <TitleBlock name={data.name} github={data.github} />
                     </div>
-                    <TitleBlock name={data.name} github={data.github} />
                 </div>
             </Reveal>
         </section>
