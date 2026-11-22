@@ -3,6 +3,7 @@
 import {
     ArticleIcon,
     BriefcaseIcon,
+    CodeIcon,
     EnvelopeSimpleIcon,
     FileTextIcon,
     GithubLogoIcon,
@@ -34,6 +35,7 @@ import { openConsent } from "@/components/features/consent-banner";
 import { go } from "@/components/features/route-band";
 import { CornerMarks } from "@/components/ui/blueprint";
 import { toggleThemeFromPointer } from "@/components/ui/theme-toggle";
+import { ENDPOINTS } from "@/content/api";
 import { DATA } from "@/content/data";
 import { FAQ } from "@/content/faq";
 import {
@@ -52,6 +54,7 @@ const SECTION_SHORTCUTS = [
     { key: "o", label: "Open source", href: "/#open-source" },
     { key: "s", label: "Stack", href: "/#stack" },
     { key: "a", label: "Writing", href: "/#writing" },
+    { key: "d", label: "Developers", href: "/developers" },
     { key: "f", label: "FAQ", href: "/#faq" },
     { key: "c", label: "Contact", href: "/#contact" },
     { key: "p", label: "Privacy policy", href: "/privacy" },
@@ -103,6 +106,12 @@ const JUMP = [
         label: "Writing",
         icon: ArticleIcon,
         keywords: ["blog", "articles"],
+    },
+    {
+        href: "/developers",
+        label: "Developers",
+        icon: CodeIcon,
+        keywords: ["api", "llms", "openapi", "curl", "agents", "json"],
     },
     {
         href: "/#faq",
@@ -395,6 +404,30 @@ function CommandPalette() {
                         >
                             <QuestionIcon size={16} weight="light" />
                             <span className="truncate">{item.question}</span>
+                        </CommandItem>
+                    ))}
+                </Command.Group>
+
+                <Command.Group heading="API">
+                    {ENDPOINTS.map((endpoint) => (
+                        <CommandItem
+                            key={endpoint.path}
+                            value={endpoint.path}
+                            keywords={["api", "endpoint"]}
+                            onSelect={() =>
+                                run(() =>
+                                    window.open(
+                                        endpoint.path,
+                                        "_blank",
+                                        "noopener,noreferrer"
+                                    )
+                                )
+                            }
+                        >
+                            <CodeIcon size={16} weight="light" />
+                            <span className="font-mono text-[13px] truncate">
+                                {endpoint.path}
+                            </span>
                         </CommandItem>
                     ))}
                 </Command.Group>

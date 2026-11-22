@@ -10,6 +10,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
             lastModified,
         },
         {
+            url: `${SITE_URL}/developers`,
+            lastModified,
+        },
+        {
             url: `${SITE_URL}/privacy`,
             lastModified,
         },
