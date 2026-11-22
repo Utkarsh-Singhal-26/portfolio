@@ -49,7 +49,7 @@ function Section({
     return (
         <section
             id={id}
-            className="gap-x-8 gap-y-3 grid md:grid-cols-[15rem_minmax(0,1fr)] py-8 border-line border-t scroll-mt-20"
+            className="gap-x-8 gap-y-3 grid grid-cols-[minmax(0,1fr)] md:grid-cols-[15rem_minmax(0,1fr)] py-8 border-line border-t scroll-mt-20"
         >
             <div>
                 <p className="font-mono text-[11px] text-muted-foreground tracking-[0.22em]">
@@ -59,12 +59,16 @@ function Section({
                     {title}
                 </h2>
             </div>
-            <div className="space-y-3">{children}</div>
+            <div className="space-y-3 min-w-0">{children}</div>
         </section>
     );
 }
 
-/** Generic mono table: header row plus rows of equal-length cells. */
+/**
+ * Generic mono table. From `md` up it is a header row plus rows of
+ * equal-length cells; below that each row stacks as label/value pairs so
+ * nothing needs horizontal scrolling.
+ */
 function Grid({
     head,
     rows,
@@ -74,26 +78,31 @@ function Grid({
     rows: ReactNode[][];
     cols: string;
 }) {
-    const row = `gap-3 grid px-3 py-2 ${cols}`;
+    const row = `gap-x-3 gap-y-1 md:grid px-3 py-2 ${cols}`;
     return (
-        <div className="border border-line overflow-x-auto font-mono text-[12px]">
-            <div className="divide-y divide-line min-w-136">
-                <div className={`${row} py-1.5 text-muted-foreground`}>
+        <div className="border border-line font-mono text-[12px]">
+            <div className="divide-y divide-line">
+                <div
+                    className={`${row} hidden md:grid py-1.5 text-muted-foreground`}
+                >
                     {head.map((h) => (
                         <span key={h}>{h}</span>
                     ))}
                 </div>
                 {rows.map((cells, i) => (
-                    <div key={i} className={row}>
+                    <div key={i} className={`${row} grid grid-cols-1`}>
                         {cells.map((cell, j) => (
                             <span
                                 key={j}
-                                className={
+                                className={`min-w-0 break-words ${
                                     j === 0
                                         ? "text-foreground"
                                         : "text-muted-foreground"
-                                }
+                                }`}
                             >
+                                <span className="md:hidden mr-2 text-[10px] text-muted-foreground tracking-[0.18em]">
+                                    {head[j]}
+                                </span>
                                 {cell}
                             </span>
                         ))}
@@ -107,7 +116,7 @@ function Grid({
 function StorageTable({ rows }: { rows: StorageItem[] }) {
     return (
         <Grid
-            cols="grid-cols-[1.2fr_0.8fr_1.4fr_0.9fr]"
+            cols="md:grid-cols-[1.2fr_0.8fr_1.4fr_0.9fr]"
             head={["KEY", "SET BY", "PURPOSE", "LASTS"]}
             rows={rows.map(({ key, by, why, ttl }) => [key, by, why, ttl])}
         />
@@ -208,7 +217,7 @@ export default function PrivacyPage() {
 
                         <Section id="collect" title="What I collect and why">
                             <Grid
-                                cols="grid-cols-[1.1fr_1.5fr_1fr_1fr]"
+                                cols="md:grid-cols-[1.1fr_1.5fr_1fr_1fr]"
                                 head={[
                                     "DATA",
                                     "PURPOSE",
@@ -357,7 +366,7 @@ export default function PrivacyPage() {
 
                         <Section id="recipients" title="Who receives data">
                             <Grid
-                                cols="grid-cols-[0.9fr_1.5fr_1.4fr_0.8fr]"
+                                cols="md:grid-cols-[0.9fr_1.5fr_1.4fr_0.8fr]"
                                 head={["PROVIDER", "ROLE", "DATA", "POLICY"]}
                                 rows={[
                                     [
