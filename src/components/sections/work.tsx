@@ -30,7 +30,7 @@ function ProjectMeta({ project }: { project: Project }) {
                 href={project.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-foreground text-sm cursor-target"
+                className="inline-flex items-center gap-1.5 text-foreground text-sm"
             >
                 {extractDomain(project.href)}
                 <ArrowUpRightIcon size={14} weight="light" />
@@ -40,7 +40,7 @@ function ProjectMeta({ project }: { project: Project }) {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground text-sm cursor-target"
+                    className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground text-sm"
                 >
                     <GithubLogoIcon size={14} weight="light" />
                     Source
@@ -52,14 +52,13 @@ function ProjectMeta({ project }: { project: Project }) {
 
 function RoleMark() {
     return (
-        <span className="top-0 right-0 z-1 absolute pointer-events-none">
-            <span className="relative flex items-stretch bg-background border-line border-b border-l">
-                <span className="cross cross-bl" />
+        <span className="inline-flex bg-background">
+            <span className="inline-flex items-stretch bg-brand/15 border border-brand/70 text-brand">
                 <span
                     aria-hidden="true"
-                    className="bg-[repeating-linear-gradient(315deg,hsl(var(--brand)/0.55)_0,hsl(var(--brand)/0.55)_1px,transparent_0,transparent_50%)] w-2.5 bg-size-[6px_6px] shrink-0"
+                    className="bg-[repeating-linear-gradient(315deg,hsl(var(--brand))_0,hsl(var(--brand))_1px,transparent_0,transparent_50%)] w-2.5 bg-size-[6px_6px] shrink-0"
                 />
-                <span className="px-2.5 py-2.5 font-mono font-medium text-[11px] text-brand uppercase tracking-[0.22em]">
+                <span className="px-3.5 py-2.5 font-mono font-semibold text-[13px] uppercase tracking-[0.22em]">
                     Contributor
                 </span>
             </span>
@@ -91,9 +90,13 @@ function ProjectTile({ project, index }: { project: Project; index: number }) {
                         sizes="(min-width: 1120px) 559px, (min-width: 640px) 50vw, 100vw"
                         priority={index < 2}
                     />
-                    {project.contribution ? <RoleMark /> : null}
+                    {project.contribution ? (
+                        <span className="right-0 bottom-0 z-1 absolute pointer-events-none">
+                            <RoleMark />
+                        </span>
+                    ) : null}
                 </a>
-                <div className="flex flex-col flex-1 p-5 md:p-6">
+                <div className="flex flex-col flex-1 px-5 md:px-6 pt-4 pb-5 md:pb-6">
                     <h3 className="font-medium text-lg md:text-xl tracking-tight">
                         {project.name}
                     </h3>

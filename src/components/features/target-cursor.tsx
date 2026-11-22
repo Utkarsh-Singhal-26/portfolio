@@ -55,22 +55,28 @@ export function TargetCursor() {
 
         const snap = (target: Element) => {
             const rect = target.getBoundingClientRect();
+            // Small targets (text buttons, tags) get more room so the brackets
+            // never touch the text; anything 36px tall or more keeps PAD.
+            const pad = Math.max(
+                PAD,
+                Math.min(10, Math.round((36 - rect.height) / 2))
+            );
             const box = cursor.getBoundingClientRect();
             const ox = box.left + box.width / 2;
             const oy = box.top + box.height / 2;
             const pts = [
-                { x: rect.left - ox - PAD, y: rect.top - oy - PAD },
+                { x: rect.left - ox - pad, y: rect.top - oy - pad },
                 {
-                    x: rect.right - ox + PAD - CORNER,
-                    y: rect.top - oy - PAD,
+                    x: rect.right - ox + pad - CORNER,
+                    y: rect.top - oy - pad,
                 },
                 {
-                    x: rect.right - ox + PAD - CORNER,
-                    y: rect.bottom - oy + PAD - CORNER,
+                    x: rect.right - ox + pad - CORNER,
+                    y: rect.bottom - oy + pad - CORNER,
                 },
                 {
-                    x: rect.left - ox - PAD,
-                    y: rect.bottom - oy + PAD - CORNER,
+                    x: rect.left - ox - pad,
+                    y: rect.bottom - oy + pad - CORNER,
                 },
             ];
             corners.forEach((corner, i) => {

@@ -46,7 +46,7 @@ export function CtaLink({
                 : {})}
         >
             {children}
-            <span className="flex justify-center items-center bg-background/15 rounded-full size-8 transition-transform group-hover:-translate-y-px group-hover:translate-x-0.5 duration-300 ease-premium">
+            <span className="flex justify-center items-center bg-background/15 rounded-full w-8 group-hover:w-12 group-focus-visible:w-12 h-8 motion-safe:transition-[width] duration-500 ease-premium">
                 <ArrowUpRightIcon size={16} weight="light" />
             </span>
         </motion.a>
