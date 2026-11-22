@@ -55,6 +55,7 @@ const nextConfig: NextConfig = {
                 { source: "/", has, destination: "/index.md" },
                 { source: "/privacy", has, destination: "/privacy.md" },
                 { source: "/developers", has, destination: "/developers.md" },
+                { source: "/activity", has, destination: "/activity.md" },
             ],
         };
     },
@@ -65,6 +66,10 @@ const nextConfig: NextConfig = {
             { source: "/privacy", headers: [{ key: "Vary", value: "Accept" }] },
             {
                 source: "/developers",
+                headers: [{ key: "Vary", value: "Accept" }],
+            },
+            {
+                source: "/activity",
                 headers: [{ key: "Vary", value: "Accept" }],
             },
             {

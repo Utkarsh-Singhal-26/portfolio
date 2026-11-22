@@ -24,6 +24,7 @@ const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 const SHEETS: Record<string, string> = {
     "/": "HOME · FIG. 01",
     "/privacy": "PRIVACY · FIG. 99",
+    "/activity": "ACTIVITY · FIG. 10",
     "/developers": "DEVELOPERS · FIG. 05",
 };
 
