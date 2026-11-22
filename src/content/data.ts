@@ -84,6 +84,7 @@ export const DATA = {
     header: {
         name: "Utkarsh Singhal",
         pronoun: "he/him",
+        role: "Backend-leaning full-stack developer",
         headline: "I like shipping things people can actually use.",
         resume: "https://drive.google.com/file/d/1cIGjSvD9CLdq3WMwDn7WAjGpt0bq-Jhk/view",
         email: "singhalutkarsh26@gmail.com",
