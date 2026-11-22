@@ -3,6 +3,7 @@ import { format, parseISO } from "date-fns";
 import { Suspense } from "react";
 
 import { Reveal } from "@/components/ui/reveal";
+import { ShowMore } from "@/components/ui/show-more";
 import type {
     OpenSourcePr,
     OpenSourceRepo,
@@ -283,13 +284,15 @@ function OpenSourceList({ data }: { data: OpenSourceSnapshot }) {
 
                 {rest.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 border-line border-t">
-                        {rest.map((repo, index) => (
-                            <RepoCard
-                                key={repo.fullName}
-                                repo={repo}
-                                index={index}
-                            />
-                        ))}
+                        <ShowMore limit={4} noun="repositories">
+                            {rest.map((repo, index) => (
+                                <RepoCard
+                                    key={repo.fullName}
+                                    repo={repo}
+                                    index={index}
+                                />
+                            ))}
+                        </ShowMore>
                     </div>
                 ) : null}
             </div>
