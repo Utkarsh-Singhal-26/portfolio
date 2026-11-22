@@ -496,6 +496,13 @@ button {
     }
 }
 
+/* Terminal caret (developers.tsx). */
+@keyframes caret-blink {
+    50% {
+        opacity: 0;
+    }
+}
+
 /* Next lands a sticky-header page at the first non-sticky element; this makes
    that scrollY 0 instead of the navbar's 56px. */
 main#content {

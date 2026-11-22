@@ -1,5 +1,6 @@
 import { format, parse } from "date-fns";
 
+import { ENDPOINTS } from "@/content/api";
 import { CONTACT_GUIDE } from "@/content/contact";
 import {
     DATA,
@@ -79,12 +80,17 @@ ${FAQ.map(({ question, answer }) => `### ${question}\n\n${answer}`).join("\n\n")
 - [Experience](${SITE_URL}/#experience): roles and dates
 - [Open Source](${SITE_URL}/#open-source): merged pull requests
 - [Writing](${SITE_URL}/#writing): notes on TypeScript
+- [Developers](${SITE_URL}/developers): the API, OpenAPI spec and agent files
 
 ## For agents
 
 - [Homepage as Markdown](${SITE_URL}/index.md): this page; it also answers \`Accept: text/markdown\`
 - [Full context](${SITE_URL}/llms-full.txt): this file plus role-by-role detail
+- [API index](${SITE_URL}/api/v1): JSON for profile, experience, projects and skills
+- [OpenAPI spec](${SITE_URL}/openapi.json): OpenAPI 3.1 description of the API
+- [AI catalog](${SITE_URL}/.well-known/ai-catalog.json): every machine-readable resource
 - [Authentication](${SITE_URL}/auth.md): none needed
+- [API catalog](${SITE_URL}/.well-known/api-catalog): RFC 9727 linkset
 - [Sitemap](${SITE_URL}/sitemap.xml): every canonical URL
 - [Privacy](${SITE_URL}/privacy.md): what this site collects
 
@@ -146,6 +152,7 @@ export function authMarkdown(): string {
 
 None. Everything on ${SITE_URL} is public and read-only: no API keys, no accounts, no sign-up.
 
+- Send plain \`GET\` requests. The JSON API starts at ${SITE_URL}/api/v1 and is described in ${SITE_URL}/openapi.json.
 - Ask for Markdown with \`Accept: text/markdown\`, or add \`.md\` where a page has one.
 - Be considerate: cache responses and avoid tight loops.
 
@@ -182,3 +189,20 @@ export const markdownResponse = (body: string) =>
             Vary: "Accept",
         },
     });
+
+export function developersMarkdown(): string {
+    const lines = ENDPOINTS.map(
+        (e) => `- [${e.path}](${SITE_URL}${e.path}): ${e.summary} (${e.type})`
+    ).join("\n");
+
+    return `# Developers
+
+This site answers in plain text, Markdown and JSON. No keys, no sign-up. See ${SITE_URL}/auth.md.
+
+## Endpoints
+
+${lines}
+
+Any page also answers \`Accept: text/markdown\`.
+`;
+}

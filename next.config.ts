@@ -54,6 +54,7 @@ const nextConfig: NextConfig = {
             beforeFiles: [
                 { source: "/", has, destination: "/index.md" },
                 { source: "/privacy", has, destination: "/privacy.md" },
+                { source: "/developers", has, destination: "/developers.md" },
             ],
         };
     },
@@ -62,6 +63,10 @@ const nextConfig: NextConfig = {
             // The same URL can answer HTML or Markdown, so caches must key on Accept.
             { source: "/", headers: [{ key: "Vary", value: "Accept" }] },
             { source: "/privacy", headers: [{ key: "Vary", value: "Accept" }] },
+            {
+                source: "/developers",
+                headers: [{ key: "Vary", value: "Accept" }],
+            },
             {
                 source: "/(.*)",
                 headers: [
