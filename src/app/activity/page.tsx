@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import {
     Accumulation,
     Ledger,
+    Radial,
     Streak,
     Terrain,
     Weekdays,
@@ -19,7 +20,10 @@ import { Reveal } from "@/components/ui/reveal";
 import { DATA, SITE_URL } from "@/content/data";
 import { buildStory } from "@/lib/github/activity-story";
 import { toDays } from "@/lib/github/commit-stats";
-import { getGitHubContributions } from "@/lib/github/contributions";
+import {
+    getGitHubContributions,
+    getGitHubYear,
+} from "@/lib/github/contributions";
 import { cn } from "@/lib/utils";
 import { getWakaStats } from "@/lib/wakatime";
 
@@ -101,6 +105,10 @@ export default async function ActivityPage() {
         getWakaStats(),
     ]);
     const days = toDays(contributions);
+    const prevYear = days.length
+        ? Number(days[days.length - 1].date.slice(0, 4)) - 1
+        : 0;
+    const prev = prevYear ? toDays(await getGitHubYear(prevYear)) : [];
     const hasData = days.length > 0;
     const story = hasData ? buildStory(days) : null;
 
@@ -203,6 +211,20 @@ export default async function ActivityPage() {
 
                         <Chapter
                             n="05"
+                            label="Round the year"
+                            big={<CountUp value={story.year.active} />}
+                            caption="active days, wrapped in a ring"
+                            flip
+                            chart={<Radial days={days} prev={prev} />}
+                        >
+                            This year on the outer ring, last year inside it, a
+                            band per weekday and a column per week. One month is
+                            pulled out like a pie slice: point at any cell to
+                            choose it, or let it walk through the year.
+                        </Chapter>
+
+                        <Chapter
+                            n="06"
                             label="Month by month"
                             big={`${story.months.ups} of ${story.months.of}`}
                             caption="months beat the one before"
@@ -215,7 +237,7 @@ export default async function ActivityPage() {
 
                         {waka ? (
                             <Chapter
-                                n="06"
+                                n="07"
                                 label="In the editor"
                                 big={waka.total.replace(/\s*\d+\s*mins?$/, "")}
                                 caption="all-time coding time"
