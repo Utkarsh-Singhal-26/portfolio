@@ -32,6 +32,10 @@
         "prepare": "[ -e .git ] || exit 0; vp config --no-agent --hooks-dir .vite-hooks"
     },
     "dependencies": {
+        "@opentelemetry/api-logs": "^0.223.0",
+        "@opentelemetry/exporter-logs-otlp-http": "^0.301.2",
+        "@opentelemetry/resources": "^3.1.1",
+        "@opentelemetry/sdk-logs": "^3.1.1",
         "@phosphor-icons/react": "^2.1.10",
         "@vercel/analytics": "^2.0.1",
         "@vercel/speed-insights": "^2.1.0",
