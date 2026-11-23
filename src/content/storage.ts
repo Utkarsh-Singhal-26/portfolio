@@ -30,10 +30,10 @@ export const ESSENTIAL_STORAGE: StorageItem[] = [
 
 export const ANALYTICS_STORAGE: StorageItem[] = [
     {
-        key: "_ga, _ga_*",
-        by: "Google",
-        why: "visits and pages",
-        ttl: "2 yr",
+        key: "ph_*",
+        by: "PostHog",
+        why: "visits, pages, clicks",
+        ttl: "1 yr",
     },
     {
         key: "_clck, _clsk, MUID",
@@ -43,4 +43,4 @@ export const ANALYTICS_STORAGE: StorageItem[] = [
     },
 ];
 
-export const POLICY_UPDATED = "21 Nov 2026";
+export const POLICY_UPDATED = "23 Nov 2026";

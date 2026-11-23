@@ -5,5 +5,6 @@ export const CONSENT_ENABLED =
     process.env.NODE_ENV === "development" ||
     Boolean(
         process.env.VERCEL_ENV &&
-        (process.env.NEXT_PUBLIC_CLARITY_ID || process.env.NEXT_PUBLIC_GA_ID)
+        (process.env.NEXT_PUBLIC_CLARITY_ID ||
+            process.env.NEXT_PUBLIC_POSTHOG_KEY)
     );

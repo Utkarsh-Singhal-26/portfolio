@@ -18,7 +18,7 @@ export const PRIVACY_SECTIONS = [
 
 export const PRIVACY_SUMMARY = [
     "This is a personal portfolio. I collect as little as I can and never sell data.",
-    "Analytics (Google Analytics, Microsoft Clarity) stays off until you accept.",
+    "Analytics (PostHog, Microsoft Clarity) stays off until you accept.",
     "Hosting and a visitor counter run for everyone, with no cookies and no profile of you.",
     "You can change your choice any time and ask me to act on your data.",
 ] as const;

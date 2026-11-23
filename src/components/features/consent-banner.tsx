@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import posthog from "posthog-js";
 import {
     useCallback,
     useEffect,
@@ -22,20 +23,15 @@ type Clarity = (...args: unknown[]) => void;
 
 export function applyConsent(granted: boolean) {
     const state = granted ? "granted" : "denied";
-    const w = window as unknown as { clarity?: Clarity; gtag?: Clarity };
+    const w = window as unknown as { clarity?: Clarity };
     w.clarity?.("consentv2", {
         ad_Storage: state,
         analytics_Storage: state,
     });
-    w.gtag?.("consent", "update", {
-        ad_storage: state,
-        analytics_storage: state,
-        ad_user_data: state,
-        ad_personalization: state,
-    });
-    // The load-time page_view went out while consent was denied (cookieless, not
-    // shown in Realtime). Re-send once now so an accepting first visit is counted.
-    if (granted) w.gtag?.("event", "page_view");
+    if (posthog.__loaded) {
+        if (granted) posthog.opt_in_capturing();
+        else posthog.opt_out_capturing();
+    }
 }
 
 const OPEN_EVENT = "consent:open";

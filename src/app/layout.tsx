@@ -11,7 +11,7 @@ import { Clarity } from "@/components/features/clarity";
 import { CommandMenu } from "@/components/features/command-menu";
 import { ConsentBanner } from "@/components/features/consent-banner";
 import { GlobalMascot } from "@/components/features/floating-mascot";
-import { Ga4 } from "@/components/features/ga4";
+import { PostHog } from "@/components/features/posthog";
 import { RouteBand } from "@/components/features/route-band";
 import { SiteControls } from "@/components/features/site-controls";
 import { TargetCursorLazy } from "@/components/features/target-cursor-lazy";
@@ -137,9 +137,10 @@ export default function RootLayout({
                     process.env.NEXT_PUBLIC_CLARITY_ID && (
                         <Clarity id={process.env.NEXT_PUBLIC_CLARITY_ID} />
                     )}
-                {process.env.VERCEL_ENV && process.env.NEXT_PUBLIC_GA_ID && (
-                    <Ga4 id={process.env.NEXT_PUBLIC_GA_ID} />
-                )}
+                {process.env.VERCEL_ENV &&
+                    process.env.NEXT_PUBLIC_POSTHOG_KEY && (
+                        <PostHog apiKey={process.env.NEXT_PUBLIC_POSTHOG_KEY} />
+                    )}
                 {CONSENT_ENABLED && <ConsentBanner />}
                 {process.env.VERCEL_ENV && <Analytics />}
                 {process.env.VERCEL_ENV && <SpeedInsights />}
