@@ -341,6 +341,16 @@ export default function PrivacyPage() {
                                 logs.
                             </p>
                             <p className={P}>
+                                <strong className={B}>
+                                    Server error logs.
+                                </strong>{" "}
+                                When the server hits an error, the error
+                                message, the page path and the request method
+                                are sent to PostHog so I can fix it. No cookies
+                                are set, and no identifier, email address or
+                                message content is included.
+                            </p>
+                            <p className={P}>
                                 <strong className={B}>Visitor counter.</strong>{" "}
                                 A visitor counter adds 1 to a total on each page
                                 load. Nothing about you is stored with it.
@@ -383,7 +393,7 @@ export default function PrivacyPage() {
                                     ],
                                     [
                                         "PostHog",
-                                        "Analytics and replay (if accepted)",
+                                        "Analytics and replay (if accepted), server error logs",
                                         "usage data, clicks, errors",
                                         ext(
                                             "https://posthog.com/privacy",
