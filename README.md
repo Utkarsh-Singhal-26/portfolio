@@ -1,6 +1,6 @@
 # [utkarsh-singhal.is-a.dev](https://utkarsh-singhal.is-a.dev)
 
-Personal portfolio of Utkarsh Singhal, a backend-leaning full-stack developer: shipped work, experience, open source contributions, and writing. It is also readable by agents: every page has a Markdown twin and the site serves a small read-only API.
+Personal portfolio of Utkarsh Singhal, a backend-leaning full-stack developer: shipped work, experience, open source contributions, and writing. It is also readable by agents: every page has a Markdown twin and the site serves a small read-only API. The switch at the bottom of every page (or the `v` key) shows the Markdown an agent receives for the page you are on.
 
 [![Portfolio preview](docs/preview.png)](https://utkarsh-singhal.is-a.dev)
 
@@ -8,7 +8,7 @@ Personal portfolio of Utkarsh Singhal, a backend-leaning full-stack developer: s
 
 - [Next.js](https://nextjs.org) (App Router) with React 19 and TypeScript
 - Tailwind CSS v4, `cmdk` command menu, `next-themes` (light/dark), and a visitor-selectable accent color (footer row or `⌘K`, saved in `localStorage`)
-- Framer Motion, GSAP and Matter.js for motion
+- Framer Motion, GSAP and Matter.js for motion; two text animations (`DecryptedText`, `SplitFlapText`) are copied from [React Bits](https://reactbits.dev)
 - Open source and contribution data fetched from the GitHub API and cached daily; all-time coding time from WakaTime, also cached daily
 - A fill-in-the-blank contact form that sends as an email or opens the brief in Claude, ChatGPT or Grok
 - Vercel Analytics, Speed Insights and (opt-in, consent-gated) Microsoft Clarity
@@ -46,22 +46,37 @@ Site content (profile, projects, experience, links) lives in [`src/content/data.
 
 ## Pages and agent endpoints
 
-| Route                              | What it is                                                                 |
-| ---------------------------------- | -------------------------------------------------------------------------- |
-| `/`                                | Home: work, experience, open source, stack, writing, FAQ, contact          |
-| `/developers`                      | The API, with live responses you can tab through                           |
-| `/activity`                        | GitHub contributions for the last year and WakaTime coding time, as charts |
-| `/resume`, `/resume.pdf`           | Resume page; the PDF is proxied from Drive, inline or `?download=1`        |
-| `/privacy`                         | Privacy and cookie policy                                                  |
-| `/index.md`, `/developers.md`, ... | Markdown twin of every page (`/resume.md`, `/activity.md`, `/privacy.md`)  |
-| `/llms.txt`, `/llms-full.txt`      | Plain-text summary and the full version                                    |
-| `/api/v1`                          | Read-only JSON: `profile`, `experience`, `projects`, `skills`              |
-| `/openapi.json`                    | OpenAPI 3.1 description of the API                                         |
-| `/.well-known/ai-catalog.json`     | Every machine-readable resource                                            |
-| `/.well-known/api-catalog`         | RFC 9727 API catalog                                                       |
-| `/auth.md`                         | Authentication: none, everything is public and read-only                   |
+| Route                              | What it is                                                                                      |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `/`                                | Home: work, experience, open source, stack, writing, FAQ, contact                               |
+| `/developers`                      | The API, with live responses you can tab through                                                |
+| `/activity`                        | GitHub contributions (this year against last, as two rings) and WakaTime coding time, as charts |
+| `/resume`, `/resume.pdf`           | Resume page; the PDF is proxied from Drive, inline or `?download=1`                             |
+| `/privacy`                         | Privacy and cookie policy                                                                       |
+| `/index.md`, `/developers.md`, ... | Markdown twin of every page (`/resume.md`, `/activity.md`, `/privacy.md`)                       |
+| `/llms.txt`, `/llms-full.txt`      | Plain-text summary and the full version                                                         |
+| `/api/v1`                          | Read-only JSON: `profile`, `experience`, `projects`, `skills`                                   |
+| `/openapi.json`                    | OpenAPI 3.1 description of the API                                                              |
+| `/.well-known/ai-catalog.json`     | Every machine-readable resource                                                                 |
+| `/.well-known/api-catalog`         | RFC 9727 API catalog                                                                            |
+| `/auth.md`                         | Authentication: none, everything is public and read-only                                        |
 
 The five pages also answer `Accept: text/markdown` on their own URL (rewrites and `Vary: Accept` in [`next.config.ts`](next.config.ts)), and each HTML page links its twin with `rel="alternate"`.
+
+## Keyboard shortcuts
+
+Single keys work anywhere except in a text field; `?` shows the same list in the site.
+
+| Key             | Does                                                 |
+| --------------- | ---------------------------------------------------- |
+| `h`             | Home                                                 |
+| `w` `e` `o` `c` | Jump to Work, Experience, Open source, Contact       |
+| `d` `a` `r` `p` | Developers, Activity, Resume, Privacy policy         |
+| `t`             | Toggle theme                                         |
+| `v`             | Toggle human / agent view                            |
+| `k`             | Cookie settings (when the consent banner is enabled) |
+| `⌘K`, `/`       | Open the command menu                                |
+| `?`, `esc`      | Show shortcuts, close the menu or help               |
 
 ## Project layout
 
@@ -73,10 +88,10 @@ src/
     api.ts              ENDPOINTS: one list feeding the API index, OpenAPI, catalog and Developers page
     faq.ts, contact.ts, privacy.ts   FAQ, contact guidance and privacy text
   components/
-    ui/                 small reusable building blocks
+    ui/                 small reusable building blocks (includes the React Bits `decrypted-text` and `split-flap-text`)
     layout/             site shell, navbar, footer
     sections/           one file per page section
-    features/           self-contained widgets (command menu, mascot, loader, cursor, ...)
+    features/           self-contained widgets (command menu, mascot, loader, route transition, human/agent view, cursor, ...)
     kibo-ui/            vendored component
   lib/
     accent.ts           accent names and their rendered hex codes (hue/saturation/lightness live in globals.css)
