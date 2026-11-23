@@ -1,5 +1,6 @@
 import { execSync } from "node:child_process";
 
+import { withPostHogConfig } from "@posthog/nextjs-config";
 import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV === "development";
@@ -132,4 +133,16 @@ const nextConfig: NextConfig = {
     },
 };
 
-export default nextConfig;
+// Source maps for PostHog error tracking: generated, uploaded, then deleted from
+// the build output, so readable source is never served. Only on builds that have
+// the upload credentials; local builds skip it. The `postbuild` script in
+// package.json deletes any leftover .map files as a backstop.
+const { POSTHOG_API_KEY, POSTHOG_PROJECT_ID } = process.env;
+
+export default POSTHOG_API_KEY && POSTHOG_PROJECT_ID
+    ? withPostHogConfig(nextConfig, {
+          personalApiKey: POSTHOG_API_KEY,
+          projectId: POSTHOG_PROJECT_ID,
+          sourcemaps: { enabled: true, deleteAfterUpload: true },
+      })
+    : nextConfig;
