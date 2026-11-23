@@ -11,3 +11,4 @@
 - [ ] `yarn lint`, `yarn format:check`, `yarn build` and `yarn type:check` pass
 - [ ] Checked on mobile and desktop widths
 - [ ] Keyboard and screen reader behavior unchanged or improved
+- [ ] New analytics events (in `src/lib/analytics.ts`) carry no personal data, and the privacy page still matches
