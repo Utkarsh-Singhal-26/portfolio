@@ -1,5 +1,4 @@
 import { format, parse } from "date-fns";
-import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -9,15 +8,13 @@ import { Stripe } from "@/components/ui/blueprint";
 import { DATA, LOCATION, SITE, SITE_URL } from "@/content/data";
 import { skills } from "@/lib/agent/api";
 import { getOpenSource } from "@/lib/github/open-source";
+import { pageMetadata } from "@/lib/page-metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: "Resume",
     description: `${DATA.header.name}'s resume: experience, projects, open source and skills.`,
-    alternates: {
-        canonical: `${SITE_URL}/resume`,
-        types: { "text/markdown": "/resume.md" },
-    },
-};
+    path: "/resume",
+});
 
 export const revalidate = 86400;
 

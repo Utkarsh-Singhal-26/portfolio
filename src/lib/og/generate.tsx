@@ -2,26 +2,17 @@ import { ImageResponse } from "next/og";
 import sharp from "sharp";
 
 import { SITE } from "@/content/data";
-import { getGitHubContributions } from "@/lib/github/contributions";
 import { DISPLAY_SIZE, OgCard, SIZE } from "@/lib/og/card";
 import { loadOgFonts } from "@/lib/og/fonts";
-import { contributionWeeks, emptyWeeks } from "@/lib/og/weeks";
 
 export const OG_IMAGE_SIZE = DISPLAY_SIZE;
 export const OG_IMAGE_CONTENT_TYPE = "image/jpeg";
 export const OG_IMAGE_ALT = SITE.ogAlt;
 
 export async function generateOgImage() {
-    const [fonts, weeks] = await Promise.all([
-        loadOgFonts(),
-        getGitHubContributions()
-            .then((days) => contributionWeeks(days, 52))
-            .catch(() => emptyWeeks(52)),
-    ]);
-
-    const png = new ImageResponse(<OgCard weeks={weeks} />, {
+    const png = new ImageResponse(<OgCard />, {
         ...SIZE,
-        fonts,
+        fonts: await loadOgFonts(),
     });
 
     const pngBuffer = Buffer.from(await png.arrayBuffer());

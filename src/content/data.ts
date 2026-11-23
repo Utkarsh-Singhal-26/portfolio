@@ -288,7 +288,7 @@ export const DATA = {
 
 export const SITE = {
     title: `${DATA.header.name} | Full-Stack Software Developer`,
-    description: `${DATA.header.name} is a backend-leaning full-stack developer working with TypeScript, Node.js, Python and React. Open-source contributor to React Bits and Vue Bits.`,
+    description: `${DATA.header.name} is a backend-leaning full-stack developer at ${DATA.experience[0].name}, working with TypeScript, Node.js, Python and React. Open-source contributor to React Bits and Vue Bits.`,
     ogAlt: `${DATA.header.name}. ${DATA.header.headline}`,
     twitterCreator: "@Utkarsh_2604",
 } as const;

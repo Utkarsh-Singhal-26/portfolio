@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -16,24 +15,22 @@ import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { Stripe } from "@/components/ui/blueprint";
 import { Reveal } from "@/components/ui/reveal";
-import { DATA, SITE_URL } from "@/content/data";
+import { DATA } from "@/content/data";
 import { buildStory } from "@/lib/github/activity-story";
 import { toDays } from "@/lib/github/commit-stats";
 import {
     getGitHubContributions,
     getGitHubYear,
 } from "@/lib/github/contributions";
+import { pageMetadata } from "@/lib/page-metadata";
 import { cn } from "@/lib/utils";
 import { getWakaStats } from "@/lib/wakatime";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: "Activity",
     description: `${DATA.header.name}'s GitHub contributions for the last year and all-time coding time, told as a short story.`,
-    alternates: {
-        canonical: `${SITE_URL}/activity`,
-        types: { "text/markdown": "/activity.md" },
-    },
-};
+    path: "/activity",
+});
 
 export const revalidate = 86400;
 
