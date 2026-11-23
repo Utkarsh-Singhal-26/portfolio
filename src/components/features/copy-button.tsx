@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 export function CopyButton({
@@ -27,6 +28,7 @@ export function CopyButton({
         } catch {
             return;
         }
+        track("copy_clicked", { label });
         setCopied(true);
         if (timer.current) clearTimeout(timer.current);
         timer.current = setTimeout(() => setCopied(false), 1600);

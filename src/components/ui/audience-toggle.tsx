@@ -5,6 +5,7 @@ import { useState, useSyncExternalStore } from "react";
 
 import { cover } from "@/components/features/route-band";
 import DecryptedText from "@/components/ui/decrypted-text";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 const KEY = "viewer";
@@ -29,6 +30,7 @@ export const useAgentView = () =>
     useSyncExternalStore(subscribe, read, () => false);
 
 function commit(on: boolean) {
+    track("view_changed", { view: on ? "agent" : "human" });
     try {
         localStorage.setItem(KEY, on ? "agent" : "human");
     } catch {}

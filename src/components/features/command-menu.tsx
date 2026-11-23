@@ -46,6 +46,7 @@ import {
     accentSwatchStyle,
     setAccent,
 } from "@/lib/accent";
+import { track, trackHref } from "@/lib/analytics";
 import { setThemeAtPointer } from "@/lib/theme-transition";
 import { cn, isTypingTarget } from "@/lib/utils";
 
@@ -176,6 +177,7 @@ function useGoTo() {
     return useCallback(
         (href: string) => {
             if (href.startsWith("http") || href.startsWith("mailto:")) {
+                trackHref(href, "command_menu");
                 window.open(href, "_blank", "noopener,noreferrer");
                 return;
             }
@@ -300,6 +302,10 @@ function CommandPalette() {
     const { setTheme, resolvedTheme } = useTheme();
     const goTo = useGoTo();
     const [search, setSearch] = useState("");
+
+    useEffect(() => {
+        if (open) track("command_menu_opened", {});
+    }, [open]);
 
     // Opened from state, not a Dialog.Trigger, so Radix has nothing to return
     // focus to. Layout effect runs before Radix moves focus into the input.
@@ -475,13 +481,14 @@ function CommandPalette() {
                         value="Resume PDF"
                         keywords={["cv", "download", "print"]}
                         onSelect={() =>
-                            run(() =>
+                            run(() => {
+                                trackHref("/resume.pdf", "command_menu");
                                 window.open(
                                     "/resume.pdf",
                                     "_blank",
                                     "noopener,noreferrer"
-                                )
-                            )
+                                );
+                            })
                         }
                     >
                         <FileTextIcon size={16} weight="light" />
