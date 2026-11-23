@@ -2,7 +2,7 @@
     "name": "portfolio",
     "version": "2.0.0",
     "private": true,
-    "description": "A modern, responsive personal portfolio built with Next.js, Tailwind CSS, and TypeScript to showcase projects, skills, and experience.",
+    "description": "Portfolio of a backend-leaning full-stack developer, built with Next.js, React and TypeScript. Readable by AI agents: a Markdown twin of every page, llms.txt and a read-only JSON API.",
     "homepage": "https://utkarsh-singhal.is-a.dev/",
     "author": {
         "name": "Utkarsh Singhal",
