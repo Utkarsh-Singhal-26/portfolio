@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Geist_Mono, Outfit } from "next/font/google";
 
+import { AgentLens } from "@/components/features/agent-lens";
 import { BlueprintLoader } from "@/components/features/blueprint-loader";
 import { Clarity } from "@/components/features/clarity";
 import { CommandMenu } from "@/components/features/command-menu";
@@ -13,6 +14,7 @@ import { Ga4 } from "@/components/features/ga4";
 import { RouteBand } from "@/components/features/route-band";
 import { SiteControls } from "@/components/features/site-controls";
 import { TargetCursorLazy } from "@/components/features/target-cursor-lazy";
+import { AudienceToggle } from "@/components/ui/audience-toggle";
 import { FrameMarks } from "@/components/ui/blueprint";
 import { DATA, SITE, SITE_URL } from "@/content/data";
 import { bootScript } from "@/lib/boot-script";
@@ -120,9 +122,11 @@ export default function RootLayout({
                             <div className="relative mx-auto border-line border-x w-full max-w-280">
                                 <FrameMarks />
                                 {children}
+                                <AgentLens />
                             </div>
                         </div>
                         <SiteControls />
+                        <AudienceToggle />
                         <TargetCursorLazy />
                     </CommandMenu>
                 </ThemeProvider>
