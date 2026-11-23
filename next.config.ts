@@ -20,11 +20,11 @@ function buildCommit() {
 // script and the Clarity bootstrap; everything else is pinned to known origins.
 const csp = [
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://www.clarity.ms https://scripts.clarity.ms https://www.googletagmanager.com`,
+    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://www.clarity.ms https://scripts.clarity.ms`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",
     "font-src 'self'",
-    "connect-src 'self' https://*.clarity.ms https://c.bing.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
+    "connect-src 'self' https://*.clarity.ms https://c.bing.com",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",
@@ -35,6 +35,7 @@ const csp = [
 const nextConfig: NextConfig = {
     productionBrowserSourceMaps: false,
     poweredByHeader: false,
+    skipTrailingSlashRedirect: true, // PostHog API paths need their trailing slash
     env: {
         BUILD_COMMIT: buildCommit(),
         BUILD_DATE: new Date().toISOString(),
@@ -52,6 +53,20 @@ const nextConfig: NextConfig = {
         ];
         return {
             beforeFiles: [
+                // PostHog reverse proxy (US cloud): first-party path, fewer blocked events.
+                {
+                    source: "/ingest/static/:path*",
+                    destination:
+                        "https://us-assets.i.posthog.com/static/:path*",
+                },
+                {
+                    source: "/ingest/array/:path*",
+                    destination: "https://us-assets.i.posthog.com/array/:path*",
+                },
+                {
+                    source: "/ingest/:path*",
+                    destination: "https://us.i.posthog.com/:path*",
+                },
                 { source: "/", has, destination: "/index.md" },
                 { source: "/privacy", has, destination: "/privacy.md" },
                 { source: "/developers", has, destination: "/developers.md" },

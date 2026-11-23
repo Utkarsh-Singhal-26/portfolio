@@ -25,12 +25,12 @@ yarn dev
 
 Open http://localhost:3000. Every variable below is optional locally:
 
-| Variable                 | Purpose                                                                                             |
-| ------------------------ | --------------------------------------------------------------------------------------------------- |
-| `GITHUB_TOKEN`           | Raises the GitHub API rate limit for the open source section                                        |
-| `NEXT_PUBLIC_CLARITY_ID` | Enables Microsoft Clarity (production only, behind the consent banner)                              |
-| `NEXT_PUBLIC_GA_ID`      | Enables Google Analytics 4 (production only, Consent Mode v2: storage denied until accepted)        |
-| `WAKATIME_OAUTH_TOKEN`   | All-time coding time on `/activity` (needs a WakaTime OAuth token; the figure is hidden without it) |
+| Variable                  | Purpose                                                                                             |
+| ------------------------- | --------------------------------------------------------------------------------------------------- |
+| `GITHUB_TOKEN`            | Raises the GitHub API rate limit for the open source section                                        |
+| `NEXT_PUBLIC_CLARITY_ID`  | Enables Microsoft Clarity (production only, behind the consent banner)                              |
+| `NEXT_PUBLIC_POSTHOG_KEY` | Enables PostHog (production only, capturing opted out until the visitor accepts)                    |
+| `WAKATIME_OAUTH_TOKEN`    | All-time coding time on `/activity` (needs a WakaTime OAuth token; the figure is hidden without it) |
 
 ## Scripts
 

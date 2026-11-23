@@ -285,8 +285,8 @@ export default function PrivacyPage() {
                                 )}{" "}
                                 and{" "}
                                 {ext(
-                                    "https://policies.google.com/technologies/cookies",
-                                    "Google’s cookie page"
+                                    "https://posthog.com/docs/privacy/data-collection",
+                                    "PostHog’s data collection page"
                                 )}
                                 .
                             </p>
@@ -297,12 +297,11 @@ export default function PrivacyPage() {
                             title="Analytics (only if you accept)"
                         >
                             <p className={P}>
-                                <strong className={B}>
-                                    Google Analytics 4
-                                </strong>{" "}
-                                (Google) counts visits and pages and shows
-                                roughly where and on what device the site is
-                                used.{" "}
+                                <strong className={B}>PostHog</strong> counts
+                                visits, pages and clicks, records sessions for
+                                replay (inputs masked), reports JavaScript
+                                errors, and shows roughly where and on what
+                                device the site is used.{" "}
                                 <strong className={B}>Microsoft Clarity</strong>{" "}
                                 records clicks, scrolls and mouse movement, and
                                 can replay a session. The site has no forms or
@@ -320,11 +319,8 @@ export default function PrivacyPage() {
                             <p className={P}>
                                 <strong className={B}>If you reject:</strong> no
                                 analytics cookies are set and no replay
-                                recording starts. The Google tag still loads in
-                                a denied state under Google Consent Mode, so
-                                Google may receive anonymous, cookieless
-                                signals, such as a page view, with no identifier
-                                stored on your device.
+                                recording starts. PostHog loads with capturing
+                                switched off and sends no events.
                             </p>
                         </Section>
 
@@ -378,10 +374,19 @@ export default function PrivacyPage() {
                                     ],
                                     [
                                         "Google",
-                                        "Analytics (if accepted), email",
-                                        "usage data, your messages",
+                                        "Email",
+                                        "your messages",
                                         ext(
                                             "https://policies.google.com/privacy",
+                                            "link"
+                                        ),
+                                    ],
+                                    [
+                                        "PostHog",
+                                        "Analytics and replay (if accepted)",
+                                        "usage data, clicks, errors",
+                                        ext(
+                                            "https://posthog.com/privacy",
                                             "link"
                                         ),
                                     ],
@@ -421,26 +426,25 @@ export default function PrivacyPage() {
 
                         <Section id="transfers" title="International transfers">
                             <p className={P}>
-                                Google, Microsoft and Vercel operate globally,
-                                so your data may be processed outside your
-                                country, including in the United States. These
-                                providers rely on their own safeguards, such as
-                                the EU-US Data Privacy Framework and standard
-                                contractual clauses.
+                                Google, Microsoft, PostHog and Vercel operate
+                                globally, so your data may be processed outside
+                                your country, including in the United States.
+                                These providers rely on their own safeguards,
+                                such as the EU-US Data Privacy Framework and
+                                standard contractual clauses.
                             </p>
                         </Section>
 
                         <Section id="retention" title="How long it is kept">
                             <p className={P}>
                                 Storage on your device lasts as shown in the
-                                tables above. Data held by Google Analytics and
-                                Microsoft Clarity is kept under the retention
-                                settings of those services (Google lets event
-                                data be kept for up to 14 months). Vercel keeps
-                                technical logs for a short period under its own
-                                terms. The visitor total is a number with no
-                                personal data and is kept as long as the site
-                                runs. Emails are kept as described above.
+                                tables above. Data held by PostHog and Microsoft
+                                Clarity is kept under the retention settings of
+                                those services. Vercel keeps technical logs for
+                                a short period under its own terms. The visitor
+                                total is a number with no personal data and is
+                                kept as long as the site runs. Emails are kept
+                                as described above.
                             </p>
                         </Section>
 
@@ -489,11 +493,11 @@ export default function PrivacyPage() {
                                 To use any of these, email {mail}. I aim to
                                 reply within 30 days. Analytics data is not
                                 linked to your name, so I can only find it if
-                                you send me your Google Analytics client ID (the{" "}
+                                you send me your PostHog ID (the{" "}
                                 <code className="font-mono text-[13px]">
-                                    _ga
+                                    ph_*
                                 </code>{" "}
-                                cookie value).
+                                cookie or storage value).
                             </p>
                         </Section>
 
