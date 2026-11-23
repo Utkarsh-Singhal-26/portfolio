@@ -3,6 +3,8 @@
 import { format } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 
+import SplitFlapText from "@/components/ui/split-flap-text";
+
 /**
  * Engineering-drawing loader. The name is drafted on guide lines with a
  * live dimension line, and a title block fills in as the page actually
@@ -262,11 +264,21 @@ function TitleBlock({
                     <span className="px-3 py-1.5 border-line border-r text-muted-foreground">
                         {r.k}
                     </span>
-                    <span
-                        className="px-3 py-1.5 truncate transition-opacity duration-300"
-                        style={{ opacity: p >= r.at ? 1 : 0 }}
-                    >
-                        {r.v}
+                    <span className="px-3 py-1.5 h-7.5 truncate">
+                        {p >= r.at && r.v && (
+                            <SplitFlapText
+                                text={r.v}
+                                tileStyle="minimal"
+                                fontSize={11}
+                                gap={1}
+                                align="left"
+                                flipDuration={0.16}
+                                stagger={0.02}
+                                charset="alphanumeric"
+                                flipsPerChar={2}
+                                padTo={r.v.length}
+                            />
+                        )}
                     </span>
                 </div>
             ))}
