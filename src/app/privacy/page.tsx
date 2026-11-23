@@ -1,11 +1,10 @@
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import { PrivacyLink } from "@/components/features/privacy-link";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { Stripe } from "@/components/ui/blueprint";
-import { DATA, SITE_URL } from "@/content/data";
+import { DATA } from "@/content/data";
 import {
     PRIVACY_SECTIONS as SECTIONS,
     PRIVACY_SUMMARY,
@@ -17,15 +16,13 @@ import {
     type StorageItem,
 } from "@/content/storage";
 import { CONSENT_ENABLED } from "@/lib/consent-enabled";
+import { pageMetadata } from "@/lib/page-metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: "Privacy & cookies",
     description: `What ${DATA.header.name}'s portfolio stores, what it measures, who receives data, and how to change your choice.`,
-    alternates: {
-        canonical: `${SITE_URL}/privacy`,
-        types: { "text/markdown": "/privacy.md" },
-    },
-};
+    path: "/privacy",
+});
 
 const LINK = "underline underline-offset-4 hover:text-foreground";
 const P =
