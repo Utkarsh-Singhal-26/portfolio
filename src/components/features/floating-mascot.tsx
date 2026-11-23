@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 /**
@@ -607,4 +608,9 @@ export function FloatingMascot() {
             </svg>
         </div>
     );
+}
+
+/** One Commit for the whole site. Remounts per page so it re-reads that page's hairlines. */
+export function GlobalMascot() {
+    return <FloatingMascot key={usePathname()} />;
 }

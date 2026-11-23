@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { FloatingMascot } from "@/components/features/floating-mascot";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { Developers } from "@/components/sections/developers";
@@ -20,7 +19,6 @@ export default function DevelopersPage() {
     return (
         <>
             <Navbar />
-            <FloatingMascot />
             <main id="content" className="relative">
                 <h1 className="sr-only">Developers</h1>
                 <Developers siteUrl={SITE_URL} />

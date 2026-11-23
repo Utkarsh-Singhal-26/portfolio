@@ -10,7 +10,6 @@ import {
     Weekdays,
 } from "@/components/features/commit-views";
 import { CountUp } from "@/components/features/count-up";
-import { FloatingMascot } from "@/components/features/floating-mascot";
 import { WakaPanel } from "@/components/features/wakatime-panel";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
@@ -107,7 +106,6 @@ export default async function ActivityPage() {
     return (
         <>
             <Navbar />
-            <FloatingMascot />
             <main id="content" className="relative">
                 <header className="cell">
                     <p className={LABEL}>FIG. 10 · Activity</p>

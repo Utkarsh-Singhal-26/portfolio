@@ -1,7 +1,6 @@
 import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 
-import { FloatingMascot } from "@/components/features/floating-mascot";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { Stripe } from "@/components/ui/blueprint";
@@ -46,7 +45,6 @@ export default function NotFound() {
     return (
         <>
             <Navbar />
-            <FloatingMascot />
             <main
                 id="content"
                 className="relative flex flex-col min-h-[calc(100dvh-3.5rem)]"

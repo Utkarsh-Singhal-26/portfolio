@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
-import { FloatingMascot } from "@/components/features/floating-mascot";
 import { PrivacyLink } from "@/components/features/privacy-link";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
@@ -145,7 +144,6 @@ export default function PrivacyPage() {
     return (
         <>
             <Navbar />
-            <FloatingMascot />
             <main id="content" className="relative">
                 <div className="cell">
                     <p className="font-mono text-[11px] text-muted-foreground tracking-[0.22em]">
