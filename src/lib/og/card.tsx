@@ -1,327 +1,387 @@
+import type { CSSProperties, ReactNode } from "react";
+import { Fragment } from "react";
+
 import { DATA, getAge, SITE_URL } from "@/content/data";
+
+// Laid out at 1200x630, rendered at 2x so the JPEG stays sharp.
+const W = 1200;
+const H = 630;
+const SCALE = 2;
+const DISPLAY_SIZE = { width: W, height: H } as const;
+const SIZE = { width: W * SCALE, height: H * SCALE } as const;
 
 const BG = "#0e0e11";
 const FG = "#f4f4f6";
 const MUTED = "#9f9fa8";
 const LINE = "#3f3f46";
-const CROSS = "rgba(244, 244, 246, 0.55)";
 const BRAND = "#49ab9e";
-
+const DIM = "rgba(73, 171, 158, 0.85)";
 const LEVEL = [
     "rgba(244, 244, 246, 0.08)",
     "rgba(73, 171, 158, 0.28)",
     "rgba(73, 171, 158, 0.48)",
     "rgba(73, 171, 158, 0.72)",
     BRAND,
-] as const;
+];
 
-const SCALE = 2;
-const s = (value: number) => value * SCALE;
+const { name, pronoun } = DATA.header;
+const company = DATA.experience[0];
+const role = company.roles[0].title.replace(/\s-\s/, "-");
+const mono: CSSProperties = {
+    display: "flex",
+    fontFamily: "Geist Mono",
+    color: MUTED,
+};
+const dashed = (color: string, deg = 90) =>
+    `repeating-linear-gradient(${deg}deg, ${color} 0 6px, transparent 6px 11px)`;
 
-const DISPLAY_SIZE = { width: 1200, height: 630 } as const;
-const SIZE = {
-    width: DISPLAY_SIZE.width * SCALE,
-    height: DISPLAY_SIZE.height * SCALE,
-} as const;
-const FRAME = s(20);
-const NAV_H = s(52);
-const STRIPE_H = s(24);
-const FOOTER_H = s(52);
-const HERO_H = s(268);
-const PAD_X = s(36);
-const GRAPH_WEEKS = 52;
-const BLOCK = s(17);
-const BLOCK_GAP = s(4);
-const CROSS_SIZE = s(11);
-const LINE_W = s(1);
-const LEFT_X = FRAME;
-const RIGHT_X = SIZE.width - FRAME;
+// Same creature as floating-mascot.tsx: -1 empty, "e" eye, 0-4 fill level.
+const BODY: (number | "e")[][] = [
+    [-1, 2, 3, 2, -1],
+    [3, "e", 4, "e", 3],
+    [4, 4, 4, 4, 4],
+    [2, 3, 4, 3, 2],
+];
+const CELLS = BODY.flat()
+    .map((v, i) => ({ v, i }))
+    .filter((c) => c.v !== -1);
+const level = (v: number | "e") => (v === "e" ? 0 : v);
 
-const NAV = ["work", "experience", "open source"] as const;
-const { name, pronoun, headline, focus } = DATA.header;
+const AXIS_Y = 236;
+const CELL = 46;
+const MINI = 26;
 
-function Cross({ x, y }: { x: number; y: number }) {
-    const half = (CROSS_SIZE - 1) / 2;
+function box(
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    bg: string,
+    extra: CSSProperties = {}
+): CSSProperties {
+    return {
+        position: "absolute",
+        left: x,
+        top: y,
+        width: w,
+        height: h,
+        display: "flex",
+        backgroundColor: bg,
+        ...extra,
+    };
+}
+
+function Mono({
+    x,
+    y,
+    size = 13,
+    right,
+    color = MUTED,
+    children,
+}: {
+    x?: number;
+    y: number;
+    size?: number;
+    right?: number;
+    color?: string;
+    children: ReactNode;
+}) {
     return (
         <div
             style={{
+                ...mono,
+                color,
                 position: "absolute",
-                left: x - half,
-                top: y - half,
-                width: CROSS_SIZE,
-                height: CROSS_SIZE,
-                display: "flex",
+                top: y,
+                fontSize: size,
+                letterSpacing: size === 13 ? 1.5 : 0,
+                ...(right === undefined ? { left: x } : { right }),
             }}
         >
-            <div
-                style={{
-                    position: "absolute",
-                    top: half,
-                    left: 0,
-                    width: CROSS_SIZE,
-                    height: LINE_W,
-                    backgroundColor: CROSS,
-                }}
-            />
-            <div
-                style={{
-                    position: "absolute",
-                    top: 0,
-                    left: half,
-                    width: LINE_W,
-                    height: CROSS_SIZE,
-                    backgroundColor: CROSS,
-                }}
-            />
+            {children}
         </div>
     );
 }
 
-function Rule({ y }: { y: number }) {
+function Eye({ size }: { size: number }) {
     return (
         <div
             style={{
-                position: "absolute",
-                top: y,
-                left: FRAME,
-                width: SIZE.width - FRAME * 2,
-                height: LINE_W,
-                backgroundColor: LINE,
+                width: size,
+                height: size,
+                backgroundColor: BRAND,
+                display: "flex",
             }}
         />
     );
 }
 
-function Graph({ weeks }: { weeks: number[][] }) {
+function Frame() {
+    const m = 22;
+    const cross = "rgba(244, 244, 246, 0.55)";
     return (
-        <div style={{ display: "flex", flexDirection: "row", gap: BLOCK_GAP }}>
-            {weeks.map((week, weekIndex) => (
-                <div
-                    key={weekIndex}
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: BLOCK_GAP,
-                    }}
+        <>
+            <div
+                style={{
+                    ...box(m, m, W - m * 2, H - m * 2, "transparent"),
+                    border: `1px solid ${LINE}`,
+                }}
+            />
+            {[m, W - m].flatMap((x) =>
+                [m, H - m].map((y) => (
+                    <Fragment key={`${x}${y}`}>
+                        <div style={box(x - 6, y, 13, 1, cross)} />
+                        <div style={box(x, y - 6, 1, 13, cross)} />
+                    </Fragment>
+                ))
+            )}
+            {["1", "2", "3", "4", "5", "6"].map((c, i) => (
+                <Mono
+                    key={c}
+                    x={m + ((W - m * 2) / 6) * (i + 0.5) - 4}
+                    y={3}
+                    size={12}
                 >
-                    {week.map((level, dayIndex) => (
+                    {c}
+                </Mono>
+            ))}
+            {["D", "C", "B", "A"].map((r, i) => (
+                <Mono
+                    key={r}
+                    x={7}
+                    y={m + ((H - m * 2) / 4) * (i + 0.5) - 8}
+                    size={12}
+                >
+                    {r}
+                </Mono>
+            ))}
+        </>
+    );
+}
+
+function Mascot() {
+    const gap = Math.round(MINI * 0.3);
+    const leg = { width: MINI, height: MINI / 2, backgroundColor: BRAND };
+    return (
+        <div
+            style={{
+                position: "absolute",
+                left: 960,
+                top: 380,
+                display: "flex",
+                flexDirection: "column",
+                gap,
+            }}
+        >
+            {BODY.map((row, r) => (
+                <div key={r} style={{ display: "flex", gap }}>
+                    {row.map((v, c) => (
                         <div
-                            key={dayIndex}
+                            key={c}
                             style={{
-                                width: BLOCK,
-                                height: BLOCK,
-                                backgroundColor: LEVEL[level] ?? LEVEL[0],
+                                width: MINI,
+                                height: MINI,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                backgroundColor:
+                                    v === -1 ? "transparent" : LEVEL[level(v)],
                             }}
-                        />
+                        >
+                            {v === "e" && <Eye size={MINI * 0.42} />}
+                        </div>
                     ))}
                 </div>
             ))}
+            <div
+                style={{
+                    display: "flex",
+                    gap: MINI + gap,
+                    marginLeft: MINI + gap,
+                }}
+            >
+                <div style={leg} />
+                <div style={leg} />
+            </div>
         </div>
     );
 }
 
-export function OgCard({ weeks }: { weeks: number[][] }) {
-    const [firstName, ...lastParts] = name.split(" ");
-    const lastName = lastParts.join(" ");
-    const graphWeeks = weeks.slice(-GRAPH_WEEKS);
+function Exploded() {
+    return (
+        <>
+            <div
+                style={box(64, AXIS_Y, 1072, 1, "transparent", {
+                    backgroundImage: dashed("rgba(244, 244, 246, 0.3)"),
+                })}
+            />
+            {CELLS.map((c, k) => {
+                const x = 78 + k * 58;
+                const row = Math.floor(c.i / 5);
+                const rise = (3 - row) * 18;
+                const top = AXIS_Y - 18 - rise;
+                return (
+                    <Fragment key={k}>
+                        <div
+                            style={box(
+                                x + CELL / 2,
+                                top,
+                                1,
+                                24 + rise,
+                                "rgba(73, 171, 158, 0.45)"
+                            )}
+                        />
+                        <div
+                            style={box(
+                                x + CELL / 2 - 3,
+                                AXIS_Y - 2,
+                                7,
+                                7,
+                                DIM,
+                                {
+                                    borderRadius: 99,
+                                }
+                            )}
+                        />
+                        <div
+                            style={box(
+                                x,
+                                top - CELL,
+                                CELL,
+                                CELL,
+                                LEVEL[level(c.v)],
+                                {
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                }
+                            )}
+                        >
+                            {c.v === "e" && <Eye size={CELL * 0.4} />}
+                        </div>
+                        <Mono x={x + CELL / 2 - 9} y={AXIS_Y + 14}>
+                            {`${row}${c.i % 5}`}
+                        </Mono>
+                    </Fragment>
+                );
+            })}
+        </>
+    );
+}
 
-    const topY = FRAME;
-    const navY = FRAME + NAV_H;
-    const graphY = FRAME + NAV_H + HERO_H;
-    const stripeY = SIZE.height - FRAME - FOOTER_H - STRIPE_H;
-    const footerY = SIZE.height - FRAME - FOOTER_H;
-    const bottomY = SIZE.height - FRAME;
-    const frameH = SIZE.height - FRAME * 2;
-    const marks = [topY, navY, graphY, stripeY, footerY, bottomY];
+function Dimension() {
+    const tick = {
+        width: 1,
+        height: 16,
+        backgroundColor: DIM,
+        display: "flex",
+    };
+    const rule = {
+        height: 1,
+        flexGrow: 1,
+        backgroundColor: DIM,
+        display: "flex",
+    };
+    return (
+        <div
+            style={{
+                position: "absolute",
+                left: 78,
+                top: 282,
+                width: 1044,
+                height: 16,
+                display: "flex",
+                alignItems: "center",
+            }}
+        >
+            <div style={tick} />
+            <div style={rule} />
+            <div
+                style={{
+                    ...mono,
+                    color: DIM,
+                    fontSize: 13,
+                    padding: "0 12px",
+                    letterSpacing: 1.5,
+                }}
+            >
+                5 × 4 GRID · 18 CELLS
+            </div>
+            <div style={rule} />
+            <div style={tick} />
+        </div>
+    );
+}
 
+export function OgCard() {
     return (
         <div
             style={{
                 width: SIZE.width,
                 height: SIZE.height,
                 display: "flex",
-                flexDirection: "column",
                 backgroundColor: BG,
-                color: FG,
-                fontFamily: "Outfit",
-                position: "relative",
-                padding: FRAME,
             }}
         >
             <div
                 style={{
-                    position: "absolute",
-                    top: FRAME,
-                    left: LEFT_X,
-                    width: LINE_W,
-                    height: frameH,
-                    backgroundColor: LINE,
-                }}
-            />
-            <div
-                style={{
-                    position: "absolute",
-                    top: FRAME,
-                    left: RIGHT_X,
-                    width: LINE_W,
-                    height: frameH,
-                    backgroundColor: LINE,
-                }}
-            />
-
-            <div
-                style={{
+                    width: W,
+                    height: H,
                     display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    height: NAV_H,
-                    paddingLeft: PAD_X,
-                    paddingRight: PAD_X,
+                    position: "relative",
+                    color: FG,
+                    fontFamily: "Outfit",
+                    transform: `scale(${SCALE})`,
+                    transformOrigin: "top left",
                 }}
             >
-                <div
-                    style={{
-                        display: "flex",
-                        fontSize: s(20),
-                        fontWeight: 600,
-                        letterSpacing: s(-0.4),
-                    }}
-                >
-                    utkarsh.
-                </div>
-                <div style={{ display: "flex", gap: s(28) }}>
-                    {NAV.map((item) => (
-                        <div
-                            key={item}
-                            style={{
-                                display: "flex",
-                                fontSize: s(14),
-                                color: MUTED,
-                            }}
-                        >
-                            {item}
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    height: HERO_H,
-                    paddingLeft: PAD_X,
-                    paddingRight: PAD_X,
-                }}
-            >
-                <div
-                    style={{
-                        display: "flex",
-                        fontFamily: "Geist Mono",
-                        fontSize: s(13),
-                        color: MUTED,
-                    }}
-                >
-                    {getAge()}, {pronoun}
-                </div>
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        marginTop: s(8),
-                        fontSize: s(56),
-                        fontWeight: 600,
-                        letterSpacing: s(-2),
-                        lineHeight: 1.05,
-                    }}
-                >
-                    <div style={{ display: "flex" }}>{firstName}</div>
-                    <div style={{ display: "flex" }}>{lastName}</div>
-                </div>
-                <div
-                    style={{
-                        display: "flex",
-                        marginTop: s(12),
-                        maxWidth: s(620),
-                        fontSize: s(20),
-                        lineHeight: 1.35,
-                        color: MUTED,
-                    }}
-                >
-                    {headline}
-                </div>
-            </div>
-
-            <div
-                style={{
-                    display: "flex",
-                    flexGrow: 1,
-                    alignItems: "center",
-                    paddingLeft: PAD_X,
-                    paddingRight: PAD_X,
-                }}
-            >
-                <Graph weeks={graphWeeks} />
-            </div>
-
-            <div
-                style={{
-                    display: "flex",
-                    height: STRIPE_H,
-                    backgroundImage: `repeating-linear-gradient(315deg, rgba(73, 171, 158, 0.42) 0px, rgba(73, 171, 158, 0.42) ${LINE_W}px, transparent ${LINE_W}px, transparent ${s(10)}px)`,
-                }}
-            />
-
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    height: FOOTER_H,
-                    paddingLeft: PAD_X,
-                    paddingRight: PAD_X,
-                }}
-            >
-                <div
-                    style={{
-                        display: "flex",
-                        fontFamily: "Geist Mono",
-                        fontSize: s(13),
-                        color: MUTED,
-                    }}
-                >
-                    {focus}
-                </div>
-                <div
-                    style={{
-                        display: "flex",
-                        fontFamily: "Geist Mono",
-                        fontSize: s(13),
-                        color: MUTED,
-                    }}
-                >
+                <Frame />
+                <Mono x={64} y={50}>
+                    FIG. 05 · EXPLODED VIEW · 18 CELLS
+                </Mono>
+                <Mono right={64} y={50}>
                     {new URL(SITE_URL).host}
-                </div>
-            </div>
+                </Mono>
+                <Exploded />
+                <Dimension />
 
-            <div
-                style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: SIZE.width,
-                    height: SIZE.height,
-                    display: "flex",
-                }}
-            >
-                {marks.map((y) => (
-                    <Rule key={`rule-${y}`} y={y} />
-                ))}
-                {marks.flatMap((y) => [
-                    <Cross key={`l-${y}`} x={LEFT_X} y={y} />,
-                    <Cross key={`r-${y}`} x={RIGHT_X} y={y} />,
-                ])}
+                <Mono x={64} y={336} size={18}>
+                    {getAge()}, {pronoun} · 28.7172°N 77.1579°E
+                </Mono>
+                <div
+                    style={{
+                        position: "absolute",
+                        left: 64,
+                        top: 366,
+                        display: "flex",
+                        fontSize: 116,
+                        fontWeight: 600,
+                        letterSpacing: -4.5,
+                        lineHeight: 1,
+                    }}
+                >
+                    {name}
+                </div>
+                <Mono x={64} y={496} size={22}>
+                    {role} at {company.name}
+                </Mono>
+
+                <div
+                    style={box(1038, 306, 1, 66, "transparent", {
+                        backgroundImage: dashed("rgba(73, 171, 158, 0.6)", 0),
+                    })}
+                />
+                <Mascot />
+                <Mono x={960} y={530} color={DIM}>
+                    COMMIT · ASSEMBLED
+                </Mono>
+
+                <div
+                    style={box(64, 548, 820, 22, "transparent", {
+                        border: `1px solid ${LINE}`,
+                        backgroundImage:
+                            "repeating-linear-gradient(315deg, rgba(73, 171, 158, 0.45) 0 1px, transparent 1px 9px)",
+                    })}
+                />
             </div>
         </div>
     );

@@ -2,7 +2,7 @@
 
 Personal portfolio of Utkarsh Singhal, a backend-leaning full-stack developer: shipped work, experience, open source contributions, and writing. It is also readable by agents: every page has a Markdown twin and the site serves a small read-only API. The switch at the bottom of every page (or the `v` key) shows the Markdown an agent receives for the page you are on.
 
-[![Portfolio preview](docs/preview.png)](https://utkarsh-singhal.is-a.dev)
+[![Utkarsh Singhal: the Open Graph card, an exploded view of the cell mascot](docs/og-image.jpg)](https://utkarsh-singhal.is-a.dev)
 
 ## Stack
 
@@ -102,8 +102,9 @@ src/
     github/             GitHub data fetching and the activity stats (cached daily)
     analytics.ts        typed event schema and the track() / trackHref() helpers
     json-ld.ts          schema.org graph for the layout
+    page-metadata.ts    title, description, canonical and social tags for a page
     wakatime.ts         WakaTime all-time stats (cached daily)
-    og/                 Open Graph image rendering
+    og/                 Open Graph card: an exploded view of the cell mascot (the image at the top of this file)
 ```
 
 ## Analytics and error tracking
