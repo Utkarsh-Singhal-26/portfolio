@@ -10,6 +10,7 @@ import { BlueprintLoader } from "@/components/features/blueprint-loader";
 import { Clarity } from "@/components/features/clarity";
 import { CommandMenu } from "@/components/features/command-menu";
 import { ConsentBanner } from "@/components/features/consent-banner";
+import { GlobalMascot } from "@/components/features/floating-mascot";
 import { Ga4 } from "@/components/features/ga4";
 import { RouteBand } from "@/components/features/route-band";
 import { SiteControls } from "@/components/features/site-controls";
@@ -125,6 +126,7 @@ export default function RootLayout({
                                 <AgentLens />
                             </div>
                         </div>
+                        <GlobalMascot />
                         <SiteControls />
                         <AudienceToggle />
                         <TargetCursorLazy />
