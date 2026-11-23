@@ -17,6 +17,8 @@ cp .env.sample .env
 yarn dev
 ```
 
+Every variable in `.env` is optional. Without the PostHog, Clarity and Upstash values the site still runs: nothing is sent to analytics, no source maps are uploaded, and the visitor counter uses a local file.
+
 ## Before opening a pull request
 
 ```bash

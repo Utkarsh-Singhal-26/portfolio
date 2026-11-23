@@ -8,6 +8,7 @@ The goal is for https://utkarsh-singhal.is-a.dev to meet [WCAG 2.2](https://www.
 - Command menu (`⌘K` or `/`) and shortcuts help (`?`) trap focus while open, close with Escape, and return focus where it was
 - Section shortcuts and menu jumps move keyboard focus to the section, so Tab continues from there
 - Every interactive element has an accessible name; landmarks (`header`, `nav`, `main`, `footer`) and a single `h1` structure the page
+- The cookie consent banner is a labelled dialog operated from the keyboard: `Y` accept, `N` reject, `D` details, `Esc` close; its buttons expose `aria-keyshortcuts`, and focus returns to where it was when it closes. The footer "cookies" button reopens it
 - Light and dark themes
 - Accent color switcher (footer row and `⌘K`): swatches are buttons with an accessible name and `aria-pressed`, grouped under a labelled fieldset; every accent keeps at least 4.6:1 contrast against the page background in both themes
 - `prefers-reduced-motion` turns off the page loader, name intro, reveal animations, physics and custom cursor
