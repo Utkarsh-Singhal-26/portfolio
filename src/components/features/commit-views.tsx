@@ -5,6 +5,7 @@ import {
     type ReactNode,
     type RefObject,
     useEffect,
+    useMemo,
     useRef,
     useState,
     type PointerEvent as ReactPointerEvent,
@@ -753,6 +754,313 @@ export function Streak({ days }: { days: Day[] }) {
                         </>
                     )}
                 </p>
+            </div>
+        </div>
+    );
+}
+
+const RAMP =
+    'data-[level="0"]:fill-foreground/8 data-[level="1"]:fill-brand/25 data-[level="2"]:fill-brand/45 data-[level="3"]:fill-brand/70 data-[level="4"]:fill-brand';
+
+function sector(
+    cx: number,
+    cy: number,
+    r1: number,
+    r2: number,
+    a1: number,
+    a2: number
+) {
+    const p = (r: number, a: number) =>
+        `${(cx + r * Math.cos(a)).toFixed(2)} ${(cy + r * Math.sin(a)).toFixed(2)}`;
+    return `M${p(r2, a1)}A${r2} ${r2} 0 0 1 ${p(r2, a2)}L${p(r1, a2)}A${r1} ${r1} 0 0 0 ${p(r1, a1)}Z`;
+}
+
+const SWEEP_MS = 3600;
+
+// Trig differs in the last digits between Node and the browser; round so hydration matches.
+const f = (v: number) => Number(v.toFixed(2));
+
+const MONTH_NAMES = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC",
+];
+
+const dayOfYear = (date: string) => {
+    const [y, m, d] = date.split("-").map(Number);
+    return Math.round((Date.UTC(y, m - 1, d) - Date.UTC(y, 0, 1)) / 864e5);
+};
+const yearLength = (year: number) =>
+    (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0 ? 366 : 365;
+const monthOf = (date: string) => Number(date.slice(5, 7)) - 1;
+
+type Hover = { date: string; count: number };
+
+/**
+ * Two calendar years as rings, this year outside and last year inside. Each ring has
+ * a band per weekday and a column per week, placed by date so a month lines up
+ * across both. One month is pulled out of the rings like a pie slice.
+ */
+export function Radial({ days, prev }: { days: Day[]; prev?: Day[] }) {
+    const wrap = useRef<HTMLDivElement>(null);
+    const width = useWidth(wrap);
+    const size = Math.min(width, 520);
+    const cx = size / 2;
+    const rOuter = size * 0.37;
+    const rInner = size * 0.2;
+    const pop = size * 0.04;
+    const ringGap = size * 0.016;
+
+    const year = Number(days[days.length - 1].date.slice(0, 4));
+    const N = yearLength(year);
+    const cur = useMemo(
+        () => days.filter((d) => d.date.startsWith(String(year))),
+        [days, year]
+    );
+    const old = useMemo(
+        () => (prev ?? []).filter((d) => d.date.startsWith(String(year - 1))),
+        [prev, year]
+    );
+    const hasOld = old.length > 0;
+
+    const monthTotals = (list: Day[]) => {
+        const t = Array<number>(12).fill(0);
+        for (const d of list) t[monthOf(d.date)] += d.count;
+        return t;
+    };
+    const curTotals = useMemo(() => monthTotals(cur), [cur]);
+    const oldTotals = useMemo(() => monthTotals(old), [old]);
+    const lastMonth = monthOf(cur[cur.length - 1].date);
+    const busiest = curTotals.indexOf(Math.max(...curTotals));
+
+    // Month wedge: start/end as a fraction of the year.
+    const wedge = (m: number) => {
+        const start = dayOfYear(`${year}-${String(m + 1).padStart(2, "0")}-01`);
+        const end =
+            m === 11
+                ? N
+                : dayOfYear(`${year}-${String(m + 2).padStart(2, "0")}-01`);
+        const a = (x: number) => -Math.PI / 2 + (x / N) * Math.PI * 2;
+        return { a1: a(start), a2: a(end), mid: a((start + end) / 2) };
+    };
+
+    const [sweep, setSweep] = useState(0);
+    const [run, setRun] = useState(0);
+    const [hover, setHover] = useState<Hover | null>(null);
+    const started = useRef(false);
+
+    useEffect(() => {
+        const el = wrap.current;
+        if (!el) return;
+        const io = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting && !started.current) {
+                started.current = true;
+                setRun((r) => r + 1);
+            }
+        });
+        io.observe(el);
+        return () => io.disconnect();
+    }, []);
+
+    useEffect(() => {
+        if (run === 0) return;
+        const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const start = performance.now();
+        let raf = 0;
+        const tick = (now: number) => {
+            // The rAF timestamp can precede `start` on the first frame, so clamp at 0.
+            const x = reduce ? 1 : clamp((now - start) / SWEEP_MS, 0, 1);
+            setSweep(x);
+            if (x < 1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(raf);
+    }, [run]);
+
+    // The pulled-out month: hovered, else walking Jan to now during the sweep, else the busiest.
+    const sweeping = sweep > 0 && sweep < 1;
+    const sel = hover
+        ? monthOf(hover.date)
+        : sweeping
+          ? Math.min(lastMonth, Math.floor(sweep * (lastMonth + 1)))
+          : busiest;
+
+    const span = (rOuter - rInner - ringGap) / 2;
+    const band = span / 7;
+    const gap = Math.min(1, band * 0.15);
+
+    const cells = (list: Day[], r0: number, ring: "cur" | "old") =>
+        list.map((d) => {
+            const sun = dayOfYear(d.date) - d.weekday;
+            const s = Math.max(0, sun);
+            const e = Math.min(N, sun + 7);
+            const a1 = -Math.PI / 2 + (s / N) * Math.PI * 2;
+            const a2 = -Math.PI / 2 + (e / N) * Math.PI * 2;
+            const r1 = r0 + d.weekday * band + gap / 2;
+            const m = monthOf(d.date);
+            const out = m === sel ? wedge(m).mid : null;
+            return (
+                <path
+                    key={ring + d.date}
+                    d={sector(
+                        cx,
+                        cx,
+                        r1,
+                        r1 + band - gap,
+                        a1 + 0.004,
+                        a2 - 0.004
+                    )}
+                    data-level={d.level}
+                    className={cn(RAMP, "cursor-crosshair")}
+                    style={{
+                        transform:
+                            out === null
+                                ? "translate(0px, 0px)"
+                                : `translate(${f(Math.cos(out) * pop)}px, ${f(Math.sin(out) * pop)}px)`,
+                        transition: "transform 260ms cubic-bezier(.2,1,.3,1)",
+                    }}
+                    onPointerEnter={() =>
+                        setHover({ date: d.date, count: d.count })
+                    }
+                />
+            );
+        });
+
+    const w = wedge(sel);
+    const dx = Math.cos(w.mid) * pop;
+    const dy = Math.sin(w.mid) * pop;
+    const selCur = curTotals[sel];
+    const selOld = oldTotals[sel];
+    const delta =
+        hasOld && selOld > 0
+            ? Math.round(((selCur - selOld) / selOld) * 100)
+            : null;
+    const totalCur = curTotals.reduce((a, b) => a + b, 0);
+    const totalOld = oldTotals.reduce((a, b) => a + b, 0);
+
+    return (
+        <div ref={wrap} className="p-4">
+            <svg
+                viewBox={`0 0 ${size} ${size}`}
+                width={size}
+                height={size}
+                aria-label={`${year}${hasOld ? ` and ${year - 1}` : ""} as rings, a band per weekday and a column per week, one month pulled out. Point at a cell to read a day.`}
+                className="mx-auto h-auto max-w-full"
+                onPointerLeave={() => setHover(null)}
+            >
+                <path
+                    d={sector(
+                        cx + dx,
+                        cx + dy,
+                        rInner - 5,
+                        rOuter + 5,
+                        w.a1,
+                        w.a2
+                    )}
+                    className="fill-brand/10 stroke-brand"
+                    strokeWidth={0.8}
+                />
+                {hasOld ? cells(old, rInner, "old") : null}
+                {cells(cur, hasOld ? rInner + span + ringGap : rInner, "cur")}
+                {MONTH_NAMES.map((name, m) => {
+                    const a = wedge(m).mid;
+                    const r = rOuter + 18 + (m === sel ? pop : 0);
+                    return (
+                        <text
+                            key={name}
+                            x={f(cx + r * Math.cos(a))}
+                            y={f(cx + r * Math.sin(a))}
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                            fontSize={10}
+                            className={
+                                m === sel ? "fill-brand font-mono" : AXIS
+                            }
+                            fontWeight={m === sel ? 600 : 400}
+                        >
+                            {name}
+                        </text>
+                    );
+                })}
+                <text
+                    x={cx}
+                    y={cx - 14}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="fill-foreground font-semibold"
+                    fontSize={size * 0.085}
+                >
+                    {MONTH_NAMES[sel]}
+                </text>
+                <text
+                    x={cx}
+                    y={cx + 12}
+                    textAnchor="middle"
+                    fontSize={11}
+                    className="fill-foreground font-mono"
+                >
+                    {n(selCur)} in {year}
+                </text>
+                {hasOld ? (
+                    <text
+                        x={cx}
+                        y={cx + 28}
+                        textAnchor="middle"
+                        fontSize={10}
+                        className={AXIS}
+                    >
+                        {n(selOld)} in {year - 1}
+                        {delta === null
+                            ? ""
+                            : delta > 300
+                              ? ` · ${Math.round(selCur / selOld)}×`
+                              : ` · ${delta > 0 ? "+" : ""}${delta}%`}
+                    </text>
+                ) : null}
+            </svg>
+
+            <div className="mt-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-3 font-mono">
+                <div className="min-w-0">
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-[0.22em]">
+                        {hover ? "Reading" : "Outer · inner"}
+                    </p>
+                    <p
+                        className="text-[12px] uppercase tracking-[0.18em]"
+                        aria-live="polite"
+                    >
+                        {hover
+                            ? `${dateLabel(hover.date)} · ${hover.count}`
+                            : `${year}${hasOld ? ` · ${year - 1}` : ""}`}
+                    </p>
+                </div>
+                <div className="flex items-end gap-4">
+                    <div className="text-right">
+                        <p className="font-semibold text-3xl tabular-nums leading-none">
+                            {n(totalCur)}
+                        </p>
+                        {hasOld ? (
+                            <p className="mt-1 text-[11px] text-muted-foreground tabular-nums">
+                                {n(totalOld)} in {year - 1}
+                            </p>
+                        ) : null}
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => setRun((r) => r + 1)}
+                        className="text-[11px] text-muted-foreground hover:text-foreground tracking-[0.18em] whitespace-nowrap cursor-target"
+                    >
+                        [ REPLAY ]
+                    </button>
+                </div>
             </div>
         </div>
     );

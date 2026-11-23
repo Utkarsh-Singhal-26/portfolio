@@ -30,3 +30,27 @@ export async function getGitHubContributions(): Promise<Activity[]> {
         return [];
     }
 }
+
+// A full calendar year, for the year-over-year ring. Same cache rules: throws so nothing empty is stored.
+const loadYear = unstable_cache(
+    async (year: number): Promise<Activity[]> => {
+        const res = await fetch(
+            `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=${year}`,
+            { signal: AbortSignal.timeout(8000) }
+        );
+        if (!res.ok) throw new Error(`contributions API ${res.status}`);
+        const data = (await res.json()) as GitHubContributionsResponse;
+        if (!data.contributions?.length) throw new Error("no contributions");
+        return data.contributions;
+    },
+    ["github-contributions-year"],
+    { revalidate: 86400 }
+);
+
+export async function getGitHubYear(year: number): Promise<Activity[]> {
+    try {
+        return await loadYear(year);
+    } catch {
+        return [];
+    }
+}
