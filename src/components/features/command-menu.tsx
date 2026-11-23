@@ -34,6 +34,7 @@ import {
 
 import { openConsent } from "@/components/features/consent-banner";
 import { go } from "@/components/features/route-band";
+import { setAgentView, useAgentView } from "@/components/ui/audience-toggle";
 import { CornerMarks } from "@/components/ui/blueprint";
 import { toggleThemeFromPointer } from "@/components/ui/theme-toggle";
 import { ENDPOINTS } from "@/content/api";
@@ -68,6 +69,7 @@ const GLOBAL_SHORTCUTS = [
     { key: "/", label: "Open command menu" },
     { key: "?", label: "Show shortcuts" },
     { key: "t", label: "Toggle theme" },
+    { key: "v", label: "Toggle human / agent view" },
     { key: "esc", label: "Close menu or help" },
 ] as const;
 
@@ -218,6 +220,7 @@ export function CommandMenu({
     const [helpOpen, setHelpOpen] = useState(false);
     const goTo = useGoTo();
     const { setTheme, resolvedTheme } = useTheme();
+    const agent = useAgentView();
 
     useEffect(() => {
         const onKeyDown = (event: KeyboardEvent) => {
@@ -259,6 +262,12 @@ export function CommandMenu({
                 return;
             }
 
+            if (event.key.toLowerCase() === "v") {
+                event.preventDefault();
+                setAgentView(!agent);
+                return;
+            }
+
             if (event.key.toLowerCase() === "t") {
                 event.preventDefault();
                 void toggleThemeFromPointer(resolvedTheme === "dark", setTheme);
@@ -276,7 +285,7 @@ export function CommandMenu({
 
         window.addEventListener("keydown", onKeyDown);
         return () => window.removeEventListener("keydown", onKeyDown);
-    }, [consent, goTo, helpOpen, open, resolvedTheme, setTheme]);
+    }, [agent, consent, goTo, helpOpen, open, resolvedTheme, setTheme]);
 
     return (
         <CommandMenuContext.Provider value={{ consent, open, setOpen }}>

@@ -560,3 +560,15 @@ html:not([data-loader="skip"]):has(.blueprint-loader:not([data-phase="exit"])) {
         pointer-events: none;
     }
 }
+
+/* Agent view: the lens replaces page content, navbar stays */
+html[data-viewer="agent"] main#content {
+    display: none;
+}
+
+@keyframes lens-line {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+}
