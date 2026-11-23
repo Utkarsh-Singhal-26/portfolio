@@ -1,5 +1,7 @@
 import { useSyncExternalStore } from "react";
 
+import { track } from "@/lib/analytics";
+
 export const ACCENTS = [
     "teal",
     "byzantium",
@@ -25,6 +27,7 @@ export type Accent = (typeof ACCENTS)[number];
 const EVENT = "accent-change";
 
 export function setAccent(name: Accent) {
+    track("accent_changed", { accent: name });
     document.documentElement.dataset.accent = name;
     try {
         localStorage.setItem("accent", name);

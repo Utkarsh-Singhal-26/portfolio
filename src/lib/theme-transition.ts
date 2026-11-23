@@ -1,5 +1,7 @@
 import { flushSync } from "react-dom";
 
+import { track } from "@/lib/analytics";
+
 const pointer = { x: 0, y: 0 };
 let hasPointer = false;
 let tracking = false;
@@ -46,6 +48,7 @@ export async function setThemeWithTransition(
     setTheme: (theme: string) => void,
     duration = 800
 ) {
+    track("theme_changed", { theme: next });
     const apply = () => {
         document.documentElement.classList.remove("light", "dark");
         document.documentElement.classList.add(next);

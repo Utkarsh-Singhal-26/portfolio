@@ -4,6 +4,13 @@ import posthog from "posthog-js";
 import { useEffect } from "react";
 
 import { CONSENT_KEY } from "@/components/features/consent-banner";
+import { trackHref } from "@/lib/analytics";
+
+// One delegated listener covers every anchor; see lib/analytics for the events.
+function onClick(e: MouseEvent) {
+    const a = (e.target as Element | null)?.closest?.("a[href]");
+    if (a instanceof HTMLAnchorElement) trackHref(a.href, "link");
+}
 
 // Capturing is opted out until the visitor accepts (or accepted earlier);
 // applyConsent() flips it afterwards.
@@ -21,6 +28,8 @@ export function PostHog({ apiKey }: { apiKey: string }) {
             person_profiles: "identified_only",
             capture_exceptions: true, // error tracking
         });
+        document.addEventListener("click", onClick);
+        return () => document.removeEventListener("click", onClick);
     }, [apiKey]);
     return null;
 }
