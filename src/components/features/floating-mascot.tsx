@@ -58,6 +58,19 @@ const rand = (a: number, b: number) => a + Math.random() * (b - a);
 
 const TERRAIN_WALK = 70;
 
+const LINES = [
+    "+1 commit",
+    "again?",
+    "ouch",
+    "that tickles",
+    "ok ok",
+    "stop it",
+    "nothing to commit",
+    "force push!",
+    "fine. merged.",
+];
+const TYPE_MS = 32;
+
 // Footer letters register here: `tops` holds each column's glyph top, 0 to 1.
 export const letterTerrain = {
     el: null as Element | null,
@@ -89,7 +102,8 @@ export function FloatingMascot() {
     const legs = useRef<(SVGRectElement | null)[]>([]);
     const cells = useRef<(SVGRectElement | null)[]>([]);
     const readout = useRef<HTMLSpanElement>(null);
-    const toast = useRef<HTMLSpanElement>(null);
+    const bubble = useRef<HTMLSpanElement>(null);
+    const typed = useRef<HTMLSpanElement>(null);
 
     useEffect(() => {
         const el = root.current;
@@ -134,6 +148,7 @@ export function FloatingMascot() {
             blink: rand(2, 5),
             shimmer: 0.6,
             shimmerCell: -1,
+            clicks: 0,
             grab: { dx: 0, dy: 0, sx: 0, sy: 0, t: 0, moved: false },
         };
 
@@ -153,22 +168,39 @@ export function FloatingMascot() {
             );
         };
 
+        let typer = 0;
+        let hide = 0;
+        const say = (text: string) => {
+            const b = bubble.current;
+            const t = typed.current;
+            if (!b || !t) return;
+            clearInterval(typer);
+            clearTimeout(hide);
+            const right = s.x > window.innerWidth / 2;
+            b.style.left = right ? "auto" : "0";
+            b.style.right = right ? "0" : "auto";
+            b.style.transition = "none";
+            b.style.opacity = "1";
+            let i = reduce ? text.length : 0;
+            t.textContent = text.slice(0, i);
+            if (!reduce)
+                typer = window.setInterval(() => {
+                    t.textContent = text.slice(0, ++i);
+                    if (i >= text.length) clearInterval(typer);
+                }, TYPE_MS);
+            hide = window.setTimeout(
+                () => {
+                    b.style.transition = "opacity 400ms ease-out";
+                    b.style.opacity = "0";
+                },
+                text.length * TYPE_MS + 1100
+            );
+        };
+
         const commit = () => {
             CELLS.forEach((c, i) => !c.eye && setLevel(i, 4));
             setTimeout(() => CELLS.forEach((c, i) => setLevel(i, c.base)), 320);
-            const t = toast.current;
-            if (!t || reduce) return;
-            t.style.transition = "none";
-            t.style.opacity = "1";
-            t.style.transform = "translate(-50%, 0)";
-            requestAnimationFrame(() =>
-                requestAnimationFrame(() => {
-                    t.style.transition =
-                        "opacity 900ms ease-out, transform 900ms var(--ease-premium)";
-                    t.style.opacity = "0";
-                    t.style.transform = "translate(-50%, -18px)";
-                })
-            );
+            say(LINES[s.clicks++ % LINES.length]);
         };
 
         const setMode = (m: Mode) => {
@@ -502,6 +534,8 @@ export function FloatingMascot() {
 
         return () => {
             cancelAnimationFrame(raf);
+            clearInterval(typer);
+            clearTimeout(hide);
             document.body.style.userSelect = "";
             el.removeEventListener("pointerdown", onDown);
             el.removeEventListener("pointermove", onDrag);
@@ -516,7 +550,7 @@ export function FloatingMascot() {
         <div
             ref={root}
             aria-hidden="true"
-            className="group block fixed top-0 left-0 z-40 touch-none select-none cursor-target"
+            className="group block top-0 left-0 z-40 fixed touch-none cursor-target select-none"
             style={{
                 width: W,
                 height: H,
@@ -524,7 +558,7 @@ export function FloatingMascot() {
             }}
         >
             {/* held: registration crosses on the bounding box + mono readout */}
-            <span className="absolute inset-[-6px] opacity-0 group-data-[mode=held]:opacity-100 transition-opacity duration-150 pointer-events-none">
+            <span className="absolute -inset-1.5 opacity-0 group-data-[mode=held]:opacity-100 transition-opacity duration-150 pointer-events-none">
                 <span className="cross cross-tl" />
                 <span className="cross cross-tr" />
                 <span className="cross cross-bl" />
@@ -532,15 +566,16 @@ export function FloatingMascot() {
             </span>
             <span
                 ref={readout}
-                className="absolute left-1/2 -top-6 -translate-x-1/2 whitespace-nowrap font-mono tabular-nums text-[11px] text-muted-foreground opacity-0 group-data-[mode=held]:opacity-100 transition-opacity duration-150 pointer-events-none"
+                className="-top-6 left-1/2 absolute opacity-0 group-data-[mode=held]:opacity-100 font-mono tabular-nums text-[11px] text-muted-foreground whitespace-nowrap transition-opacity -translate-x-1/2 duration-150 pointer-events-none"
             />
             <span
-                ref={toast}
-                className="absolute left-1/2 -top-5 whitespace-nowrap font-mono tabular-nums text-[11px] text-brand opacity-0 pointer-events-none"
+                ref={bubble}
+                className="bottom-full left-0 absolute flex items-center gap-1 bg-background opacity-0 mb-2 px-2 py-1 border border-line font-mono text-[11px] text-foreground whitespace-nowrap pointer-events-none"
             >
-                +1 commit
+                <span ref={typed} />
+                <span className="bg-brand w-[0.5ch] h-[1em] animate-pulse" />
             </span>
-            <span className="absolute -top-4 right-0 font-mono text-[11px] text-muted-foreground opacity-0 group-data-[mode=sleep]:opacity-100 transition-opacity duration-500 pointer-events-none">
+            <span className="-top-4 right-0 absolute opacity-0 group-data-[mode=sleep]:opacity-100 font-mono text-[11px] text-muted-foreground transition-opacity duration-500 pointer-events-none">
                 zz
             </span>
 
@@ -581,7 +616,7 @@ export function FloatingMascot() {
                     ))}
                 </g>
                 {/* closed eyes while asleep */}
-                <g className="fill-foreground opacity-0 group-data-[mode=sleep]:opacity-100">
+                <g className="opacity-0 group-data-[mode=sleep]:opacity-100 fill-foreground">
                     {EYES.map((c) => (
                         <rect
                             key={c.x}
