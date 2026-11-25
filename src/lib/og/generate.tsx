@@ -16,7 +16,9 @@ export async function generateOgImage() {
     });
 
     const pngBuffer = Buffer.from(await png.arrayBuffer());
+    // Drawn at 2x, then downsampled to the size the meta tags declare.
     const jpegBuffer = await sharp(pngBuffer)
+        .resize(OG_IMAGE_SIZE.width, OG_IMAGE_SIZE.height)
         .jpeg({
             quality: 92,
             mozjpeg: true,
