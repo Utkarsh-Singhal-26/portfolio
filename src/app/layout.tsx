@@ -37,7 +37,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
     metadataBase: new URL(SITE_URL),
     title: SITE.title,
-    description: SITE.description,
+    description: SITE.metaDescription,
     alternates: {
         canonical: "/",
         types: { "text/markdown": "/index.md" },
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     },
     openGraph: {
         title: SITE.title,
-        description: SITE.description,
+        description: SITE.metaDescription,
         url: SITE_URL,
         type: "website",
         locale: "en_US",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         creator: SITE.twitterCreator,
         title: SITE.title,
-        description: SITE.description,
+        description: SITE.metaDescription,
     },
     authors: [{ name: DATA.header.name, url: `${SITE_URL}/` }],
     keywords: [

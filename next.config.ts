@@ -129,6 +129,17 @@ const nextConfig: NextConfig = {
                     },
                 ],
             },
+            // Social cards must load on other sites (preview tools, web apps).
+            // Stays after the catch-all: the later rule wins for the same key.
+            {
+                source: "/:image(opengraph-image|twitter-image)",
+                headers: [
+                    {
+                        key: "Cross-Origin-Resource-Policy",
+                        value: "cross-origin",
+                    },
+                ],
+            },
         ];
     },
 };
