@@ -12,8 +12,8 @@ function onClick(e: MouseEvent) {
     if (a instanceof HTMLAnchorElement) trackHref(a.href, "link");
 }
 
-// Capturing is opted out until the visitor accepts (or accepted earlier);
-// applyConsent() flips it afterwards.
+// Capturing and storage are both off until the visitor accepts (or accepted
+// earlier); applyConsent() flips them afterwards.
 export function PostHog({ apiKey }: { apiKey: string }) {
     useEffect(() => {
         let granted = false;
@@ -25,6 +25,8 @@ export function PostHog({ apiKey }: { apiKey: string }) {
             ui_host: "https://us.posthog.com",
             defaults: "2026-08-30", // latest snapshot; page views on history change (App Router)
             opt_out_capturing_by_default: !granted,
+            // Without this, ph_* cookies are written even while opted out.
+            opt_out_persistence_by_default: true,
             person_profiles: "identified_only",
             capture_exceptions: true, // error tracking
         });

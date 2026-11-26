@@ -54,6 +54,10 @@ function readStored() {
     }
 }
 
+/** "granted", "denied", null (no choice yet) or "ssr" before hydration. */
+export const useStoredConsent = () =>
+    useSyncExternalStore(subscribe, readStored, () => "ssr");
+
 function Rows({ rows }: { rows: StorageItem[] }) {
     return (
         <div className="divide-y divide-line">
@@ -89,8 +93,7 @@ const Hint = ({ k }: { k: string }) => (
 );
 
 export function ConsentBanner() {
-    // "ssr" on the server and first client render, then the stored value.
-    const stored = useSyncExternalStore(subscribe, readStored, () => "ssr");
+    const stored = useStoredConsent();
     const [reopened, setReopened] = useState(false);
     const [leaving, setLeaving] = useState(false);
     const [details, setDetails] = useState(false);
@@ -122,6 +125,9 @@ export function ConsentBanner() {
             try {
                 applyConsent(granted);
             } catch {}
+            // A loaded Clarity keeps recording cookieless when denied; only a
+            // fresh page, which never loads it, stops that.
+            if (!granted && "clarity" in window) window.location.reload();
             close();
         },
         [close]

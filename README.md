@@ -111,7 +111,7 @@ src/
 
 Everything below runs only on Vercel (`VERCEL_ENV` set) and only when its variable is set, so local runs send nothing. The consent banner is also shown in development so it can be tested.
 
-**Consent.** PostHog starts opted out (`opt_out_capturing_by_default`). Nothing is captured, and no `ph_*` data is written, until the visitor accepts the banner; reject (or no choice) sends nothing. [`consent-banner.tsx`](src/components/features/consent-banner.tsx) calls `posthog.opt_in_capturing()` / `opt_out_capturing()` and the Clarity consent API when the choice changes, and the footer "cookies" button reopens it. What each tool stores is listed once in [`src/content/storage.ts`](src/content/storage.ts), which feeds both the banner and the privacy page.
+**Consent.** PostHog starts opted out (`opt_out_capturing_by_default`, `opt_out_persistence_by_default`): no events are captured and no `ph_*` cookies or visitor IDs are written until the visitor accepts the banner. Clarity's script is not loaded until then; turning analytics off later reloads the page so it stops. [`consent-banner.tsx`](src/components/features/consent-banner.tsx) calls `posthog.opt_in_capturing()` / `opt_out_capturing()` and the Clarity consent API when the choice changes, and the footer "cookies" button reopens it. What each tool stores is listed once in [`src/content/storage.ts`](src/content/storage.ts), which feeds both the banner and the privacy page.
 
 **What PostHog gives you** (all through `posthog-js`, set up in [`posthog.tsx`](src/components/features/posthog.tsx)):
 
