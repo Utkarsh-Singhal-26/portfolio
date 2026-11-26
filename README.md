@@ -150,7 +150,6 @@ To add one, add it to the `Events` type in `analytics.ts` and call `track("name"
 - `NEXT_PUBLIC_POSTHOG_KEY` is a write-only project token and is meant to be public. `POSTHOG_API_KEY` is a personal key: set it only as a build-time variable in Vercel, never with a `NEXT_PUBLIC_` prefix.
 - Source maps are uploaded to PostHog and deleted before deploy (see above), so the production bundle does not expose readable source.
 - `GITHUB_TOKEN` only needs read access to public data: use a fine-grained token with no extra permissions.
-- `yarn audit` reports advisories against `vite`. They are false positives: `vite` here is an alias for `@voidzero-dev/vite-plus-core`, and the audit matches its version number against old Vite releases.
 
 ## License
 
